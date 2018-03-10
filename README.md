@@ -6,7 +6,13 @@
 
 https://boardgamegeek.com/boardgame/84419/space-empires-4x
 
-## Build Setup
+## Online App
+
+> This app is deployed here. Try it and give feedback! ;)
+
+https://space-empires-4x-app.herokuapp.com/
+
+## Development Build Setup
 
 ``` bash
 # install dependencies
