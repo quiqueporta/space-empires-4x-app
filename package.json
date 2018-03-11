@@ -14,6 +14,7 @@
   "dependencies": {
     "express": "^4.16.2",
     "serve-static": "^1.13.2",
+    "toastr": "^2.1.4",
     "vue": "^2.5.11"
   },
   "browserslist": [

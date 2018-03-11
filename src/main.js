@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import toastr from 'toastr'
 
 import { Scout, ShipYard, Miner, ColonyShip, Decoy, Destroyer, Cruiser, BattleCruiser,
          BattleShip, Dreadnaught, Base } from './ships';
@@ -169,6 +170,7 @@ var vm = new Vue({
     },
     clearAll: function() {
       spaceEmpiresStorage.clear();
+      this._notifyInfo("Data cleaned. Please reload this page.");
     },
     undo: function() {
       if (this.commands.length <= 0) {
@@ -180,6 +182,7 @@ var vm = new Vue({
     },
     addColonyPoints: function () {
       if (this.colonyPoints <= 0) {
+        this._notifyWarning("You cannot add 0 or less CPs.");
         return;
       }
 
@@ -188,6 +191,7 @@ var vm = new Vue({
     },
     addMineralPoints: function (points) {
       if (points <= 0) {
+        this._notifyWarning("You cannot add 0 or less Mineral points.");
         return;
       }
 
@@ -204,6 +208,7 @@ var vm = new Vue({
     },
     substractBidPoints: function () {
       if (this.bidPoints <= 0) {
+        this._notifyWarning("You cannot substract 0 or less Bid points.");
         return;
       }
 
@@ -212,6 +217,7 @@ var vm = new Vue({
     },
     substractMaintenancePoints: function () {
       if (this.maintenance <= 0) {
+        this._notifyWarning("You cannot substract 0 or less Maintenance points.");
         return;
       }
 
@@ -219,6 +225,7 @@ var vm = new Vue({
     },
     endTurn: function() {
       if (this.turn >= 20) {
+        this._notifyWarning("This is the last turn. Game Over!");
         return;
       }
 
@@ -229,6 +236,7 @@ var vm = new Vue({
     },
     decreaseTurn() {
       if (this.turn <= 0) {
+        this._notifyWarning("You are on first turn. You cannot decrease.");
         return;
       }
       this.turn -= 1;
@@ -300,6 +308,7 @@ var vm = new Vue({
       }
 
       if (!technology.canIncrease(this.constructionPoints)) {
+        this._notifyWarning("You cannot increase it.");
         return;
       }
 
@@ -377,14 +386,17 @@ var vm = new Vue({
       }
 
       if (this.shipSize.currentLevel < minimumShipSizeTechnology[shipName]) {
+        this._notifyWarning("You need " + minimumShipSizeTechnology[shipName] + " Ship Size technology level.");
         return;
       }
 
       if (ships[shipName].length >= maxShips[shipName]) {
+        this._notifyWarning("You cannot build more " + shipName + "s.");
         return;
       }
 
       if (costs[shipName] > this.constructionPoints) {
+        this._notifyWarning("You do not have enough CPs");
         return;
       }
 
@@ -508,6 +520,7 @@ var vm = new Vue({
       }
 
       if (ships[shipName].length <= 0) {
+        this._notifyWarning("You cannot lose more " + shipName + "s.");
         return;
       }
 
@@ -591,6 +604,37 @@ var vm = new Vue({
       command.do();
       this.commands.push(command);
       this.saveData();
+      this._notifySuccess(command.toString());
+    },
+    _notifyOptions: function() {
+      toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": true,
+        "progressBar": false,
+        "positionClass": "toast-top-full-width",
+        "preventDuplicates": true,
+        "onclick": null,
+        "showDuration": "50",
+        "hideDuration": "1000",
+        "timeOut": "2000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+      };
+    },
+    _notifySuccess: function(message) {
+      this._notifyOptions();
+      toastr.success(message);
+    },
+    _notifyWarning: function(message) {
+      this._notifyOptions();
+      toastr.warning(message);
+    },
+    _notifyInfo: function(message) {
+      this._notifyOptions();
+      toastr.info(message);
     }
   },
   computed: {
