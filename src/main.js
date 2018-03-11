@@ -179,6 +179,7 @@ var vm = new Vue({
 
       var command = this.commands.pop();
       command.undo();
+      this.saveData();
     },
     addColonyPoints: function () {
       if (this.colonyPoints <= 0) {
