@@ -207,6 +207,11 @@ var vm = new Vue({
       this.addMineralPoints(15);
     },
     substractBidPoints: function () {
+      if (this.colonyPoints <= 0){
+        this._notifyWarning("You have 0 Colony points.");
+        return;
+      }
+
       if (this.bidPoints <= 0) {
         this._notifyWarning("You cannot substract 0 or less Bid points.");
         return;
@@ -216,6 +221,11 @@ var vm = new Vue({
       this.bidPoints = 0;
     },
     substractMaintenancePoints: function () {
+      if (this.colonyPoints <= 0){
+        this._notifyWarning("You have 0 Colony points.");
+        return;
+      }
+
       if (this.maintenance <= 0) {
         this._notifyWarning("You cannot substract 0 or less Maintenance points.");
         return;
