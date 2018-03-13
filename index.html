@@ -28,7 +28,7 @@
             <div class="row p-1">
                 <div class="col">
                     <h2>Turn {{ turn }} - CPs <span class="badge badge-info">{{ constructionPoints }}</span></h2>
-                    <button type="button" class="btn btn-danger" v-on:click="clearAll">Clear All</button>
+                    <button v-confirm="{ok: clearAll, cancel: doNothing, message: 'Are you sure?'}" class="btn btn-danger">Clear All</button>
                     <button type="button" class="btn btn-dark" v-on:click="endTurn">End Turn</button>
                 </div>
             </div>

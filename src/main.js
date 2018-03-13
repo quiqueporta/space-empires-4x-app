@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import VuejsDialog from 'vuejs-dialog'
 import toastr from 'toastr'
 
 import { Scout, ShipYard, Miner, ColonyShip, Decoy, Destroyer, Cruiser, BattleCruiser,
@@ -68,6 +69,8 @@ Vue.component('technology-button', {
     }
 });
 
+
+Vue.use(VuejsDialog);
 
 var vm = new Vue({
   el: '#app',
@@ -170,7 +173,10 @@ var vm = new Vue({
     },
     clearAll: function() {
       spaceEmpiresStorage.clear();
-      this._notifyInfo("Data cleaned. Please reload this page.");
+      this._notifyInfo("Data cleaned.");
+      location.reload();
+    },
+    doNothing: function() {
     },
     undo: function() {
       if (this.commands.length <= 0) {
@@ -623,7 +629,7 @@ var vm = new Vue({
         "debug": false,
         "newestOnTop": true,
         "progressBar": false,
-        "positionClass": "toast-top-full-width",
+        "positionClass": "toast-bottom-full-width",
         "preventDuplicates": true,
         "onclick": null,
         "showDuration": "50",
