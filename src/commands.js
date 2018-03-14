@@ -398,330 +398,48 @@ export class IncreaseExplorationCommand {
 }
 
 
-export class PurchaseScoutCommand {
+export class PurchaseShipCommand {
 
-  constructor(production_sheet) {
+  constructor(production_sheet, ship) {
     this._production_sheet = production_sheet;
+    this._ship = ship;
   }
 
   do() {
-    this._production_sheet.purchaseScout();
+    this._production_sheet.purchaseShip(this._ship);
   }
 
   undo() {
-    this._production_sheet.sellScout();
+    this._production_sheet.sellShip(this._ship);
   }
 
   toString() {
-    return Scout.name + " purchased.";
+    return this._ship.name + " purchased.";
   }
 
   toDict() {
     return {
-        name: "PurchaseScoutCommand"
+        name: "PurchaseShipCommand",
+        ship_type: this._ship.type
     };
   }
 
   static fromDict(production_sheet, dict) {
-    return new PurchaseScoutCommand(production_sheet);
-  }
-}
-
-
-export class PurchaseShipYardCommand {
-
-  constructor(production_sheet) {
-    this._production_sheet = production_sheet;
-  }
-
-  do() {
-    this._production_sheet.purchaseShipYard();
-  }
-
-  undo() {
-    this._production_sheet.sellShipYard();
-  }
-
-  toString() {
-    return ShipYard.name + " purchased.";
-  }
-
-  toDict() {
-    return {
-        name: "PurchaseShipYardCommand"
-    };
-  }
-
-  static fromDict(production_sheet, dict) {
-    return new PurchaseShipYardCommand(production_sheet);
-  }
-}
-
-
-export class PurchaseColonyShipCommand {
-
-  constructor(production_sheet) {
-    this._production_sheet = production_sheet;
-  }
-
-  do() {
-    this._production_sheet.purchaseColonyShip();
-  }
-
-  undo() {
-    this._production_sheet.sellColonyShip();
-  }
-
-  toString() {
-    return ColonyShip.name + " purchased.";
-  }
-
-  toDict() {
-    return {
-        name: "PurchaseColonyShipCommand"
-    };
-  }
-
-  static fromDict(production_sheet, dict) {
-    return new PurchaseColonyShipCommand(production_sheet);
-  }
-}
-
-
-export class PurchaseMinerCommand {
-
-  constructor(production_sheet) {
-    this._production_sheet = production_sheet;
-  }
-
-  do() {
-    this._production_sheet.purchaseMiner();
-  }
-
-  undo() {
-    this._production_sheet.sellMiner();
-  }
-
-  toString() {
-    return Miner.name + " purchased.";
-  }
-
-  toDict() {
-    return {
-        name: "PurchaseMinerCommand"
-    };
-  }
-
-  static fromDict(production_sheet, dict) {
-    return new PurchaseMinerCommand(production_sheet);
-  }
-}
-
-
-export class PurchaseDecoyCommand {
-
-  constructor(production_sheet) {
-    this._production_sheet = production_sheet;
-  }
-
-  do() {
-    this._production_sheet.purchaseDecoy();
-  }
-
-  undo() {
-    this._production_sheet.sellDecoy();
-  }
-
-  toString() {
-    return Decoy.name + " purchased.";
-  }
-
-  toDict() {
-    return {
-        name: "PurchaseDecoyCommand"
-    };
-  }
-
-  static fromDict(production_sheet, dict) {
-    return new PurchaseDecoyCommand(production_sheet);
-  }
-}
-
-
-export class PurchaseDestroyerCommand {
-
-  constructor(production_sheet) {
-    this._production_sheet = production_sheet;
-  }
-
-  do() {
-    this._production_sheet.purchaseDestroyer();
-  }
-
-  undo() {
-    this._production_sheet.sellDestroyer();
-  }
-
-  toString() {
-    return Destroyer.name + " purchased.";
-  }
-
-  toDict() {
-    return {
-        name: "PurchaseDestroyerCommand"
-    };
-  }
-
-  static fromDict(production_sheet, dict) {
-    return new PurchaseDestroyerCommand(production_sheet);
-  }
-}
-
-
-export class PurchaseCruiserCommand {
-
-  constructor(production_sheet) {
-    this._production_sheet = production_sheet;
-  }
-
-  do() {
-    this._production_sheet.purchaseCruiser();
-  }
-
-  undo() {
-    this._production_sheet.sellCruiser();
-  }
-
-  toString() {
-    return Cruiser.name + " purchased.";
-  }
-
-  toDict() {
-    return {
-        name: "PurchaseCruiserCommand"
-    };
-  }
-
-  static fromDict(production_sheet, dict) {
-    return new PurchaseCruiserCommand(production_sheet);
-  }
-}
-
-
-export class PurchaseBattleCruiserCommand {
-
-  constructor(production_sheet) {
-    this._production_sheet = production_sheet;
-  }
-
-  do() {
-    this._production_sheet.purchaseBattleCruiser();
-  }
-
-  undo() {
-    this._production_sheet.sellBattleCruiser();
-  }
-
-  toString() {
-    return BattleCruiser.name + " purchased.";
-  }
-
-  toDict() {
-    return {
-        name: "PurchaseBattleCruiserCommand"
-    };
-  }
-
-  static fromDict(production_sheet, dict) {
-    return new PurchaseBattleCruiserCommand(production_sheet);
-  }
-}
-
-
-export class PurchaseBattleShipCommand {
-
-  constructor(production_sheet) {
-    this._production_sheet = production_sheet;
-  }
-
-  do() {
-    this._production_sheet.purchaseBattleShip();
-  }
-
-  undo() {
-    this._production_sheet.sellBattleShip();
-  }
-
-  toString() {
-    return BattleShip.name + " purchased.";
-  }
-
-  toDict() {
-    return {
-        name: "PurchaseBattleShipCommand"
-    };
-  }
-
-  static fromDict(production_sheet, dict) {
-    return new PurchaseBattleShipCommand(production_sheet);
-  }
-}
-
-export class PurchaseDreadnaughtCommand {
-
-  constructor(production_sheet) {
-    this._production_sheet = production_sheet;
-  }
-
-  do() {
-    this._production_sheet.purchaseDreadnaught();
-  }
-
-  undo() {
-    this._production_sheet.sellDreadnaught();
-  }
-
-  toString() {
-    return Dreadnaught.name + " purchased.";
-  }
-
-  toDict() {
-    return {
-        name: "PurchaseDreadnaughtCommand"
-    };
-  }
-
-  static fromDict(production_sheet, dict) {
-    return new PurchaseDreadnaughtCommand(production_sheet);
-  }
-}
-
-export class PurchaseBaseCommand {
-
-  constructor(production_sheet) {
-    this._production_sheet = production_sheet;
-  }
-
-  do() {
-    this._production_sheet.purchaseBase();
-  }
-
-  undo() {
-    this._production_sheet.sellBase();
-  }
-
-  toString() {
-    return Base.name + " purchased.";
-  }
-
-  toDict() {
-    return {
-        name: "PurchaseBaseCommand"
-    };
-  }
-
-  static fromDict(production_sheet, dict) {
-    return new PurchaseBaseCommand(production_sheet);
+      var ships = {
+        'Scout': Scout,
+        'ShipYard': ShipYard,
+        'ColonyShip': ColonyShip,
+        'Miner': Miner,
+        'Decoy': Decoy,
+        'Destroyer': Destroyer,
+        'Cruiser': Cruiser,
+        'BattleCruiser': BattleCruiser,
+        'BattleShip': BattleShip,
+        'Dreadnaught': Dreadnaught,
+        'Base': Base,
+      }
+
+    return new PurchaseShipCommand(production_sheet, ships[dict.ship_type]);
   }
 }
 
@@ -1074,17 +792,6 @@ export class CommandFactory {
       'IncreaseShipYardsCommand': IncreaseShipYardsCommand,
       'IncreaseTerraformingCommand': IncreaseTerraformingCommand,
       'IncreaseExplorationCommand': IncreaseExplorationCommand,
-      'PurchaseScoutCommand': PurchaseScoutCommand,
-      'PurchaseShipYardCommand': PurchaseShipYardCommand,
-      'PurchaseColonyShipCommand': PurchaseColonyShipCommand,
-      'PurchaseMinerCommand': PurchaseMinerCommand,
-      'PurchaseDecoyCommand': PurchaseDecoyCommand,
-      'PurchaseDestroyerCommand': PurchaseDestroyerCommand,
-      'PurchaseCruiserCommand': PurchaseCruiserCommand,
-      'PurchaseBattleCruiserCommand': PurchaseBattleCruiserCommand,
-      'PurchaseBattleShipCommand': PurchaseBattleShipCommand,
-      'PurchaseDreadnaughtCommand': PurchaseDreadnaughtCommand,
-      'PurchaseBaseCommand': PurchaseBaseCommand,
       'LoseColonyShipCommand': LoseColonyShipCommand,
       'LoseScoutCommand': LoseScoutCommand,
       'LoseMinerCommand': LoseMinerCommand,
@@ -1096,6 +803,7 @@ export class CommandFactory {
       'LoseBattleCruiserCommand': LoseBattleCruiserCommand,
       'LoseBattleShipCommand': LoseBattleShipCommand,
       'LoseDreadnaughtCommand': LoseDreadnaughtCommand,
+      'PurchaseShipCommand': PurchaseShipCommand,
     }
 
     return commands[name].fromDict(production_sheet, dict);

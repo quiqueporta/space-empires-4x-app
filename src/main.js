@@ -9,12 +9,9 @@ import { CommandFactory, AddColonyPointsCommand, AddMineralPointsCommand, Substr
      SubstractMaintenancePointsCommand, EndTurnCommand, IncreaseShipSizeCommand,
      IncreaseAttackCommand, IncreaseDefenseCommand, IncreaseTacticsCommand, IncreaseMoveCommand,
      IncreaseShipYardsCommand, IncreaseTerraformingCommand, IncreaseExplorationCommand,
-     PurchaseScoutCommand, PurchaseShipYardCommand, PurchaseColonyShipCommand, PurchaseMinerCommand,
-     PurchaseDecoyCommand, PurchaseDestroyerCommand, PurchaseCruiserCommand, PurchaseBattleCruiserCommand,
-     PurchaseBattleShipCommand, PurchaseDreadnaughtCommand, PurchaseBaseCommand,
      LoseScoutCommand, LoseShipYardCommand, LoseDestroyerCommand, LoseBaseCommand,
      LoseCruiserCommand, LoseBattleCruiserCommand, LoseBattleShipCommand, LoseDreadnaughtCommand,
-     LoseColonyShipCommand, LoseMinerCommand, LoseDecoyCommand} from './commands';
+     LoseColonyShipCommand, LoseMinerCommand, LoseDecoyCommand, PurchaseShipCommand} from './commands';
 
 
 var STORAGE_KEY = 'space-empires-4x'
@@ -365,19 +362,6 @@ var vm = new Vue({
       this._executeCommand(commands[technology.getName()]);
     },
     purchaseShipCommand: function(ship) {
-      var commands = {
-        'Scout': new PurchaseScoutCommand(this),
-        'ShipYard': new PurchaseShipYardCommand(this),
-        'ColonyShip': new PurchaseColonyShipCommand(this),
-        'Miner': new PurchaseMinerCommand(this),
-        'Decoy': new PurchaseDecoyCommand(this),
-        'Destroyer': new PurchaseDestroyerCommand(this),
-        'Cruiser': new PurchaseCruiserCommand(this),
-        'BattleCruiser': new PurchaseBattleCruiserCommand(this),
-        'BattleShip': new PurchaseBattleShipCommand(this),
-        'Dreadnaught': new PurchaseDreadnaughtCommand(this),
-        'Base': new PurchaseBaseCommand(this),
-      }
 
       var ships = {
         'Scout': this.ships.scouts,
@@ -408,95 +392,41 @@ var vm = new Vue({
         return;
       }
 
-      this._executeCommand(commands[ship.type]);
+      this._executeCommand(new PurchaseShipCommand(this, ship));
     },
-    purchaseScout: function() {
-      this.ships.scouts.push(Scout);
-      this.decreaseContructionPoints(Scout.cost);
+    purchaseShip: function(ship) {
+      var ships = {
+        'Scout': this.ships.scouts,
+        'ShipYard': this.ships.shipYards,
+        'ColonyShip': this.ships.colonyShips,
+        'Miner': this.ships.miners,
+        'Decoy': this.ships.decoys,
+        'Destroyer': this.ships.destroyers,
+        'Cruiser': this.ships.cruisers,
+        'BattleCruiser': this.ships.battleCruisers,
+        'BattleShip': this.ships.battleShips,
+        'Dreadnaught': this.ships.dreadnaughts,
+        'Base': this.ships.bases,
+      }
+      ships[ship.type].push(ship);
+      this.decreaseContructionPoints(ship.cost);
     },
-    sellScout: function() {
-      this.ships.scouts.pop();
-      this.increaseContructionPoints(Scout.cost);
-    },
-    purchaseShipYard: function() {
-      this.ships.shipYards.push(ShipYard);
-      this.decreaseContructionPoints(ShipYard.cost);
-    },
-    sellShipYard: function() {
-      this.ships.shipYards.pop();
-      this.increaseContructionPoints(ShipYard.cost);
-    },
-    purchaseColonyShip: function() {
-      this.ships.colonyShips.push(ColonyShip);
-      this.decreaseContructionPoints(ColonyShip.cost);
-    },
-    sellColonyShip: function() {
-      this.ships.colonyShips.pop();
-      this.increaseContructionPoints(ColonyShip.cost);
-    },
-    purchaseMiner: function() {
-      this.ships.miners.push(Miner);
-      this.decreaseContructionPoints(Miner.cost);
-    },
-    sellMiner: function() {
-      this.ships.miners.pop();
-      this.increaseContructionPoints(Miner.cost);
-    },
-    purchaseDecoy: function() {
-      this.ships.decoys.push(Decoy);
-      this.decreaseContructionPoints(Decoy.cost);
-    },
-    sellDecoy: function() {
-      this.ships.decoys.pop();
-      this.increaseContructionPoints(Decoy.cost);
-    },
-    purchaseDestroyer: function() {
-      this.ships.destroyers.push(Destroyer);
-      this.decreaseContructionPoints(Destroyer.cost);
-    },
-    sellDestroyer: function() {
-      this.ships.destroyers.pop();
-      this.increaseContructionPoints(Destroyer.cost);
-    },
-    purchaseCruiser: function() {
-      this.ships.cruisers.push(Cruiser);
-      this.decreaseContructionPoints(Cruiser.cost);
-    },
-    sellCruiser: function() {
-      this.ships.cruisers.pop();
-      this.increaseContructionPoints(Cruiser.cost);
-    },
-    purchaseBattleCruiser: function() {
-      this.ships.battleCruisers.push(BattleCruiser);
-      this.decreaseContructionPoints(BattleCruiser.cost);
-    },
-    sellBattleCruiser: function() {
-      this.ships.battleCruisers.pop();
-      this.increaseContructionPoints(BattleCruiser.cost);
-    },
-    purchaseBattleShip: function() {
-      this.ships.battleShips.push(BattleShip);
-      this.decreaseContructionPoints(BattleShip.cost);
-    },
-    sellBattleShip: function() {
-      this.ships.battleShips.pop();
-      this.increaseContructionPoints(BattleShip.cost);
-    },
-    purchaseDreadnaught: function() {
-      this.ships.dreadnaughts.push(Dreadnaught);
-      this.decreaseContructionPoints(Dreadnaught.cost);
-    },
-    sellDreadnaught: function() {
-      this.ships.dreadnaughts.pop();
-      this.increaseContructionPoints(Dreadnaught.cost);
-    },
-    purchaseBase: function() {
-      this.ships.bases.push(Base);
-      this.decreaseContructionPoints(Base.cost);
-    },
-    sellBase: function() {
-      this.ships.bases.pop();
-      this.increaseContructionPoints(Base.cost);
+    sellShip: function(ship) {
+      var ships = {
+        'Scout': this.ships.scouts,
+        'ShipYard': this.ships.shipYards,
+        'ColonyShip': this.ships.colonyShips,
+        'Miner': this.ships.miners,
+        'Decoy': this.ships.decoys,
+        'Destroyer': this.ships.destroyers,
+        'Cruiser': this.ships.cruisers,
+        'BattleCruiser': this.ships.battleCruisers,
+        'BattleShip': this.ships.battleShips,
+        'Dreadnaught': this.ships.dreadnaughts,
+        'Base': this.ships.bases,
+      }
+      ships[ship.type].pop();
+      this.increaseContructionPoints(ship.cost);
     },
     loseShipCommand: function(ship) {
       var commands = {
