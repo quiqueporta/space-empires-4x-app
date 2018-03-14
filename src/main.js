@@ -9,12 +9,10 @@ import { CommandFactory, AddColonyPointsCommand, AddMineralPointsCommand, Substr
      SubstractMaintenancePointsCommand, EndTurnCommand, IncreaseShipSizeCommand,
      IncreaseAttackCommand, IncreaseDefenseCommand, IncreaseTacticsCommand, IncreaseMoveCommand,
      IncreaseShipYardsCommand, IncreaseTerraformingCommand, IncreaseExplorationCommand,
-     LoseScoutCommand, LoseShipYardCommand, LoseDestroyerCommand, LoseBaseCommand,
-     LoseCruiserCommand, LoseBattleCruiserCommand, LoseBattleShipCommand, LoseDreadnaughtCommand,
-     LoseColonyShipCommand, LoseMinerCommand, LoseDecoyCommand, PurchaseShipCommand} from './commands';
+     LoseShipCommand, PurchaseShipCommand} from './commands';
 
 
-var STORAGE_KEY = 'space-empires-4x'
+var STORAGE_KEY = 'space-empires-4x-v1'
 
 var seen = [];
 
@@ -429,26 +427,12 @@ var vm = new Vue({
       this.increaseContructionPoints(ship.cost);
     },
     loseShipCommand: function(ship) {
-      var commands = {
-        'ColonyShip': new LoseColonyShipCommand(this),
-        'Miner': new LoseMinerCommand(this),
-        'Decoy': new LoseDecoyCommand(this),
-        'Scout': new LoseScoutCommand(this),
-        'ShipYard': new LoseShipYardCommand(this),
-        'Destroyer': new LoseDestroyerCommand(this),
-        'Cruiser': new LoseCruiserCommand(this),
-        'BattleCruiser': new LoseBattleCruiserCommand(this),
-        'BattleShip': new LoseBattleShipCommand(this),
-        'Dreadnaught': new LoseDreadnaughtCommand(this),
-        'Base': new LoseBaseCommand(this),
-      }
-
       var ships = {
+        'Scout': this.ships.scouts,
+        'ShipYard': this.ships.shipYards,
         'ColonyShip': this.ships.colonyShips,
         'Miner': this.ships.miners,
         'Decoy': this.ships.decoys,
-        'Scout': this.ships.scouts,
-        'ShipYard': this.ships.shipYards,
         'Destroyer': this.ships.destroyers,
         'Cruiser': this.ships.cruisers,
         'BattleCruiser': this.ships.battleCruisers,
@@ -462,73 +446,39 @@ var vm = new Vue({
         return;
       }
 
-      this._executeCommand(commands[ship.type]);
+      this._executeCommand(new LoseShipCommand(this, ship));
     },
-    loseColonyShip: function() {
-      this.ships.colonyShips.pop();
+    loseShip: function(ship) {
+      var ships = {
+        'Scout': this.ships.scouts,
+        'ShipYard': this.ships.shipYards,
+        'ColonyShip': this.ships.colonyShips,
+        'Miner': this.ships.miners,
+        'Decoy': this.ships.decoys,
+        'Destroyer': this.ships.destroyers,
+        'Cruiser': this.ships.cruisers,
+        'BattleCruiser': this.ships.battleCruisers,
+        'BattleShip': this.ships.battleShips,
+        'Dreadnaught': this.ships.dreadnaughts,
+        'Base': this.ships.bases,
+      }
+      ships[ship.type].pop();
     },
-    findColonyShip: function() {
-      this.ships.colonyShips.push(Scout);
-    },
-    loseDecoy: function() {
-      this.ships.decoys.pop();
-    },
-    findDecoy: function() {
-      this.ships.decoys.push(Scout);
-    },
-    loseMiner: function() {
-      this.ships.miners.pop();
-    },
-    findMiner: function() {
-      this.ships.miners.push(Scout);
-    },
-    loseScout: function() {
-      this.ships.scouts.pop();
-    },
-    findScout: function() {
-      this.ships.scouts.push(Scout);
-    },
-    loseBase: function() {
-      this.ships.bases.pop();
-    },
-    findBase: function() {
-      this.ships.bases.push(Scout);
-    },
-    loseShipYard: function() {
-      this.ships.shipYards.pop();
-    },
-    findShipYard: function() {
-      this.ships.shipYards.push(ShipYard);
-    },
-    loseDestroyer: function() {
-      this.ships.destroyers.pop();
-    },
-    findDestroyer: function() {
-      this.ships.destroyers.push(Destroyer);
-    },
-    loseCruiser: function() {
-      this.ships.cruisers.pop();
-    },
-    findCruiser: function() {
-      this.ships.cruisers.push(Cruiser);
-    },
-    loseBattleCruiser: function() {
-      this.ships.battleCruisers.pop();
-    },
-    findBattleCruiser: function() {
-      this.ships.battleCruisers.push(BattleCruiser);
-    },
-    loseBattleShip: function() {
-      this.ships.battleShips.pop();
-    },
-    findBattleShip: function() {
-      this.ships.battleShips.push(BattleShip);
-    },
-    loseDreadnaught: function() {
-      this.ships.dreadnaughts.pop();
-    },
-    findDreadnaught: function() {
-      this.ships.dreadnaughts.push(Dreadnaught);
+    findShip: function(ship) {
+      var ships = {
+        'Scout': this.ships.scouts,
+        'ShipYard': this.ships.shipYards,
+        'ColonyShip': this.ships.colonyShips,
+        'Miner': this.ships.miners,
+        'Decoy': this.ships.decoys,
+        'Destroyer': this.ships.destroyers,
+        'Cruiser': this.ships.cruisers,
+        'BattleCruiser': this.ships.battleCruisers,
+        'BattleShip': this.ships.battleShips,
+        'Dreadnaught': this.ships.dreadnaughts,
+        'Base': this.ships.bases,
+      }
+      ships[ship.type].push(ship);
     },
     _increaseTechnology: function(technology) {
       technology.increaseLevel();

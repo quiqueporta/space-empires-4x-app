@@ -15,7 +15,7 @@ export class Scout {
 		return 1;
 	}
 	static get maxQuantity() {
-		return 5;
+		return 50;
 	}
 }
 
@@ -36,7 +36,7 @@ export class ShipYard {
 		return 1;
 	}
 	static get maxQuantity() {
-		return 5;
+		return 50;
 	}
 }
 
@@ -57,7 +57,7 @@ export class Miner {
 		return 1;
 	}
 	static get maxQuantity() {
-		return 5;
+		return 50;
 	}
 }
 
@@ -78,7 +78,7 @@ export class ColonyShip {
 		return 1;
 	}
 	static get maxQuantity() {
-		return 5;
+		return 50;
 	}
 }
 
@@ -100,7 +100,7 @@ export class Decoy {
 		return 1;
 	}
 	static get maxQuantity() {
-		return 5;
+		return 50;
 	}
 }
 
@@ -122,7 +122,7 @@ export class Destroyer {
 		return 2;
 	}
 	static get maxQuantity() {
-		return 5;
+		return 50;
 	}
 }
 
@@ -144,7 +144,7 @@ export class Cruiser {
 		return 3;
 	}
 	static get maxQuantity() {
-		return 5;
+		return 50;
 	}
 }
 
@@ -166,7 +166,7 @@ export class BattleCruiser {
 		return 4;
 	}
 	static get maxQuantity() {
-		return 5;
+		return 50;
 	}
 }
 
@@ -188,7 +188,7 @@ export class BattleShip {
 		return 5;
 	}
 	static get maxQuantity() {
-		return 5;
+		return 50;
 	}
 }
 
@@ -210,7 +210,7 @@ export class Dreadnaught {
 		return 6;
 	}
 	static get maxQuantity() {
-		return 5;
+		return 50;
 	}
 }
 
@@ -232,7 +232,7 @@ export class Base {
 		return 2;
 	}
 	static get maxQuantity() {
-		return 5;
+		return 50;
 	}
 }
 

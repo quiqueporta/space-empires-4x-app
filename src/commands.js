@@ -444,332 +444,48 @@ export class PurchaseShipCommand {
 }
 
 
-export class LoseColonyShipCommand {
+export class LoseShipCommand {
 
-  constructor(production_sheet) {
+  constructor(production_sheet, ship) {
     this._production_sheet = production_sheet;
+    this._ship = ship;
   }
 
   do() {
-    this._production_sheet.loseColonyShip();
+    this._production_sheet.loseShip(this._ship);
   }
 
   undo(){
-    this._production_sheet.findColonyShip();
+    this._production_sheet.findShip(this._ship);
   }
 
   toString() {
-    return ColonyShip.name + " lost.";
+    return this._ship.name + " lost.";
   }
 
   toDict() {
     return {
-        name: "LoseColonyShipCommand"
+        name: "LoseShipCommand",
+        ship_type: this._ship.type
     };
   }
 
   static fromDict(production_sheet, dict) {
-    return new LoseColonyShipCommand(production_sheet);
-  }
-}
-
-
-export class LoseScoutCommand {
-
-  constructor(production_sheet) {
-    this._production_sheet = production_sheet;
-  }
-
-  do() {
-    this._production_sheet.loseScout();
-  }
-
-  undo(){
-    this._production_sheet.findScout();
-  }
-
-  toString() {
-    return Scout.name + " lost.";
-  }
-
-  toDict() {
-    return {
-        name: "LoseScoutCommand"
-    };
-  }
-
-  static fromDict(production_sheet, dict) {
-    return new LoseScoutCommand(production_sheet);
-  }
-}
-
-
-export class LoseMinerCommand {
-
-  constructor(production_sheet) {
-    this._production_sheet = production_sheet;
-  }
-
-  do() {
-    this._production_sheet.loseMiner();
-  }
-
-  undo(){
-    this._production_sheet.findMiner();
-  }
-
-  toString() {
-    return Miner.name + " lost.";
-  }
-
-  toDict() {
-    return {
-        name: "LoseMinerCommand"
-    };
-  }
-
-  static fromDict(production_sheet, dict) {
-    return new LoseMinerCommand(production_sheet);
-  }
-}
-
-
-export class LoseDecoyCommand {
-
-  constructor(production_sheet) {
-    this._production_sheet = production_sheet;
-  }
-
-  do() {
-    this._production_sheet.loseDecoy();
-  }
-
-  undo(){
-    this._production_sheet.findDecoy();
-  }
-
-  toString() {
-    return Decoy.name + " lost.";
-  }
-
-  toDict() {
-    return {
-        name: "LoseDecoyCommand"
-    };
-  }
-
-  static fromDict(production_sheet, dict) {
-    return new LoseDecoyCommand(production_sheet);
-  }
-}
-
-
-export class LoseShipYardCommand {
-
-  constructor(production_sheet) {
-    this._production_sheet = production_sheet;
-  }
-
-  do() {
-    this._production_sheet.loseShipYard();
-  }
-
-  undo(){
-    this._production_sheet.findShipYard();
-  }
-
-  toString() {
-    return ShipYard.name + " Yard lost.";
-  }
-
-  toDict() {
-    return {
-        name: "LoseShipYardCommand"
-    };
-  }
-
-  static fromDict(production_sheet, dict) {
-    return new LoseShipYardCommand(production_sheet);
-  }
-}
-
-
-export class LoseDestroyerCommand {
-
-  constructor(production_sheet) {
-    this._production_sheet = production_sheet;
-  }
-
-  do() {
-    this._production_sheet.loseDestroyer();
-  }
-
-  undo(){
-    this._production_sheet.findDestroyer();
-  }
-
-  toString() {
-    return Destroyer.name + " lost.";
-  }
-
-  toDict() {
-    return {
-        name: "LoseDestroyerCommand"
-    };
-  }
-
-  static fromDict(production_sheet, dict) {
-    return new LoseDestroyerCommand(production_sheet);
-  }
-}
-
-
-export class LoseBaseCommand {
-
-  constructor(production_sheet) {
-    this._production_sheet = production_sheet;
-  }
-
-  do() {
-    this._production_sheet.loseBase();
-  }
-
-  undo(){
-    this._production_sheet.findBase();
-  }
-
-  toString() {
-    return Base.name + " lost.";
-  }
-
-  toDict() {
-    return {
-        name: "LoseBaseCommand"
-    };
-  }
-
-  static fromDict(production_sheet, dict) {
-    return new LoseBaseCommand(production_sheet);
-  }
-}
-
-
-export class LoseCruiserCommand {
-
-  constructor(production_sheet) {
-    this._production_sheet = production_sheet;
-  }
-
-  do() {
-    this._production_sheet.loseCruiser();
-  }
-
-  undo(){
-    this._production_sheet.findCruiser();
-  }
-
-  toString() {
-    return Cruiser.name + " lost.";
-  }
-
-  toDict() {
-    return {
-        name: "LoseCruiserCommand"
-    };
-  }
-
-  static fromDict(production_sheet, dict) {
-    return new LoseCruiserCommand(production_sheet);
-  }
-}
-
-
-export class LoseBattleCruiserCommand {
-
-  constructor(production_sheet) {
-    this._production_sheet = production_sheet;
-  }
-
-  do() {
-    this._production_sheet.loseBattleCruiser();
-  }
-
-  undo(){
-    this._production_sheet.findBattleCruiser();
-  }
-
-  toString() {
-    return BattleCruiser.name + " lost.";
-  }
-
-  toDict() {
-    return {
-        name: "LoseBattleCruiserCommand"
-    };
-  }
-
-  static fromDict(production_sheet, dict) {
-    return new LoseBattleCruiserCommand(production_sheet);
-  }
-}
-
-
-export class LoseBattleShipCommand {
-
-  constructor(production_sheet) {
-    this._production_sheet = production_sheet;
-  }
-
-  do() {
-    this._production_sheet.loseBattleShip();
-  }
-
-  undo(){
-    this._production_sheet.findBattleShip();
-  }
-
-  toString() {
-    return BattleShip.name + " lost.";
-  }
-
-  toDict() {
-    return {
-        name: "LoseBattleShipCommand"
-    };
-  }
-
-  static fromDict(production_sheet, dict) {
-    return new LoseBattleShipCommand(production_sheet);
-  }
-}
-
-
-export class LoseDreadnaughtCommand {
-
-  constructor(production_sheet) {
-    this._production_sheet = production_sheet;
-  }
-
-  do() {
-    this._production_sheet.loseDreadnaught();
-  }
-
-  undo(){
-    this._production_sheet.findDreadnaught();
-  }
-
-  toString() {
-    return Dreadnaught.name + " lost.";
-  }
-
-  toDict() {
-    return {
-        name: "LoseDreadnaughtCommand"
-    };
-  }
-
-  static fromDict(production_sheet, dict) {
-    return new LoseDreadnaughtCommand(production_sheet);
+      var ships = {
+        'Scout': Scout,
+        'ShipYard': ShipYard,
+        'ColonyShip': ColonyShip,
+        'Miner': Miner,
+        'Decoy': Decoy,
+        'Destroyer': Destroyer,
+        'Cruiser': Cruiser,
+        'BattleCruiser': BattleCruiser,
+        'BattleShip': BattleShip,
+        'Dreadnaught': Dreadnaught,
+        'Base': Base,
+      }
+
+    return new LoseShipCommand(production_sheet, ships[dict.ship_type]);
   }
 }
 
@@ -792,18 +508,8 @@ export class CommandFactory {
       'IncreaseShipYardsCommand': IncreaseShipYardsCommand,
       'IncreaseTerraformingCommand': IncreaseTerraformingCommand,
       'IncreaseExplorationCommand': IncreaseExplorationCommand,
-      'LoseColonyShipCommand': LoseColonyShipCommand,
-      'LoseScoutCommand': LoseScoutCommand,
-      'LoseMinerCommand': LoseMinerCommand,
-      'LoseDecoyCommand': LoseDecoyCommand,
-      'LoseShipYardCommand': LoseShipYardCommand,
-      'LoseDestroyerCommand': LoseDestroyerCommand,
-      'LoseBaseCommand': LoseBaseCommand,
-      'LoseCruiserCommand': LoseCruiserCommand,
-      'LoseBattleCruiserCommand': LoseBattleCruiserCommand,
-      'LoseBattleShipCommand': LoseBattleShipCommand,
-      'LoseDreadnaughtCommand': LoseDreadnaughtCommand,
       'PurchaseShipCommand': PurchaseShipCommand,
+      'LoseShipCommand': LoseShipCommand,
     }
 
     return commands[name].fromDict(production_sheet, dict);
