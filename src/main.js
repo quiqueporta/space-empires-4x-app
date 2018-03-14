@@ -47,7 +47,7 @@ var spaceEmpiresStorage = {
 
 Vue.component('ship-button', {
     template: '#ship-button',
-    props: ['ship', 'quantity', 'cost'],
+    props: ['ship', 'quantity'],
     methods: {
       purchaseShip: function () {
         this.$emit('purchase-ship', this.ship);
@@ -108,6 +108,39 @@ var vm = new Vue({
           bases: [],
         }
       }
+    },
+    scout: function() {
+      return Scout;
+    },
+    shipYard: function() {
+      return ShipYard;
+    },
+    colonyShip: function() {
+      return ColonyShip;
+    },
+    miner: function() {
+      return Miner;
+    },
+    decoy: function() {
+      return Decoy;
+    },
+    destroyer: function() {
+      return Destroyer;
+    },
+    cruiser: function() {
+      return Cruiser;
+    },
+    battleCruiser: function() {
+      return BattleCruiser;
+    },
+    battleShip: function() {
+      return BattleShip;
+    },
+    dreadnaught: function() {
+      return Dreadnaught;
+    },
+    base: function() {
+      return Base;
     },
     loadData: function(production_sheet) {
       var isEmpty = Object.keys(spaceEmpiresStorage.fetch()).length === 0 && spaceEmpiresStorage.fetch().constructor === Object
@@ -331,7 +364,7 @@ var vm = new Vue({
 
       this._executeCommand(commands[technology.getName()]);
     },
-    purchaseShipCommand: function(shipName) {
+    purchaseShipCommand: function(ship) {
       var commands = {
         'Scout': new PurchaseScoutCommand(this),
         'ShipYard': new PurchaseShipYardCommand(this),
@@ -344,20 +377,6 @@ var vm = new Vue({
         'BattleShip': new PurchaseBattleShipCommand(this),
         'Dreadnaught': new PurchaseDreadnaughtCommand(this),
         'Base': new PurchaseBaseCommand(this),
-      }
-
-      var costs = {
-        'Scout': Scout.cost,
-        'ShipYard': ShipYard.cost,
-        'ColonyShip': ColonyShip.cost,
-        'Miner': Miner.cost,
-        'Decoy': Decoy.cost,
-        'Destroyer': Destroyer.cost,
-        'Cruiser': Cruiser.cost,
-        'BattleCruiser': BattleCruiser.cost,
-        'BattleShip': BattleShip.cost,
-        'Dreadnaught': Dreadnaught.cost,
-        'Base': Base.cost,
       }
 
       var ships = {
@@ -374,50 +393,22 @@ var vm = new Vue({
         'Base': this.ships.bases,
       }
 
-      var maxShips = {
-        'Scout': 30,
-        'ShipYard': 24,
-        'ColonyShip': 15,
-        'Miner': 2,
-        'Decoy': 2,
-        'Destroyer': 24,
-        'Cruiser': 24,
-        'BattleCruiser': 24,
-        'BattleShip': 24,
-        'Dreadnaught': 12,
-        'Base': 12,
-      }
-
-      var minimumShipSizeTechnology = {
-        'Scout': 1,
-        'ShipYard': 1,
-        'ColonyShip': 1,
-        'Miner': 1,
-        'Decoy': 1,
-        'Destroyer': 2,
-        'Cruiser': 3,
-        'BattleCruiser': 4,
-        'BattleShip': 5,
-        'Dreadnaught': 6,
-        'Base': 2,
-      }
-
-      if (this.shipSize.currentLevel < minimumShipSizeTechnology[shipName]) {
-        this._notifyWarning("You need " + minimumShipSizeTechnology[shipName] + " Ship Size technology level.");
+      if (this.shipSize.currentLevel < ship.requiredShipSizeTechnology) {
+        this._notifyWarning("You need " + ship.requiredShipSizeTechnology + " Ship Size technology level.");
         return;
       }
 
-      if (ships[shipName].length >= maxShips[shipName]) {
-        this._notifyWarning("You cannot build more " + shipName + "s.");
+      if (ships[ship.type].length >= ship.maxQuantity) {
+        this._notifyWarning("You cannot build more " + ship.name + "s.");
         return;
       }
 
-      if (costs[shipName] > this.constructionPoints) {
+      if (ship.cost > this.constructionPoints) {
         this._notifyWarning("You do not have enough CPs");
         return;
       }
 
-      this._executeCommand(commands[shipName]);
+      this._executeCommand(commands[ship.type]);
     },
     purchaseScout: function() {
       this.ships.scouts.push(Scout);

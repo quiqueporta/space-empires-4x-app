@@ -121,27 +121,27 @@
                                 <div class="col p-1 text-center">Buy</div>
                                 <div class="col p-1 text-center">Lose</div>
                             </div>
-                            <ship-button ship="ColonyShip" cost="8" :quantity="numberColonyShips" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            <ship-button :ship="scout()" :quantity="numberColonyShips" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
                             </ship-button>
-                            <ship-button ship="ShipYard" cost="6" :quantity="numberShipYards" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            <ship-button :ship="shipYard()" :quantity="numberShipYards" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
                             </ship-button>
-                            <ship-button ship="Miner" cost="6" :quantity="numberMiners" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            <ship-button :ship="miner()" :quantity="numberMiners" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
                             </ship-button>
-                            <ship-button ship="Decoy" cost="1" :quantity="numberDecoys" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            <ship-button :ship="decoy()" :quantity="numberDecoys" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
                             </ship-button>
-                            <ship-button ship="Scout" cost="6" :quantity="numberScouts" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            <ship-button :ship="scout()" :quantity="numberScouts" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
                             </ship-button>
-                            <ship-button ship="Destroyer" cost="9" :quantity="numberDestroyers" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            <ship-button :ship="destroyer()" :quantity="numberDestroyers" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
                             </ship-button>
-                            <ship-button ship="Base" cost="12" :quantity="numberBases" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            <ship-button :ship="base()" :quantity="numberBases" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
                             </ship-button>
-                            <ship-button ship="Cruiser" cost="12" :quantity="numberCruisers" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            <ship-button :ship="cruiser()" :quantity="numberCruisers" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
                             </ship-button>
-                            <ship-button ship="BattleCruiser" cost="15" :quantity="numberBattleCruisers" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            <ship-button :ship="battleCruiser()" :quantity="numberBattleCruisers" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
                             </ship-button>
-                            <ship-button ship="BattleShip" cost="20" :quantity="numberBattleShips" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            <ship-button :ship="battleShip()" :quantity="numberBattleShips" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
                             </ship-button>
-                            <ship-button ship="Dreadnaught" cost="24" :quantity="numberDreadnaughts" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            <ship-button :ship="dreadnaught()" :quantity="numberDreadnaughts" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
                             </ship-button>
                         </div>
 
@@ -196,13 +196,13 @@
       <div class="row p-1">
             <div class="col p-1">
                 <button type="button" class="btn btn-success btn-block" v-on:click="purchaseShip">
-                    {{ ship }} <small>({{ cost }})</small>
+                    {{ ship.name }} <small>({{ ship.cost }})</small>
                     <span class="badge badge-light">{{ quantity }}</span>
                 </button>
             </div>
             <div class="col p-1">
                 <button type="button" class="btn btn-danger btn-block" v-on:click="loseShip">
-                    {{ ship }}
+                    {{ ship.name }}
                 </button>
             </div>
       </div>
