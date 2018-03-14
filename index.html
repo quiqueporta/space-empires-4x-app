@@ -121,7 +121,7 @@
                                 <div class="col p-1 text-center">Buy</div>
                                 <div class="col p-1 text-center">Lose</div>
                             </div>
-                            <ship-button :ship="scout()" :quantity="numberColonyShips" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            <ship-button :ship="colonyShip()" :quantity="numberColonyShips" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
                             </ship-button>
                             <ship-button :ship="shipYard()" :quantity="numberShipYards" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
                             </ship-button>

@@ -498,7 +498,7 @@ var vm = new Vue({
       this.ships.bases.pop();
       this.increaseContructionPoints(Base.cost);
     },
-    loseShipCommand: function(shipName) {
+    loseShipCommand: function(ship) {
       var commands = {
         'ColonyShip': new LoseColonyShipCommand(this),
         'Miner': new LoseMinerCommand(this),
@@ -527,12 +527,12 @@ var vm = new Vue({
         'Base': this.ships.bases,
       }
 
-      if (ships[shipName].length <= 0) {
-        this._notifyWarning("You cannot lose more " + shipName + "s.");
+      if (ships[ship.type].length <= 0) {
+        this._notifyWarning("You cannot lose more " + ship.name + "s.");
         return;
       }
 
-      this._executeCommand(commands[shipName]);
+      this._executeCommand(commands[ship.type]);
     },
     loseColonyShip: function() {
       this.ships.colonyShips.pop();

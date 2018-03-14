@@ -1,3 +1,7 @@
+import { Scout, ShipYard, Miner, ColonyShip, Decoy, Destroyer, Cruiser, BattleCruiser,
+         BattleShip, Dreadnaught, Base } from './ships';
+
+
 export class AddColonyPointsCommand {
   constructor(production_sheet, points) {
     this._production_sheet = production_sheet;
@@ -409,7 +413,7 @@ export class PurchaseScoutCommand {
   }
 
   toString() {
-    return "Scout purchased.";
+    return Scout.name + " purchased.";
   }
 
   toDict() {
@@ -439,7 +443,7 @@ export class PurchaseShipYardCommand {
   }
 
   toString() {
-    return "ShipYard purchased.";
+    return ShipYard.name + " purchased.";
   }
 
   toDict() {
@@ -469,7 +473,7 @@ export class PurchaseColonyShipCommand {
   }
 
   toString() {
-    return "ColonyShip purchased.";
+    return ColonyShip.name + " purchased.";
   }
 
   toDict() {
@@ -499,7 +503,7 @@ export class PurchaseMinerCommand {
   }
 
   toString() {
-    return "Miner purchased.";
+    return Miner.name + " purchased.";
   }
 
   toDict() {
@@ -529,7 +533,7 @@ export class PurchaseDecoyCommand {
   }
 
   toString() {
-    return "Decoy purchased.";
+    return Decoy.name + " purchased.";
   }
 
   toDict() {
@@ -559,7 +563,7 @@ export class PurchaseDestroyerCommand {
   }
 
   toString() {
-    return "Destroyer purchased.";
+    return Destroyer.name + " purchased.";
   }
 
   toDict() {
@@ -589,7 +593,7 @@ export class PurchaseCruiserCommand {
   }
 
   toString() {
-    return "Cruiser purchased.";
+    return Cruiser.name + " purchased.";
   }
 
   toDict() {
@@ -619,7 +623,7 @@ export class PurchaseBattleCruiserCommand {
   }
 
   toString() {
-    return "BattleCruiser purchased.";
+    return BattleCruiser.name + " purchased.";
   }
 
   toDict() {
@@ -649,7 +653,7 @@ export class PurchaseBattleShipCommand {
   }
 
   toString() {
-    return "BattleShip purchased.";
+    return BattleShip.name + " purchased.";
   }
 
   toDict() {
@@ -678,7 +682,7 @@ export class PurchaseDreadnaughtCommand {
   }
 
   toString() {
-    return "Dreadnaught purchased.";
+    return Dreadnaught.name + " purchased.";
   }
 
   toDict() {
@@ -707,7 +711,7 @@ export class PurchaseBaseCommand {
   }
 
   toString() {
-    return "Base purchased.";
+    return Base.name + " purchased.";
   }
 
   toDict() {
@@ -737,7 +741,7 @@ export class LoseColonyShipCommand {
   }
 
   toString() {
-    return "ColonyShip lost.";
+    return ColonyShip.name + " lost.";
   }
 
   toDict() {
@@ -767,7 +771,7 @@ export class LoseScoutCommand {
   }
 
   toString() {
-    return "Scout lost.";
+    return Scout.name + " lost.";
   }
 
   toDict() {
@@ -797,7 +801,7 @@ export class LoseMinerCommand {
   }
 
   toString() {
-    return "Miner lost.";
+    return Miner.name + " lost.";
   }
 
   toDict() {
@@ -827,7 +831,7 @@ export class LoseDecoyCommand {
   }
 
   toString() {
-    return "Decoy lost.";
+    return Decoy.name + " lost.";
   }
 
   toDict() {
@@ -857,7 +861,7 @@ export class LoseShipYardCommand {
   }
 
   toString() {
-    return "Ship Yard lost.";
+    return ShipYard.name + " Yard lost.";
   }
 
   toDict() {
@@ -887,7 +891,7 @@ export class LoseDestroyerCommand {
   }
 
   toString() {
-    return "Destroyer lost.";
+    return Destroyer.name + " lost.";
   }
 
   toDict() {
@@ -917,7 +921,7 @@ export class LoseBaseCommand {
   }
 
   toString() {
-    return "Base lost.";
+    return Base.name + " lost.";
   }
 
   toDict() {
@@ -947,7 +951,7 @@ export class LoseCruiserCommand {
   }
 
   toString() {
-    return "Cruiser lost.";
+    return Cruiser.name + " lost.";
   }
 
   toDict() {
@@ -977,7 +981,7 @@ export class LoseBattleCruiserCommand {
   }
 
   toString() {
-    return "BattleCruiser lost.";
+    return BattleCruiser.name + " lost.";
   }
 
   toDict() {
@@ -1007,7 +1011,7 @@ export class LoseBattleShipCommand {
   }
 
   toString() {
-    return "BattleShip lost.";
+    return BattleShip.name + " lost.";
   }
 
   toDict() {
@@ -1037,7 +1041,7 @@ export class LoseDreadnaughtCommand {
   }
 
   toString() {
-    return "Dreadnaught lost.";
+    return Dreadnaught.name + " lost.";
   }
 
   toDict() {
@@ -1057,41 +1061,41 @@ export class CommandFactory {
 
   create(production_sheet, name, dict) {
     var commands = {
-      AddColonyPointsCommand: AddColonyPointsCommand,
-      AddMineralPointsCommand: AddMineralPointsCommand,
-      SubstractBidPointsCommand: SubstractBidPointsCommand,
-      SubstractMaintenancePointsCommand: SubstractMaintenancePointsCommand,
-      EndTurnCommand: EndTurnCommand,
-      IncreaseShipSizeCommand: IncreaseShipSizeCommand,
-      IncreaseAttackCommand: IncreaseAttackCommand,
-      IncreaseDefenseCommand: IncreaseDefenseCommand,
-      IncreaseTacticsCommand: IncreaseTacticsCommand,
-      IncreaseMoveCommand: IncreaseMoveCommand,
-      IncreaseShipYardsCommand: IncreaseShipYardsCommand,
-      IncreaseTerraformingCommand: IncreaseTerraformingCommand,
-      IncreaseExplorationCommand: IncreaseExplorationCommand,
-      PurchaseScoutCommand: PurchaseScoutCommand,
-      PurchaseShipYardCommand: PurchaseShipYardCommand,
-      PurchaseColonyShipCommand: PurchaseColonyShipCommand,
-      PurchaseMinerCommand: PurchaseMinerCommand,
-      PurchaseDecoyCommand: PurchaseDecoyCommand,
-      PurchaseDestroyerCommand: PurchaseDestroyerCommand,
-      PurchaseCruiserCommand: PurchaseCruiserCommand,
-      PurchaseBattleCruiserCommand: PurchaseBattleCruiserCommand,
-      PurchaseBattleShipCommand: PurchaseBattleShipCommand,
-      PurchaseDreadnaughtCommand: PurchaseDreadnaughtCommand,
-      PurchaseBaseCommand: PurchaseBaseCommand,
-      LoseColonyShipCommand: LoseColonyShipCommand,
-      LoseScoutCommand: LoseScoutCommand,
-      LoseMinerCommand: LoseMinerCommand,
-      LoseDecoyCommand: LoseDecoyCommand,
-      LoseShipYardCommand: LoseShipYardCommand,
-      LoseDestroyerCommand: LoseDestroyerCommand,
-      LoseBaseCommand: LoseBaseCommand,
-      LoseCruiserCommand: LoseCruiserCommand,
-      LoseBattleCruiserCommand: LoseBattleCruiserCommand,
-      LoseBattleShipCommand: LoseBattleShipCommand,
-      LoseDreadnaughtCommand: LoseDreadnaughtCommand,
+      'AddColonyPointsCommand': AddColonyPointsCommand,
+      'AddMineralPointsCommand': AddMineralPointsCommand,
+      'SubstractBidPointsCommand': SubstractBidPointsCommand,
+      'SubstractMaintenancePointsCommand': SubstractMaintenancePointsCommand,
+      'EndTurnCommand': EndTurnCommand,
+      'IncreaseShipSizeCommand': IncreaseShipSizeCommand,
+      'IncreaseAttackCommand': IncreaseAttackCommand,
+      'IncreaseDefenseCommand': IncreaseDefenseCommand,
+      'IncreaseTacticsCommand': IncreaseTacticsCommand,
+      'IncreaseMoveCommand': IncreaseMoveCommand,
+      'IncreaseShipYardsCommand': IncreaseShipYardsCommand,
+      'IncreaseTerraformingCommand': IncreaseTerraformingCommand,
+      'IncreaseExplorationCommand': IncreaseExplorationCommand,
+      'PurchaseScoutCommand': PurchaseScoutCommand,
+      'PurchaseShipYardCommand': PurchaseShipYardCommand,
+      'PurchaseColonyShipCommand': PurchaseColonyShipCommand,
+      'PurchaseMinerCommand': PurchaseMinerCommand,
+      'PurchaseDecoyCommand': PurchaseDecoyCommand,
+      'PurchaseDestroyerCommand': PurchaseDestroyerCommand,
+      'PurchaseCruiserCommand': PurchaseCruiserCommand,
+      'PurchaseBattleCruiserCommand': PurchaseBattleCruiserCommand,
+      'PurchaseBattleShipCommand': PurchaseBattleShipCommand,
+      'PurchaseDreadnaughtCommand': PurchaseDreadnaughtCommand,
+      'PurchaseBaseCommand': PurchaseBaseCommand,
+      'LoseColonyShipCommand': LoseColonyShipCommand,
+      'LoseScoutCommand': LoseScoutCommand,
+      'LoseMinerCommand': LoseMinerCommand,
+      'LoseDecoyCommand': LoseDecoyCommand,
+      'LoseShipYardCommand': LoseShipYardCommand,
+      'LoseDestroyerCommand': LoseDestroyerCommand,
+      'LoseBaseCommand': LoseBaseCommand,
+      'LoseCruiserCommand': LoseCruiserCommand,
+      'LoseBattleCruiserCommand': LoseBattleCruiserCommand,
+      'LoseBattleShipCommand': LoseBattleShipCommand,
+      'LoseDreadnaughtCommand': LoseDreadnaughtCommand,
     }
 
     return commands[name].fromDict(production_sheet, dict);
