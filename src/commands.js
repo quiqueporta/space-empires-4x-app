@@ -158,6 +158,245 @@ export class EndTurnCommand {
   }
 }
 
+export class IncreaseSpaceWreckShipSizeCommand {
+
+  constructor(production_sheet) {
+    this._production_sheet = production_sheet;
+  }
+
+  do() {
+    this._production_sheet.increaseSpaceWreckShipSize();
+  }
+
+  undo(){
+    this._production_sheet.decreaseSpaceWreckShipSize();
+  }
+
+  toString() {
+    return "Ship Size increased by Space Wreck.";
+  }
+
+  toDict() {
+    return {
+        name: "IncreaseSpaceWreckShipSizeCommand"
+    };
+  }
+
+  static fromDict(production_sheet, dict) {
+    return new IncreaseSpaceWreckShipSizeCommand(production_sheet);
+  }
+}
+
+
+export class IncreaseSpaceWreckAttackCommand {
+
+  constructor(production_sheet) {
+    this._production_sheet = production_sheet;
+  }
+
+  do() {
+    this._production_sheet.increaseSpaceWreckAttack();
+  }
+
+  undo(){
+    this._production_sheet.decreaseSpaceWreckAttack();
+  }
+
+  toString() {
+    return "Attack increased by Space Wreck.";
+  }
+
+  toDict() {
+    return {
+        name: "IncreaseSpaceWreckAttackCommand"
+    };
+  }
+
+  static fromDict(production_sheet, dict) {
+    return new IncreaseSpaceWreckAttackCommand(production_sheet);
+  }
+}
+
+
+export class IncreaseSpaceWreckDefenseCommand {
+
+  constructor(production_sheet) {
+    this._production_sheet = production_sheet;
+  }
+
+  do() {
+    this._production_sheet.increaseSpaceWreckDefense();
+  }
+
+  undo(){
+    this._production_sheet.decreaseSpaceWreckDefense();
+  }
+
+  toString() {
+    return "Defense increased by Space Wreck.";
+  }
+
+  toDict() {
+    return {
+        name: "IncreaseSpaceWreckDefenseCommand"
+    };
+  }
+
+  static fromDict(production_sheet, dict) {
+    return new IncreaseSpaceWreckDefenseCommand(production_sheet);
+  }
+}
+
+
+export class IncreaseSpaceWreckTacticsCommand {
+
+  constructor(production_sheet) {
+    this._production_sheet = production_sheet;
+  }
+
+  do() {
+    this._production_sheet.increaseSpaceWreckTactics();
+  }
+
+  undo(){
+    this._production_sheet.decreaseSpaceWreckTactics();
+  }
+
+  toString() {
+    return "Tactics increased by Space Wreck.";
+  }
+
+  toDict() {
+    return {
+        name: "IncreaseSpaceWreckTacticsCommand"
+    };
+  }
+
+  static fromDict(production_sheet, dict) {
+    return new IncreaseSpaceWreckTacticsCommand(production_sheet);
+  }
+}
+
+
+export class IncreaseSpaceWreckMoveCommand {
+
+  constructor(production_sheet) {
+    this._production_sheet = production_sheet;
+  }
+
+  do() {
+    this._production_sheet.increaseSpaceWreckMove();
+  }
+
+  undo(){
+    this._production_sheet.decreaseSpaceWreckMove();
+  }
+
+  toString() {
+    return "Move increased by Space Wreck.";
+  }
+
+  toDict() {
+    return {
+        name: "IncreaseSpaceWreckMoveCommand"
+    };
+  }
+
+  static fromDict(production_sheet, dict) {
+    return new IncreaseSpaceWreckMoveCommand(production_sheet);
+  }
+}
+
+
+export class IncreaseSpaceWreckShipYardsCommand {
+
+  constructor(production_sheet) {
+    this._production_sheet = production_sheet;
+  }
+
+  do() {
+    this._production_sheet.increaseSpaceWreckShipYards();
+  }
+
+  undo(){
+    this._production_sheet.decreaseSpaceWreckShipYards();
+  }
+
+  toString() {
+    return "Ship Yards increased by Space Wreck.";
+  }
+
+  toDict() {
+    return {
+        name: "IncreaseSpaceWreckShipYardsCommand"
+    };
+  }
+
+  static fromDict(production_sheet, dict) {
+    return new IncreaseSpaceWreckShipYardsCommand(production_sheet);
+  }
+}
+
+
+export class IncreaseSpaceWreckTerraformingCommand {
+
+  constructor(production_sheet) {
+    this._production_sheet = production_sheet;
+  }
+
+  do() {
+    this._production_sheet.increaseSpaceWreckTerraforming();
+  }
+
+  undo(){
+    this._production_sheet.decreaseSpaceWreckTerraforming();
+  }
+
+  toString() {
+    return "Terraforming increased by Space Wreck.";
+  }
+
+  toDict() {
+    return {
+        name: "IncreaseSpaceWreckTerraformingCommand"
+    };
+  }
+
+  static fromDict(production_sheet, dict) {
+    return new IncreaseSpaceWreckTerraformingCommand(production_sheet);
+  }
+}
+
+
+export class IncreaseSpaceWreckExplorationCommand {
+
+  constructor(production_sheet) {
+    this._production_sheet = production_sheet;
+  }
+
+  do() {
+    this._production_sheet.increaseSpaceWreckExploration();
+  }
+
+  undo(){
+    this._production_sheet.decreaseSpaceWreckExploration();
+  }
+
+  toString() {
+    return "Exploration increased by Space Wreck.";
+  }
+
+  toDict() {
+    return {
+        name: "IncreaseSpaceWreckExplorationCommand"
+    };
+  }
+
+  static fromDict(production_sheet, dict) {
+    return new IncreaseSpaceWreckExplorationCommand(production_sheet);
+  }
+}
+
 export class IncreaseShipSizeCommand {
 
   constructor(production_sheet) {

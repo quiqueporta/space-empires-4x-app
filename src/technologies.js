@@ -23,10 +23,15 @@ class TechnologyProgression {
   }
 
   canIncrease(constructionPoints) {
-    if (this.currentLevel >= this._maxLevel) {
+    if (this.onMaxLevel()) {
       return false;
     }
-      return (this.costNextLevel() <= constructionPoints);
+
+    return (this.costNextLevel() <= constructionPoints);
+  }
+
+  onMaxLevel() {
+    return (this.currentLevel >= this._maxLevel);
   }
 
   costCurrentLevel() {

@@ -9,6 +9,9 @@ import { CommandFactory, AddColonyPointsCommand, AddMineralPointsCommand, Substr
      SubstractMaintenancePointsCommand, EndTurnCommand, IncreaseShipSizeCommand,
      IncreaseAttackCommand, IncreaseDefenseCommand, IncreaseTacticsCommand, IncreaseMoveCommand,
      IncreaseShipYardsCommand, IncreaseTerraformingCommand, IncreaseExplorationCommand,
+     IncreaseSpaceWreckShipSizeCommand, IncreaseSpaceWreckAttackCommand, IncreaseSpaceWreckDefenseCommand,
+     IncreaseSpaceWreckTacticsCommand, IncreaseSpaceWreckMoveCommand, IncreaseSpaceWreckShipYardsCommand,
+     IncreaseSpaceWreckTerraformingCommand, IncreaseSpaceWreckExplorationCommand,
      LoseShipCommand, PurchaseShipCommand} from './commands';
 
 
@@ -56,6 +59,17 @@ Vue.component('ship-button', {
 
 Vue.component('technology-button', {
     template: '#technology-button',
+    props: ['technology', 'title'],
+    methods: {
+      increaseTechnology: function () {
+        this.$emit('increase-technology', this.technology);
+      }
+    }
+});
+
+
+Vue.component('space-wreck-technology-button', {
+    template: '#space-wreck-technology-button',
     props: ['technology', 'title'],
     methods: {
       increaseTechnology: function () {
@@ -340,6 +354,54 @@ var vm = new Vue({
     decreaseExploration: function() {
       this._decreaseTechnology(this.exploration);
     },
+    increaseSpaceWreckShipSize: function() {
+      this._increaseSpaceWreckTechnology(this.shipSize);
+    },
+    decreaseSpaceWreckShipSize: function() {
+      this._decreaseSpaceWreckTechnology(this.shipSize);
+    },
+    increaseSpaceWreckAttack: function() {
+      this._increaseSpaceWreckTechnology(this.attack);
+    },
+    decreaseSpaceWreckAttack: function() {
+      this._decreaseSpaceWreckTechnology(this.attack);
+    },
+    increaseSpaceWreckDefense: function() {
+      this._increaseSpaceWreckTechnology(this.defense);
+    },
+    decreaseSpaceWreckDefense: function() {
+      this._decreaseSpaceWreckTechnology(this.defense);
+    },
+    increaseSpaceWreckTactics: function() {
+      this._increaseSpaceWreckTechnology(this.tactics);
+    },
+    decreaseSpaceWreckTactics: function() {
+      this._decreaseSpaceWreckTechnology(this.tactics);
+    },
+    increaseSpaceWreckMove: function() {
+      this._increaseSpaceWreckTechnology(this.move);
+    },
+    decreaseSpaceWreckMove: function() {
+      this._decreaseSpaceWreckTechnology(this.move);
+    },
+    increaseSpaceWreckShipYards: function() {
+      this._increaseSpaceWreckTechnology(this.shipYards);
+    },
+    decreaseSpaceWreckShipYards: function() {
+      this._decreaseSpaceWreckTechnology(this.shipYards);
+    },
+    increaseSpaceWreckTerraforming: function() {
+      this._increaseSpaceWreckTechnology(this.terraforming);
+    },
+    decreaseSpaceWreckTerraforming: function() {
+      this._decreaseSpaceWreckTechnology(this.terraforming);
+    },
+    increaseSpaceWreckExploration: function() {
+      this._increaseSpaceWreckTechnology(this.exploration);
+    },
+    decreaseSpaceWreckExploration: function() {
+      this._decreaseSpaceWreckTechnology(this.exploration);
+    },
     increaseTechnologyCommand: function(technology) {
       var commands = {
         'ShipSize': new IncreaseShipSizeCommand(this),
@@ -353,6 +415,25 @@ var vm = new Vue({
       }
 
       if (!technology.canIncrease(this.constructionPoints)) {
+        this._notifyWarning("You cannot increase it.");
+        return;
+      }
+
+      this._executeCommand(commands[technology.getName()]);
+    },
+    increaseSpaceWreckTechnologyCommand: function(technology) {
+      var commands = {
+        'ShipSize': new IncreaseSpaceWreckShipSizeCommand(this),
+        'Attack': new IncreaseSpaceWreckAttackCommand(this),
+        'Defense': new IncreaseSpaceWreckDefenseCommand(this),
+        'Tactics': new IncreaseSpaceWreckTacticsCommand(this),
+        'Move': new IncreaseSpaceWreckMoveCommand(this),
+        'ShipYards': new IncreaseSpaceWreckShipYardsCommand(this),
+        'Terraforming': new IncreaseSpaceWreckTerraformingCommand(this),
+        'Exploration': new IncreaseSpaceWreckExplorationCommand(this),
+      }
+
+      if (technology.onMaxLevel()) {
         this._notifyWarning("You cannot increase it.");
         return;
       }
@@ -487,6 +568,12 @@ var vm = new Vue({
     _decreaseTechnology: function(technology) {
       technology.decreaseLevel();
       this.increaseContructionPoints(technology.costNextLevel());
+    },
+    _increaseSpaceWreckTechnology: function(technology) {
+      technology.increaseLevel();
+    },
+    _decreaseSpaceWreckTechnology: function(technology) {
+      technology.decreaseLevel();
     },
     _executeCommand: function(command) {
       command.do();
