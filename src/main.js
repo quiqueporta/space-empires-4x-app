@@ -270,17 +270,17 @@ var vm = new Vue({
       this.bidPoints = 0;
     },
     substractMaintenancePoints: function () {
-      if (this.constructionPoints - this.maintenance < 0){
-        this._notifyWarning("You do not have enough Colony points.");
-        return;
-      }
-
       if (this.maintenance <= 0) {
         this._notifyWarning("You cannot substract 0 or less Maintenance points.");
         return;
       }
 
-      this._executeCommand(new SubstractMaintenancePointsCommand(this, this.maintenance));
+      if (this.constructionPoints - this.maintenance < 0){
+        this._executeCommand(new SubstractMaintenancePointsCommand(this, this.constructionPoints));
+      } else {
+        this._executeCommand(new SubstractMaintenancePointsCommand(this, this.maintenance));
+      }
+
     },
     endTurn: function() {
       if (this.turn >= 20) {
