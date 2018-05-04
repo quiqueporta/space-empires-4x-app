@@ -414,6 +414,11 @@ var vm = new Vue({
         'Exploration': new IncreaseExplorationCommand(this),
       }
 
+      if (!this.hasSubstractedMaintenancePoints()) {
+        this._notifyWarning("You cannot purchase until you do not substract maintenance points.");
+        return;
+      }
+
       if (!technology.canIncrease(this.constructionPoints)) {
         this._notifyWarning("You cannot increase it.");
         return;
@@ -440,6 +445,22 @@ var vm = new Vue({
 
       this._executeCommand(commands[technology.getName()]);
     },
+    hasSubstractedMaintenancePoints: function() {
+      if (this.turn == 1) {
+        return true;
+      }
+
+      var result = false;
+      this.commands.forEach(function (command) {
+        if (command instanceof SubstractMaintenancePointsCommand) {
+          result = true;
+        }
+        if (command instanceof EndTurnCommand) {
+          result = false;
+        }
+      });
+      return result;
+    },
     purchaseShipCommand: function(ship) {
 
       var ships = {
@@ -454,6 +475,11 @@ var vm = new Vue({
         'BattleShip': this.ships.battleShips,
         'Dreadnaught': this.ships.dreadnaughts,
         'Base': this.ships.bases,
+      }
+
+      if (!this.hasSubstractedMaintenancePoints()) {
+        this._notifyWarning("You cannot purchase until you do not substract maintenance points.");
+        return;
       }
 
       if (this.shipSize.currentLevel < ship.requiredShipSizeTechnology) {
