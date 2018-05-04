@@ -446,10 +446,6 @@ var vm = new Vue({
       this._executeCommand(commands[technology.getName()]);
     },
     hasSubstractedMaintenancePoints: function() {
-      if (this.turn == 1) {
-        return true;
-      }
-
       var result = false;
       this.commands.forEach(function (command) {
         if (command instanceof SubstractMaintenancePointsCommand) {
