@@ -278,11 +278,6 @@ var vm = new Vue({
       this.bidPoints = 0;
     },
     substractMaintenancePoints: function () {
-      if (this.maintenance <= 0) {
-        this._notifyWarning("You cannot substract 0 or less Maintenance points.");
-        return;
-      }
-
       if (this.constructionPoints - this.maintenance < 0){
         this._executeCommand(new SubstractMaintenancePointsCommand(this, this.constructionPoints));
       } else {
@@ -455,9 +450,6 @@ var vm = new Vue({
       this._executeCommand(commands[technology.getName()]);
     },
     hasSubstractedMaintenancePoints: function() {
-      if (this.maintenance <= 0) {
-        return true;
-      }
       var result = false;
       this.commands.forEach(function (command) {
         if (command instanceof SubstractMaintenancePointsCommand) {
