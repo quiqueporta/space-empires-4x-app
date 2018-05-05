@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VuejsDialog from 'vuejs-dialog'
+import VueAnalytics from 'vue-analytics'
 import toastr from 'toastr'
 
 import { Scout, ShipYard, Miner, ColonyShip, Decoy, Destroyer, Cruiser, BattleCruiser,
@@ -80,6 +81,13 @@ Vue.component('space-wreck-technology-button', {
 
 
 Vue.use(VuejsDialog);
+
+Vue.use(VueAnalytics, {
+  id: 'UA-115639837-1',
+  autoTracking: {
+    screenview: true
+  }
+});
 
 var vm = new Vue({
   el: '#app',
@@ -287,6 +295,7 @@ var vm = new Vue({
         this._notifyWarning("This is the last turn. Game Over!");
         return;
       }
+      this.$ga.event('Command', 'endTurn');
 
       this._executeCommand(new EndTurnCommand(this, this.turn));
     },
@@ -446,6 +455,9 @@ var vm = new Vue({
       this._executeCommand(commands[technology.getName()]);
     },
     hasSubstractedMaintenancePoints: function() {
+      if (this.maintenance <= 0) {
+        return true;
+      }
       var result = false;
       this.commands.forEach(function (command) {
         if (command instanceof SubstractMaintenancePointsCommand) {
