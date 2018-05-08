@@ -46,7 +46,7 @@ var spaceEmpiresStorage = {
 
 Vue.component('ship-button', {
     template: '#ship-button',
-    props: ['ship', 'quantity'],
+    props: ['ship', 'quantity', 'current-ship-size'],
     methods: {
       purchaseShip: function () {
         this.$emit('purchase-ship', this.ship);
@@ -54,6 +54,11 @@ Vue.component('ship-button', {
       loseShip: function () {
         this.$emit('lose-ship', this.ship);
       },
+    },
+    computed: {
+      cannotPurchase: function() {
+        return this.currentShipSize < this.ship.requiredShipSizeTechnology
+      }
     }
 });
 
@@ -244,7 +249,6 @@ var vm = new Vue({
       }
 
       this._executeCommand(new AddColonyPointsCommand(this, this.colonyPoints));
-      this.colonyPoints = 0;
     },
     addMineralPoints: function (points) {
       if (points <= 0) {
