@@ -637,6 +637,187 @@ export class IncreaseExplorationCommand {
 }
 
 
+export class IncreaseFightersCommand {
+
+  constructor(production_sheet) {
+    this._production_sheet = production_sheet;
+  }
+
+  do() {
+    this._production_sheet.increaseFighters();
+  }
+
+  undo(){
+    this._production_sheet.decreaseFighters();
+  }
+
+  toString() {
+    return "Fighters increased.";
+  }
+
+  toDict() {
+    return {
+        name: "IncreaseFightersCommand"
+    };
+  }
+
+  static fromDict(production_sheet, dict) {
+    return new IncreaseFightersCommand(production_sheet);
+  }
+}
+
+
+export class IncreasePointDefenseCommand {
+
+  constructor(production_sheet) {
+    this._production_sheet = production_sheet;
+  }
+
+  do() {
+    this._production_sheet.increasePointDefense();
+  }
+
+  undo(){
+    this._production_sheet.decreasePointDefense();
+  }
+
+  toString() {
+    return "Point Defense increased.";
+  }
+
+  toDict() {
+    return {
+        name: "IncreasePointDefenseCommand"
+    };
+  }
+
+  static fromDict(production_sheet, dict) {
+    return new IncreasePointDefenseCommand(production_sheet);
+  }
+}
+
+
+export class IncreaseCloakingCommand {
+
+  constructor(production_sheet) {
+    this._production_sheet = production_sheet;
+  }
+
+  do() {
+    this._production_sheet.increaseCloaking();
+  }
+
+  undo(){
+    this._production_sheet.decreaseCloaking();
+  }
+
+  toString() {
+    return "Cloaking increased.";
+  }
+
+  toDict() {
+    return {
+        name: "IncreaseCloakingCommand"
+    };
+  }
+
+  static fromDict(production_sheet, dict) {
+    return new IncreaseCloakingCommand(production_sheet);
+  }
+}
+
+
+export class IncreaseScannersCommand {
+
+  constructor(production_sheet) {
+    this._production_sheet = production_sheet;
+  }
+
+  do() {
+    this._production_sheet.increaseScanners();
+  }
+
+  undo(){
+    this._production_sheet.decreaseScanners();
+  }
+
+  toString() {
+    return "Scanners increased.";
+  }
+
+  toDict() {
+    return {
+        name: "IncreaseScannersCommand"
+    };
+  }
+
+  static fromDict(production_sheet, dict) {
+    return new IncreaseScannersCommand(production_sheet);
+  }
+}
+
+
+export class IncreaseMinesCommand {
+
+  constructor(production_sheet) {
+    this._production_sheet = production_sheet;
+  }
+
+  do() {
+    this._production_sheet.increaseMines();
+  }
+
+  undo(){
+    this._production_sheet.decreaseMines();
+  }
+
+  toString() {
+    return "Mines increased.";
+  }
+
+  toDict() {
+    return {
+        name: "IncreaseMinesCommand"
+    };
+  }
+
+  static fromDict(production_sheet, dict) {
+    return new IncreaseMinesCommand(production_sheet);
+  }
+}
+
+
+export class IncreaseMineSweeperCommand {
+
+  constructor(production_sheet) {
+    this._production_sheet = production_sheet;
+  }
+
+  do() {
+    this._production_sheet.increaseMineSweeper();
+  }
+
+  undo(){
+    this._production_sheet.decreaseMineSweeper();
+  }
+
+  toString() {
+    return "Mine Sweeper increased.";
+  }
+
+  toDict() {
+    return {
+        name: "IncreaseMineSweeperCommand"
+    };
+  }
+
+  static fromDict(production_sheet, dict) {
+    return new IncreaseMineSweeperCommand(production_sheet);
+  }
+}
+
+
+
 export class PurchaseShipCommand {
 
   constructor(production_sheet, ship) {

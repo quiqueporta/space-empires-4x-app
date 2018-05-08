@@ -5,7 +5,8 @@ import toastr from 'toastr'
 
 import { Scout, ShipYard, Miner, ColonyShip, Decoy, Destroyer, Cruiser, BattleCruiser,
          BattleShip, Dreadnaught, Base } from './ships';
-import { ShipSize, Attack, Defense, Tactics, Move, ShipYards, Terraforming, Exploration } from './technologies';
+import { ShipSize, Attack, Defense, Tactics, Move, ShipYards, Terraforming, Exploration,
+         Fighters, PointDefense, Cloaking, Scanners, Mines, MineSweeper } from './technologies';
 import { CommandFactory, AddColonyPointsCommand, AddMineralPointsCommand, SubstractBidPointsCommand,
      SubstractMaintenancePointsCommand, EndTurnCommand, IncreaseShipSizeCommand,
      IncreaseAttackCommand, IncreaseDefenseCommand, IncreaseTacticsCommand, IncreaseMoveCommand,
@@ -13,10 +14,12 @@ import { CommandFactory, AddColonyPointsCommand, AddMineralPointsCommand, Substr
      IncreaseSpaceWreckShipSizeCommand, IncreaseSpaceWreckAttackCommand, IncreaseSpaceWreckDefenseCommand,
      IncreaseSpaceWreckTacticsCommand, IncreaseSpaceWreckMoveCommand, IncreaseSpaceWreckShipYardsCommand,
      IncreaseSpaceWreckTerraformingCommand, IncreaseSpaceWreckExplorationCommand,
+     IncreaseFightersCommand, IncreasePointDefenseCommand, IncreaseCloakingCommand, IncreaseScannersCommand,
+     IncreaseMinesCommand, IncreaseMineSweeperCommand,
      LoseShipCommand, PurchaseShipCommand} from './commands';
 
 
-var STORAGE_KEY = 'space-empires-4x-v1'
+var STORAGE_KEY = 'space-empires-4x-v2'
 
 var seen = [];
 
@@ -116,6 +119,12 @@ var vm = new Vue({
         shipYards: new ShipYards(),
         terraforming: new Terraforming(),
         exploration: new Exploration(),
+        fighters: new Fighters(),
+        pointDefense: new PointDefense(),
+        cloaking: new Cloaking(),
+        scanners: new Scanners(),
+        mines: new Mines(),
+        mineSweeper: new MineSweeper(),
         ships: {
           scouts: [Scout, Scout, Scout],
           shipYards: [ShipYard, ShipYard, ShipYard, ShipYard],
@@ -177,6 +186,12 @@ var vm = new Vue({
         data.shipYards = Object.assign(new ShipYards(), JSON.parse(data.shipYards));
         data.terraforming = Object.assign(new Terraforming(), JSON.parse(data.terraforming));
         data.exploration = Object.assign(new Exploration(), JSON.parse(data.exploration));
+        data.fighters = Object.assign(new Fighters(), JSON.parse(data.fighters));
+        data.pointDefense = Object.assign(new PointDefense(), JSON.parse(data.pointDefense));
+        data.cloaking = Object.assign(new Cloaking(), JSON.parse(data.cloaking));
+        data.scanners = Object.assign(new Scanners(), JSON.parse(data.scanners));
+        data.mines = Object.assign(new Mines(), JSON.parse(data.mines));
+        data.mineSweeper = Object.assign(new MineSweeper(), JSON.parse(data.mineSweeper));
         data.ships.scouts = Array(data.ships.scouts).fill(Scout);
         data.ships.miners = Array(data.ships.miners).fill(Miner);
         data.ships.decoys = Array(data.ships.decoys).fill(Decoy);
@@ -209,6 +224,12 @@ var vm = new Vue({
         shipYards: JSON.stringify(this.shipYards),
         terraforming: JSON.stringify(this.terraforming),
         exploration: JSON.stringify(this.exploration),
+        fighters: JSON.stringify(this.fighters),
+        pointDefense: JSON.stringify(this.pointDefense),
+        cloaking: JSON.stringify(this.cloaking),
+        scanners: JSON.stringify(this.scanners),
+        mines: JSON.stringify(this.mines),
+        mineSweeper: JSON.stringify(this.mineSweeper),
         ships: {
           scouts: this.ships.scouts.length,
           shipYards: this.ships.shipYards.length,
@@ -362,6 +383,42 @@ var vm = new Vue({
     decreaseExploration: function() {
       this._decreaseTechnology(this.exploration);
     },
+    increaseFighters: function() {
+      this._increaseTechnology(this.fighters);
+    },
+    decreaseFighters: function() {
+      this._decreaseTechnology(this.fighters);
+    },
+    increasePointDefense: function() {
+      this._increaseTechnology(this.pointDefense);
+    },
+    decreasePointDefense: function() {
+      this._decreaseTechnology(this.pointDefense);
+    },
+    increaseCloaking: function() {
+      this._increaseTechnology(this.cloaking);
+    },
+    decreaseCloaking: function() {
+      this._decreaseTechnology(this.cloaking);
+    },
+    increaseScanners: function() {
+      this._increaseTechnology(this.scanners);
+    },
+    decreaseScanners: function() {
+      this._decreaseTechnology(this.scanners);
+    },
+    increaseMines: function() {
+      this._increaseTechnology(this.mines);
+    },
+    decreaseMines: function() {
+      this._decreaseTechnology(this.mines);
+    },
+    increaseMineSweeper: function() {
+      this._increaseTechnology(this.mineSweeper);
+    },
+    decreaseMineSweeper: function() {
+      this._decreaseTechnology(this.mineSweeper);
+    },
     increaseSpaceWreckShipSize: function() {
       this._increaseSpaceWreckTechnology(this.shipSize);
     },
@@ -411,6 +468,7 @@ var vm = new Vue({
       this._decreaseSpaceWreckTechnology(this.exploration);
     },
     increaseTechnologyCommand: function(technology) {
+      console.log(technology);
       var commands = {
         'ShipSize': new IncreaseShipSizeCommand(this),
         'Attack': new IncreaseAttackCommand(this),
@@ -420,6 +478,12 @@ var vm = new Vue({
         'ShipYards': new IncreaseShipYardsCommand(this),
         'Terraforming': new IncreaseTerraformingCommand(this),
         'Exploration': new IncreaseExplorationCommand(this),
+        'Fighters': new IncreaseFightersCommand(this),
+        'PointDefense': new IncreasePointDefenseCommand(this),
+        'Cloaking': new IncreaseCloakingCommand(this),
+        'Scanners': new IncreaseScannersCommand(this),
+        'Mines': new IncreaseMinesCommand(this),
+        'MineSweeper': new IncreaseMineSweeperCommand(this),
       }
 
       if (!this.hasSubstractedMaintenancePoints()) {

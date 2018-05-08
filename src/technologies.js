@@ -211,3 +211,125 @@ export class Exploration extends TechnologyProgression {
   }
 
 }
+
+
+export class Fighters extends TechnologyProgression {
+
+  constructor() {
+    super(0, 3);
+  }
+
+  cost() {
+    return {
+      1: 25,
+      2: 30,
+      3: 40
+      };
+  }
+
+  getName() {
+    return "Fighters";
+  }
+
+}
+
+
+export class PointDefense extends TechnologyProgression {
+
+  constructor() {
+    super(0, 3);
+  }
+
+  cost() {
+    return {
+      1: 20,
+      2: 25,
+      3: 30
+      };
+  }
+
+  getName() {
+    return "PointDefense";
+  }
+
+}
+
+
+export class Cloaking extends TechnologyProgression {
+
+  constructor() {
+    super(0, 2);
+  }
+
+  cost() {
+    return {
+      1: 30,
+      2: 40
+      };
+  }
+
+  getName() {
+    return "Cloaking";
+  }
+
+}
+
+
+export class Scanners extends TechnologyProgression {
+
+  constructor() {
+    super(0, 2);
+  }
+
+  cost() {
+    return {
+      1: 20,
+      2: 30
+      };
+  }
+
+  getName() {
+    return "Scanners";
+  }
+
+}
+
+
+export class Mines extends TechnologyProgression {
+
+  constructor() {
+    super(0, 1);
+  }
+
+  cost() {
+    return {
+      1: 20
+      };
+  }
+
+  getName() {
+    return "Mines";
+  }
+
+}
+
+
+export class MineSweeper extends TechnologyProgression {
+
+  constructor() {
+    super(0, 2);
+  }
+
+  cost() {
+    return {
+      1: 10,
+      2: 20
+      };
+  }
+
+  getName() {
+    return "MineSweeper";
+  }
+
+}
+
