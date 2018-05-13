@@ -158,6 +158,25 @@
                             </ship-button>
                             <ship-button :current-ship-size="shipSize.currentLevel" :ship="dreadnaught()" :quantity="numberDreadnaughts" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
                             </ship-button>
+                            <div class="row p-1">
+                                <div class="col p-1 text-center">Advanced</div>
+                            </div>
+                            <ship-button :current-ship-size="shipSize.currentLevel" :ship="mine()" :quantity="numberMines" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            </ship-button>
+                            <ship-button :current-ship-size="shipSize.currentLevel" :ship="mineSweeperShip()" :quantity="numberMineSweeperShips" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            </ship-button>
+                            <ship-button :current-ship-size="shipSize.currentLevel" :ship="msPipeline()" :quantity="numberMSPipelines" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            </ship-button>
+                            <ship-button :current-ship-size="shipSize.currentLevel" :ship="raider()" :quantity="numberRaiders" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            </ship-button>
+                            <ship-button :current-ship-size="shipSize.currentLevel" :ship="carrier()" :quantity="numberCarriers" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            </ship-button>
+                            <ship-button :current-ship-size="shipSize.currentLevel" :ship="fighterOne()" :quantity="numberFighterOnes" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            </ship-button>
+                            <ship-button :current-ship-size="shipSize.currentLevel" :ship="fighterTwo()" :quantity="numberFighterTwos" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            </ship-button>
+                            <ship-button :current-ship-size="shipSize.currentLevel" :ship="fighterThree()" :quantity="numberFighterThrees" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            </ship-button>
                         </div>
 
                         <div class="tab-pane fade" id="commands" role="tabpanel" aria-labelledby="commands-tab">

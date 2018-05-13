@@ -236,3 +236,178 @@ export class Base {
 	}
 }
 
+
+export class Mine {
+	static get type() {
+		return "Mine";
+	}
+	static get name() {
+		return "Mine";
+	}
+	static get cost() {
+		return 5;
+	}
+	static get hullSize() {
+		return 0;
+	}
+	static get requiredShipSizeTechnology() {
+		return 1;
+	}
+	static get maxQuantity() {
+		return 50;
+	}
+}
+
+
+export class MineSweeperShip {
+	static get type() {
+		return "MineSweeperShip";
+	}
+	static get name() {
+		return "Mine Sweeper";
+	}
+	static get cost() {
+		return 6;
+	}
+	static get hullSize() {
+		return 1;
+	}
+	static get requiredShipSizeTechnology() {
+		return 1;
+	}
+	static get maxQuantity() {
+		return 50;
+	}
+}
+
+
+export class MSPipeline {
+	static get type() {
+		return "MSPipeline";
+	}
+	static get name() {
+		return "MS Pipeline";
+	}
+	static get cost() {
+		return 3;
+	}
+	static get hullSize() {
+		return 1;
+	}
+	static get requiredShipSizeTechnology() {
+		return 1;
+	}
+	static get maxQuantity() {
+		return 50;
+	}
+}
+
+
+export class Raider {
+	static get type() {
+		return "Raider";
+	}
+	static get name() {
+		return "Raider";
+	}
+	static get cost() {
+		return 12;
+	}
+	static get hullSize() {
+		return 2;
+	}
+	static get requiredShipSizeTechnology() {
+		return 1;
+	}
+	static get maxQuantity() {
+		return 50;
+	}
+}
+
+
+export class Carrier {
+	static get type() {
+		return "Carrier";
+	}
+	static get name() {
+		return "Carrier";
+	}
+	static get cost() {
+		return 12;
+	}
+	static get hullSize() {
+		return 1;
+	}
+	static get requiredShipSizeTechnology() {
+		return 1;
+	}
+	static get maxQuantity() {
+		return 50;
+	}
+}
+
+
+export class FighterOne {
+	static get type() {
+		return "FighterOne";
+	}
+	static get name() {
+		return "Fighter 1";
+	}
+	static get cost() {
+		return 5;
+	}
+	static get hullSize() {
+		return 1;
+	}
+	static get requiredShipSizeTechnology() {
+		return 1;
+	}
+	static get maxQuantity() {
+		return 50;
+	}
+}
+
+
+export class FighterTwo {
+	static get type() {
+		return "FighterTwo";
+	}
+	static get name() {
+		return "Fighter 2";
+	}
+	static get cost() {
+		return 5;
+	}
+	static get hullSize() {
+		return 1;
+	}
+	static get requiredShipSizeTechnology() {
+		return 1;
+	}
+	static get maxQuantity() {
+		return 50;
+	}
+}
+
+
+export class FighterThree {
+	static get type() {
+		return "FighterThree";
+	}
+	static get name() {
+		return "Fighter 3";
+	}
+	static get cost() {
+		return 5;
+	}
+	static get hullSize() {
+		return 1;
+	}
+	static get requiredShipSizeTechnology() {
+		return 1;
+	}
+	static get maxQuantity() {
+		return 50;
+	}
+}

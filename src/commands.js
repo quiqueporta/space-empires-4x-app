@@ -1,5 +1,7 @@
 import { Scout, ShipYard, Miner, ColonyShip, Decoy, Destroyer, Cruiser, BattleCruiser,
-         BattleShip, Dreadnaught, Base } from './ships';
+         BattleShip, Dreadnaught, Base,
+         Mine, MineSweeperShip, MSPipeline, Raider, Carrier, FighterOne, FighterTwo, FighterThree
+       } from './ships';
 
 
 export class AddColonyPointsCommand {
@@ -857,6 +859,14 @@ export class PurchaseShipCommand {
         'BattleShip': BattleShip,
         'Dreadnaught': Dreadnaught,
         'Base': Base,
+        'Mine': Mine,
+        'MineSweeperShip': MineSweeperShip,
+        'MSPipeline': MSPipeline,
+        'Raider': Raider,
+        'Carrier': Carrier,
+        'FighterOne': FighterOne,
+        'FighterTwo': FighterTwo,
+        'FighterThree': FighterThree,
       }
 
     return new PurchaseShipCommand(production_sheet, ships[dict.ship_type]);
@@ -903,6 +913,14 @@ export class LoseShipCommand {
         'BattleShip': BattleShip,
         'Dreadnaught': Dreadnaught,
         'Base': Base,
+        'Mine': Mine,
+        'MineSweeperShip': MineSweeperShip,
+        'MSPipeline': MSPipeline,
+        'Raider': Raider,
+        'Carrier': Carrier,
+        'FighterOne': FighterOne,
+        'FighterTwo': FighterTwo,
+        'FighterThree': FighterThree,
       }
 
     return new LoseShipCommand(production_sheet, ships[dict.ship_type]);
@@ -938,6 +956,12 @@ export class CommandFactory {
       'IncreaseSpaceWreckExplorationCommand': IncreaseSpaceWreckExplorationCommand,
       'PurchaseShipCommand': PurchaseShipCommand,
       'LoseShipCommand': LoseShipCommand,
+      'IncreaseFightersCommand': IncreaseFightersCommand,
+      'IncreasePointDefenseCommand': IncreasePointDefenseCommand,
+      'IncreaseCloakingCommand': IncreaseCloakingCommand,
+      'IncreaseScannersCommand': IncreaseScannersCommand,
+      'IncreaseMinesCommand': IncreaseMinesCommand,
+      'IncreaseMineSweeperCommand': IncreaseMineSweeperCommand,
     }
 
     return commands[name].fromDict(production_sheet, dict);

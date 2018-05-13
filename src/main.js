@@ -4,7 +4,8 @@ import VueAnalytics from 'vue-analytics'
 import toastr from 'toastr'
 
 import { Scout, ShipYard, Miner, ColonyShip, Decoy, Destroyer, Cruiser, BattleCruiser,
-         BattleShip, Dreadnaught, Base } from './ships';
+         BattleShip, Dreadnaught, Base, Raider, Carrier, FighterOne, FighterTwo,
+         FighterThree, MSPipeline, Mine, MineSweeperShip } from './ships';
 import { ShipSize, Attack, Defense, Tactics, Move, ShipYards, Terraforming, Exploration,
          Fighters, PointDefense, Cloaking, Scanners, Mines, MineSweeper } from './technologies';
 import { CommandFactory, AddColonyPointsCommand, AddMineralPointsCommand, SubstractBidPointsCommand,
@@ -137,6 +138,14 @@ var vm = new Vue({
           battleShips: [],
           dreadnaughts: [],
           bases: [],
+          mines: [],
+          mineSweeperShips: [],
+          msPipelines: [],
+          raiders: [],
+          carriers: [],
+          fighterOnes: [],
+          fighterTwos: [],
+          fighterThrees: []
         }
       }
     },
@@ -173,40 +182,72 @@ var vm = new Vue({
     base: function() {
       return Base;
     },
+    mine: function() {
+      return Mine;
+    },
+    mineSweeperShip: function() {
+      return MineSweeperShip;
+    },
+    msPipeline: function() {
+      return MSPipeline;
+    },
+    raider: function() {
+      return Raider;
+    },
+    carrier: function() {
+      return Carrier;
+    },
+    fighterOne: function() {
+      return FighterOne;
+    },
+    fighterTwo: function() {
+      return FighterTwo;
+    },
+    fighterThree: function() {
+      return FighterThree;
+    },
     loadData: function(production_sheet) {
       var isEmpty = Object.keys(spaceEmpiresStorage.fetch()).length === 0 && spaceEmpiresStorage.fetch().constructor === Object
-      if (!isEmpty) {
-        var data = spaceEmpiresStorage.fetch();
-        var commandFactory = new CommandFactory();
-        data.shipSize = Object.assign(new ShipSize(), JSON.parse(data.shipSize));
-        data.attack = Object.assign(new Attack(), JSON.parse(data.attack));
-        data.defense = Object.assign(new Defense(), JSON.parse(data.defense));
-        data.tactics = Object.assign(new Tactics(), JSON.parse(data.tactics));
-        data.move = Object.assign(new Move(), JSON.parse(data.move));
-        data.shipYards = Object.assign(new ShipYards(), JSON.parse(data.shipYards));
-        data.terraforming = Object.assign(new Terraforming(), JSON.parse(data.terraforming));
-        data.exploration = Object.assign(new Exploration(), JSON.parse(data.exploration));
-        data.fighters = Object.assign(new Fighters(), JSON.parse(data.fighters));
-        data.pointDefense = Object.assign(new PointDefense(), JSON.parse(data.pointDefense));
-        data.cloaking = Object.assign(new Cloaking(), JSON.parse(data.cloaking));
-        data.scanners = Object.assign(new Scanners(), JSON.parse(data.scanners));
-        data.mines = Object.assign(new Mines(), JSON.parse(data.mines));
-        data.mineSweeper = Object.assign(new MineSweeper(), JSON.parse(data.mineSweeper));
-        data.ships.scouts = Array(data.ships.scouts).fill(Scout);
-        data.ships.miners = Array(data.ships.miners).fill(Miner);
-        data.ships.decoys = Array(data.ships.decoys).fill(Decoy);
-        data.ships.shipYards = Array(data.ships.shipYards).fill(ShipYard);
-        data.ships.colonyShips = Array(data.ships.colonyShips).fill(ColonyShip);
-        data.ships.destroyers = Array(data.ships.destroyers).fill(Destroyer);
-        data.ships.cruisers = Array(data.ships.cruisers).fill(Cruiser);
-        data.ships.battleCruisers = Array(data.ships.battleCruisers).fill(BattleCruiser);
-        data.ships.battleShips = Array(data.ships.battleShips).fill(BattleShip);
-        data.ships.dreadnaughts = Array(data.ships.dreadnaughts).fill(Dreadnaught);
-        data.ships.bases = Array(data.ships.bases).fill(Base);
-        data.commands = data.commands.map(function(command) { return commandFactory.create(production_sheet, command.name, command) });
-        return data
+      if (isEmpty) {
+        return this.initialData();
       }
-      return this.initialData();
+      var data = spaceEmpiresStorage.fetch();
+      var commandFactory = new CommandFactory();
+      data.shipSize = Object.assign(new ShipSize(), JSON.parse(data.shipSize));
+      data.attack = Object.assign(new Attack(), JSON.parse(data.attack));
+      data.defense = Object.assign(new Defense(), JSON.parse(data.defense));
+      data.tactics = Object.assign(new Tactics(), JSON.parse(data.tactics));
+      data.move = Object.assign(new Move(), JSON.parse(data.move));
+      data.shipYards = Object.assign(new ShipYards(), JSON.parse(data.shipYards));
+      data.terraforming = Object.assign(new Terraforming(), JSON.parse(data.terraforming));
+      data.exploration = Object.assign(new Exploration(), JSON.parse(data.exploration));
+      data.fighters = Object.assign(new Fighters(), JSON.parse(data.fighters));
+      data.pointDefense = Object.assign(new PointDefense(), JSON.parse(data.pointDefense));
+      data.cloaking = Object.assign(new Cloaking(), JSON.parse(data.cloaking));
+      data.scanners = Object.assign(new Scanners(), JSON.parse(data.scanners));
+      data.mines = Object.assign(new Mines(), JSON.parse(data.mines));
+      data.mineSweeper = Object.assign(new MineSweeper(), JSON.parse(data.mineSweeper));
+      data.ships.scouts = Array(data.ships.scouts).fill(Scout);
+      data.ships.miners = Array(data.ships.miners).fill(Miner);
+      data.ships.decoys = Array(data.ships.decoys).fill(Decoy);
+      data.ships.shipYards = Array(data.ships.shipYards).fill(ShipYard);
+      data.ships.colonyShips = Array(data.ships.colonyShips).fill(ColonyShip);
+      data.ships.destroyers = Array(data.ships.destroyers).fill(Destroyer);
+      data.ships.cruisers = Array(data.ships.cruisers).fill(Cruiser);
+      data.ships.battleCruisers = Array(data.ships.battleCruisers).fill(BattleCruiser);
+      data.ships.battleShips = Array(data.ships.battleShips).fill(BattleShip);
+      data.ships.dreadnaughts = Array(data.ships.dreadnaughts).fill(Dreadnaught);
+      data.ships.bases = Array(data.ships.bases).fill(Base);
+      data.ships.mines = Array(data.ships.mines).fill(Mine);
+      data.ships.mineSweeperShips = Array(data.ships.mineSweeperShips).fill(MineSweeperShip);
+      data.ships.msPipelines = Array(data.ships.msPipelines).fill(MSPipeline);
+      data.ships.raiders = Array(data.ships.raiders).fill(Raider);
+      data.ships.carriers = Array(data.ships.carriers).fill(Carrier);
+      data.ships.fighterOnes = Array(data.ships.fighterOnes).fill(FighterOne);
+      data.ships.fighterTwos = Array(data.ships.fighterTwos).fill(FighterTwo);
+      data.ships.fighterThrees = Array(data.ships.fighterThrees).fill(FighterThree);
+      data.commands = data.commands.map(function(command) { return commandFactory.create(production_sheet, command.name, command) });
+      return data
     },
     saveData: function() {
       var data = {
@@ -241,8 +282,15 @@ var vm = new Vue({
           battleCruisers: this.ships.battleCruisers.length,
           battleShips: this.ships.battleShips.length,
           dreadnaughts: this.ships.dreadnaughts.length,
-          dreadnaughts: this.ships.dreadnaughts.length,
           bases: this.ships.bases.length,
+          mines: this.ships.mines.length,
+          mineSweeperShips: this.ships.mineSweeperShips.length,
+          msPipelines: this.ships.msPipelines.length,
+          raiders: this.ships.raiders.length,
+          carriers: this.ships.carriers.length,
+          fighterOnes: this.ships.fighterOnes.length,
+          fighterTwos: this.ships.fighterTwos.length,
+          fighterThrees: this.ships.fighterThrees.length,
         }
       }
       spaceEmpiresStorage.save(data);
@@ -543,6 +591,14 @@ var vm = new Vue({
         'BattleShip': this.ships.battleShips,
         'Dreadnaught': this.ships.dreadnaughts,
         'Base': this.ships.bases,
+        'Mine': this.ships.mines,
+        'MineSweeperShip': this.ships.mineSweeperShips,
+        'MSPipeline': this.ships.msPipelines,
+        'Raider': this.ships.raiders,
+        'Carrier': this.ships.carriers,
+        'FighterOne': this.ships.fighterOnes,
+        'FighterTwo': this.ships.fighterTwos,
+        'FighterThree': this.ships.fighterThrees,
       }
 
       if (!this.hasSubstractedMaintenancePoints()) {
@@ -580,6 +636,14 @@ var vm = new Vue({
         'BattleShip': this.ships.battleShips,
         'Dreadnaught': this.ships.dreadnaughts,
         'Base': this.ships.bases,
+        'Mine': this.ships.mines,
+        'MineSweeperShip': this.ships.mineSweeperShips,
+        'MSPipeline': this.ships.msPipelines,
+        'Raider': this.ships.raiders,
+        'Carrier': this.ships.carriers,
+        'FighterOne': this.ships.fighterOnes,
+        'FighterTwo': this.ships.fighterTwos,
+        'FighterThree': this.ships.fighterThrees,
       }
       ships[ship.type].push(ship);
       this.decreaseContructionPoints(ship.cost);
@@ -597,6 +661,14 @@ var vm = new Vue({
         'BattleShip': this.ships.battleShips,
         'Dreadnaught': this.ships.dreadnaughts,
         'Base': this.ships.bases,
+        'Mine': this.ships.mines,
+        'MineSweeperShip': this.ships.mineSweeperShips,
+        'MSPipeline': this.ships.msPipelines,
+        'Raider': this.ships.raiders,
+        'Carrier': this.ships.carriers,
+        'FighterOne': this.ships.fighterOnes,
+        'FighterTwo': this.ships.fighterTwos,
+        'FighterThree': this.ships.fighterThrees,
       }
       ships[ship.type].pop();
       this.increaseContructionPoints(ship.cost);
@@ -614,6 +686,14 @@ var vm = new Vue({
         'BattleShip': this.ships.battleShips,
         'Dreadnaught': this.ships.dreadnaughts,
         'Base': this.ships.bases,
+        'Mine': this.ships.mines,
+        'MineSweeperShip': this.ships.mineSweeperShips,
+        'MSPipeline': this.ships.msPipelines,
+        'Raider': this.ships.raiders,
+        'Carrier': this.ships.carriers,
+        'FighterOne': this.ships.fighterOnes,
+        'FighterTwo': this.ships.fighterTwos,
+        'FighterThree': this.ships.fighterThrees,
       }
 
       if (ships[ship.type].length <= 0) {
@@ -636,6 +716,14 @@ var vm = new Vue({
         'BattleShip': this.ships.battleShips,
         'Dreadnaught': this.ships.dreadnaughts,
         'Base': this.ships.bases,
+        'Mine': this.ships.mines,
+        'MineSweeperShip': this.ships.mineSweeperShips,
+        'MSPipeline': this.ships.msPipelines,
+        'Raider': this.ships.raiders,
+        'Carrier': this.ships.carriers,
+        'FighterOne': this.ships.fighterOnes,
+        'FighterTwo': this.ships.fighterTwos,
+        'FighterThree': this.ships.fighterThrees,
       }
       ships[ship.type].pop();
     },
@@ -652,6 +740,14 @@ var vm = new Vue({
         'BattleShip': this.ships.battleShips,
         'Dreadnaught': this.ships.dreadnaughts,
         'Base': this.ships.bases,
+        'Mine': this.ships.mines,
+        'MineSweeperShip': this.ships.mineSweeperShips,
+        'MSPipeline': this.ships.msPipelines,
+        'Raider': this.ships.raiders,
+        'Carrier': this.ships.carriers,
+        'FighterOne': this.ships.fighterOnes,
+        'FighterTwo': this.ships.fighterTwos,
+        'FighterThree': this.ships.fighterThrees,
       }
       ships[ship.type].push(ship);
     },
@@ -742,6 +838,30 @@ var vm = new Vue({
     },
     numberBases() {
       return this.ships.bases.length;
+    },
+    numberMines() {
+      return this.ships.mines.length;
+    },
+    numberMineSweeperShips() {
+      return this.ships.mineSweeperShips.length;
+    },
+    numberMSPipelines() {
+      return this.ships.msPipelines.length;
+    },
+    numberRaiders() {
+      return this.ships.raiders.length;
+    },
+    numberCarriers() {
+      return this.ships.carriers.length;
+    },
+    numberFighterOnes() {
+      return this.ships.fighterOnes.length;
+    },
+    numberFighterTwos() {
+      return this.ships.fighterTwos.length;
+    },
+    numberFighterThrees() {
+      return this.ships.fighterThrees.length;
     },
     maintenance() {
       var result = 0;
