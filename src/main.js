@@ -50,7 +50,7 @@ var spaceEmpiresStorage = {
 
 Vue.component('ship-button', {
     template: '#ship-button',
-    props: ['ship', 'quantity', 'current-ship-size'],
+    props: ['ship', 'quantity'],
     methods: {
       purchaseShip: function () {
         this.$emit('purchase-ship', this.ship);
@@ -58,11 +58,6 @@ Vue.component('ship-button', {
       loseShip: function () {
         this.$emit('lose-ship', this.ship);
       },
-    },
-    computed: {
-      cannotPurchase: function() {
-        return this.currentShipSize < this.ship.requiredShipSizeTechnology
-      }
     }
 });
 
@@ -607,6 +602,26 @@ var vm = new Vue({
 
       if (this.shipSize.currentLevel < ship.requiredShipSizeTechnology) {
         this._notifyWarning("You need " + ship.requiredShipSizeTechnology + " Ship Size technology level.");
+        return;
+      }
+
+      if (this.mines.currentLevel < ship.requiredMinesTechnology) {
+        this._notifyWarning("You need " + ship.requiredMinesTechnology + " Mines technology level.");
+        return;
+      }
+
+      if (this.mineSweeper.currentLevel < ship.requiredMineSweeperTechnology) {
+        this._notifyWarning("You need " + ship.requiredMineSweeperTechnology + " Mine Sweeper technology level.");
+        return;
+      }
+
+      if (this.fighters.currentLevel < ship.requiredFightersTechnology) {
+        this._notifyWarning("You need " + ship.requiredFightersTechnology + " Fighters technology level.");
+        return;
+      }
+
+      if (this.cloaking.currentLevel < ship.requiredCloakingTechnology) {
+        this._notifyWarning("You need " + ship.requiredCloakingTechnology + " Cloaking technology level.");
         return;
       }
 

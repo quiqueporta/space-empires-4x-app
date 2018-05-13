@@ -14,6 +14,18 @@ export class Scout {
 	static get requiredShipSizeTechnology() {
 		return 1;
 	}
+	static get requiredMinesTechnology() {
+		return 0;
+	}
+	static get requiredMineSweeperTechnology() {
+		return 0;
+	}
+	static get requiredFightersTechnology() {
+		return 0;
+	}
+	static get requiredCloakingTechnology() {
+		return 0;
+	}
 	static get maxQuantity() {
 		return 50;
 	}
@@ -34,6 +46,18 @@ export class ShipYard {
 	}
 	static get requiredShipSizeTechnology() {
 		return 1;
+	}
+	static get requiredMinesTechnology() {
+		return 0;
+	}
+	static get requiredMineSweeperTechnology() {
+		return 0;
+	}
+	static get requiredFightersTechnology() {
+		return 0;
+	}
+	static get requiredCloakingTechnology() {
+		return 0;
 	}
 	static get maxQuantity() {
 		return 50;
@@ -56,6 +80,18 @@ export class Miner {
 	static get requiredShipSizeTechnology() {
 		return 1;
 	}
+	static get requiredMinesTechnology() {
+		return 0;
+	}
+	static get requiredMineSweeperTechnology() {
+		return 0;
+	}
+	static get requiredFightersTechnology() {
+		return 0;
+	}
+	static get requiredCloakingTechnology() {
+		return 0;
+	}
 	static get maxQuantity() {
 		return 50;
 	}
@@ -76,6 +112,18 @@ export class ColonyShip {
 	}
 	static get requiredShipSizeTechnology() {
 		return 1;
+	}
+	static get requiredMinesTechnology() {
+		return 0;
+	}
+	static get requiredMineSweeperTechnology() {
+		return 0;
+	}
+	static get requiredFightersTechnology() {
+		return 0;
+	}
+	static get requiredCloakingTechnology() {
+		return 0;
 	}
 	static get maxQuantity() {
 		return 50;
@@ -99,6 +147,18 @@ export class Decoy {
 	static get requiredShipSizeTechnology() {
 		return 1;
 	}
+	static get requiredMinesTechnology() {
+		return 0;
+	}
+	static get requiredMineSweeperTechnology() {
+		return 0;
+	}
+	static get requiredFightersTechnology() {
+		return 0;
+	}
+	static get requiredCloakingTechnology() {
+		return 0;
+	}
 	static get maxQuantity() {
 		return 50;
 	}
@@ -120,6 +180,18 @@ export class Destroyer {
 	}
 	static get requiredShipSizeTechnology() {
 		return 2;
+	}
+	static get requiredMinesTechnology() {
+		return 0;
+	}
+	static get requiredMineSweeperTechnology() {
+		return 0;
+	}
+	static get requiredFightersTechnology() {
+		return 0;
+	}
+	static get requiredCloakingTechnology() {
+		return 0;
 	}
 	static get maxQuantity() {
 		return 50;
@@ -143,6 +215,18 @@ export class Cruiser {
 	static get requiredShipSizeTechnology() {
 		return 3;
 	}
+	static get requiredMinesTechnology() {
+		return 0;
+	}
+	static get requiredMineSweeperTechnology() {
+		return 0;
+	}
+	static get requiredFightersTechnology() {
+		return 0;
+	}
+	static get requiredCloakingTechnology() {
+		return 0;
+	}
 	static get maxQuantity() {
 		return 50;
 	}
@@ -164,6 +248,18 @@ export class BattleCruiser {
 	}
 	static get requiredShipSizeTechnology() {
 		return 4;
+	}
+	static get requiredMinesTechnology() {
+		return 0;
+	}
+	static get requiredMineSweeperTechnology() {
+		return 0;
+	}
+	static get requiredFightersTechnology() {
+		return 0;
+	}
+	static get requiredCloakingTechnology() {
+		return 0;
 	}
 	static get maxQuantity() {
 		return 50;
@@ -187,6 +283,18 @@ export class BattleShip {
 	static get requiredShipSizeTechnology() {
 		return 5;
 	}
+	static get requiredMinesTechnology() {
+		return 0;
+	}
+	static get requiredMineSweeperTechnology() {
+		return 0;
+	}
+	static get requiredFightersTechnology() {
+		return 0;
+	}
+	static get requiredCloakingTechnology() {
+		return 0;
+	}
 	static get maxQuantity() {
 		return 50;
 	}
@@ -208,6 +316,18 @@ export class Dreadnaught {
 	}
 	static get requiredShipSizeTechnology() {
 		return 6;
+	}
+	static get requiredMinesTechnology() {
+		return 0;
+	}
+	static get requiredMineSweeperTechnology() {
+		return 0;
+	}
+	static get requiredFightersTechnology() {
+		return 0;
+	}
+	static get requiredCloakingTechnology() {
+		return 0;
 	}
 	static get maxQuantity() {
 		return 50;
@@ -231,6 +351,18 @@ export class Base {
 	static get requiredShipSizeTechnology() {
 		return 2;
 	}
+	static get requiredMinesTechnology() {
+		return 0;
+	}
+	static get requiredMineSweeperTechnology() {
+		return 0;
+	}
+	static get requiredFightersTechnology() {
+		return 0;
+	}
+	static get requiredCloakingTechnology() {
+		return 0;
+	}
 	static get maxQuantity() {
 		return 50;
 	}
@@ -252,6 +384,18 @@ export class Mine {
 	}
 	static get requiredShipSizeTechnology() {
 		return 1;
+	}
+	static get requiredMinesTechnology() {
+		return 1;
+	}
+	static get requiredMineSweeperTechnology() {
+		return 0;
+	}
+	static get requiredFightersTechnology() {
+		return 0;
+	}
+	static get requiredCloakingTechnology() {
+		return 0;
 	}
 	static get maxQuantity() {
 		return 50;
@@ -275,6 +419,18 @@ export class MineSweeperShip {
 	static get requiredShipSizeTechnology() {
 		return 1;
 	}
+	static get requiredMinesTechnology() {
+		return 0;
+	}
+	static get requiredMineSweeperTechnology() {
+		return 1;
+	}
+	static get requiredFightersTechnology() {
+		return 0;
+	}
+	static get requiredCloakingTechnology() {
+		return 0;
+	}
 	static get maxQuantity() {
 		return 50;
 	}
@@ -297,6 +453,18 @@ export class MSPipeline {
 	static get requiredShipSizeTechnology() {
 		return 1;
 	}
+	static get requiredMinesTechnology() {
+		return 0;
+	}
+	static get requiredMineSweeperTechnology() {
+		return 0;
+	}
+	static get requiredFightersTechnology() {
+		return 0;
+	}
+	static get requiredCloakingTechnology() {
+		return 0;
+	}
 	static get maxQuantity() {
 		return 50;
 	}
@@ -317,6 +485,18 @@ export class Raider {
 		return 2;
 	}
 	static get requiredShipSizeTechnology() {
+		return 1;
+	}
+	static get requiredMinesTechnology() {
+		return 0;
+	}
+	static get requiredMineSweeperTechnology() {
+		return 0;
+	}
+	static get requiredFightersTechnology() {
+		return 0;
+	}
+	static get requiredCloakingTechnology() {
 		return 1;
 	}
 	static get maxQuantity() {
@@ -341,6 +521,18 @@ export class Carrier {
 	static get requiredShipSizeTechnology() {
 		return 1;
 	}
+	static get requiredMinesTechnology() {
+		return 0;
+	}
+	static get requiredMineSweeperTechnology() {
+		return 0;
+	}
+	static get requiredFightersTechnology() {
+		return 1;
+	}
+	static get requiredCloakingTechnology() {
+		return 0;
+	}
 	static get maxQuantity() {
 		return 50;
 	}
@@ -362,6 +554,18 @@ export class FighterOne {
 	}
 	static get requiredShipSizeTechnology() {
 		return 1;
+	}
+	static get requiredMinesTechnology() {
+		return 0;
+	}
+	static get requiredMineSweeperTechnology() {
+		return 0;
+	}
+	static get requiredFightersTechnology() {
+		return 1;
+	}
+	static get requiredCloakingTechnology() {
+		return 0;
 	}
 	static get maxQuantity() {
 		return 50;
@@ -385,6 +589,18 @@ export class FighterTwo {
 	static get requiredShipSizeTechnology() {
 		return 1;
 	}
+	static get requiredMinesTechnology() {
+		return 0;
+	}
+	static get requiredMineSweeperTechnology() {
+		return 0;
+	}
+	static get requiredFightersTechnology() {
+		return 2;
+	}
+	static get requiredCloakingTechnology() {
+		return 0;
+	}
 	static get maxQuantity() {
 		return 50;
 	}
@@ -406,6 +622,18 @@ export class FighterThree {
 	}
 	static get requiredShipSizeTechnology() {
 		return 1;
+	}
+	static get requiredMinesTechnology() {
+		return 0;
+	}
+	static get requiredMineSweeperTechnology() {
+		return 0;
+	}
+	static get requiredFightersTechnology() {
+		return 3;
+	}
+	static get requiredCloakingTechnology() {
+		return 0;
 	}
 	static get maxQuantity() {
 		return 50;
