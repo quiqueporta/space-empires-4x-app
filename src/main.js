@@ -363,7 +363,6 @@ var vm = new Vue({
         this._notifyWarning("This is the last turn. Game Over!");
         return;
       }
-      this.$ga.event('Command', 'endTurn');
 
       this._executeCommand(new EndTurnCommand(this, this.turn));
     },
@@ -770,6 +769,7 @@ var vm = new Vue({
       this.commands.push(command);
       this.saveData();
       this._notifySuccess(command.toString());
+      this.$ga.event('Command', command.toString());
     },
     _notifyOptions: function() {
       toastr.options = {
