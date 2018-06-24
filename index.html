@@ -228,7 +228,7 @@
       <div class="row p-1">
             <div class="col p-1">
                 <button type="button" class="btn btn-success btn-block" v-on:click="purchaseShip">
-                    {{ ship.name }} <small>({{ ship.cost }})</small>
+                    <small v-if="ship.short_name != ''">{{ ship.short_name }} - </small>{{ ship.name }} <small>({{ ship.cost }})</small>
                     <span class="badge badge-light">{{ quantity }}</span>
                 </button>
             </div>

@@ -5,6 +5,9 @@ export class Scout {
 	static get name() {
 		return "Scout";
 	}
+	static get short_name() {
+		return "SC";
+	}
 	static get cost() {
 		return 6;
 	}
@@ -37,6 +40,9 @@ export class ShipYard {
 	}
 	static get name() {
 		return "ShipYard";
+	}
+	static get short_name() {
+		return "SY";
 	}
 	static get cost() {
 		return 6;
@@ -71,6 +77,9 @@ export class Miner {
 	static get name() {
 		return "Mining Ship";
 	}
+	static get short_name() {
+		return "";
+	}
 	static get cost() {
 		return 5;
 	}
@@ -103,6 +112,9 @@ export class ColonyShip {
 	}
 	static get name() {
 		return "Colony Ship";
+	}
+	static get short_name() {
+		return "";
 	}
 	static get cost() {
 		return 8;
@@ -138,6 +150,9 @@ export class Decoy {
 	static get name() {
 		return "Decoy";
 	}
+	static get short_name() {
+		return "";
+	}
 	static get cost() {
 		return 1;
 	}
@@ -171,6 +186,9 @@ export class Destroyer {
 	}
 	static get name() {
 		return "Destroyer";
+	}
+	static get short_name() {
+		return "DD";
 	}
 	static get cost() {
 		return 9;
@@ -206,6 +224,9 @@ export class Cruiser {
 	static get name() {
 		return "Cruiser";
 	}
+	static get short_name() {
+		return "CA";
+	}
 	static get cost() {
 		return 12;
 	}
@@ -239,6 +260,9 @@ export class BattleCruiser {
 	}
 	static get name() {
 		return "BattleCruiser";
+	}
+	static get short_name() {
+		return "BC";
 	}
 	static get cost() {
 		return 15;
@@ -274,6 +298,9 @@ export class BattleShip {
 	static get name() {
 		return "BattleShip";
 	}
+	static get short_name() {
+		return "BB";
+	}
 	static get cost() {
 		return 20;
 	}
@@ -307,6 +334,9 @@ export class Dreadnaught {
 	}
 	static get name() {
 		return "Dreadnaught";
+	}
+	static get short_name() {
+		return "DN";
 	}
 	static get cost() {
 		return 24;
@@ -342,6 +372,9 @@ export class Base {
 	static get name() {
 		return "Base";
 	}
+	static get short_name() {
+		return "";
+	}
 	static get cost() {
 		return 12;
 	}
@@ -375,6 +408,9 @@ export class Mine {
 	}
 	static get name() {
 		return "Mine";
+	}
+	static get short_name() {
+		return "";
 	}
 	static get cost() {
 		return 5;
@@ -410,6 +446,9 @@ export class MineSweeperShip {
 	static get name() {
 		return "Mine Sweeper";
 	}
+	static get short_name() {
+		return "SW";
+	}
 	static get cost() {
 		return 6;
 	}
@@ -443,6 +482,9 @@ export class MSPipeline {
 	}
 	static get name() {
 		return "MS Pipeline";
+	}
+	static get short_name() {
+		return "";
 	}
 	static get cost() {
 		return 3;
@@ -478,6 +520,9 @@ export class Raider {
 	static get name() {
 		return "Raider";
 	}
+	static get short_name() {
+		return "R";
+	}
 	static get cost() {
 		return 12;
 	}
@@ -511,6 +556,9 @@ export class Carrier {
 	}
 	static get name() {
 		return "Carrier";
+	}
+	static get short_name() {
+		return "CV";
 	}
 	static get cost() {
 		return 12;
@@ -546,6 +594,9 @@ export class FighterOne {
 	static get name() {
 		return "Fighter 1";
 	}
+	static get short_name() {
+		return "F";
+	}
 	static get cost() {
 		return 5;
 	}
@@ -580,6 +631,9 @@ export class FighterTwo {
 	static get name() {
 		return "Fighter 2";
 	}
+	static get short_name() {
+		return "F";
+	}
 	static get cost() {
 		return 5;
 	}
@@ -613,6 +667,9 @@ export class FighterThree {
 	}
 	static get name() {
 		return "Fighter 3";
+	}
+	static get short_name() {
+		return "F";
 	}
 	static get cost() {
 		return 5;
