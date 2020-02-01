@@ -359,6 +359,12 @@ var vm = new Vue({
         return;
       }
 
+      console.log(this.colonyPoints);
+      if (this.constructionPoints > 30) {
+        this._notifyWarning("A maximum of 30 CP can be carried over into the next turn.");
+        return;
+      }
+
       this._executeCommand(new EndTurnCommand(this, this.turn));
     },
     increaseTurn() {
