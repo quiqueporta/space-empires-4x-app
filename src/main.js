@@ -359,7 +359,6 @@ var vm = new Vue({
         return;
       }
 
-      console.log(this.colonyPoints);
       if (this.constructionPoints > 30) {
         this._notifyWarning("A maximum of 30 CP can be carried over into the next turn.");
         return;
@@ -792,7 +791,7 @@ var vm = new Vue({
       this._notifySuccess(command.toString());
       this.$ga.event('Command', command.toString());
     },
-    _notifyOptions: function() {
+    _notifyOptions: function(duration=2000) {
       toastr.options = {
         "closeButton": false,
         "debug": false,
@@ -803,7 +802,7 @@ var vm = new Vue({
         "onclick": null,
         "showDuration": "50",
         "hideDuration": "1000",
-        "timeOut": "2000",
+        "timeOut": duration,
         "extendedTimeOut": "1000",
         "showEasing": "swing",
         "showMethod": "fadeIn",
@@ -815,7 +814,7 @@ var vm = new Vue({
       toastr.success(message);
     },
     _notifyWarning: function(message) {
-      this._notifyOptions();
+      this._notifyOptions(4000);
       toastr.warning(message);
     },
     _notifyInfo: function(message) {
