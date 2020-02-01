@@ -57,8 +57,8 @@ export class ShipSize extends TechnologyProgression {
       2: 10,
       3: 15,
       4: 20,
-      5: 25,
-      6: 30
+      5: 20,
+      6: 20
       };
   }
 
@@ -79,7 +79,7 @@ export class Attack extends TechnologyProgression {
     return {
       1: 20,
       2: 30,
-      3: 40
+      3: 25
       };
   }
 
@@ -100,7 +100,7 @@ export class Defense extends TechnologyProgression {
     return {
       1: 20,
       2: 30,
-      3: 40
+      3: 25
       };
   }
 
@@ -120,8 +120,8 @@ export class Tactics extends TechnologyProgression {
   cost() {
     return {
       1: 15,
-      2: 20,
-      3: 30
+      2: 15,
+      3: 15
       };
   }
 
@@ -135,16 +135,17 @@ export class Tactics extends TechnologyProgression {
 export class Move extends TechnologyProgression {
 
   constructor() {
-    super(1, 6);
+    super(1, 7);
   }
 
   cost() {
     return {
       2: 20,
-      3: 30,
-      4: 40,
-      5: 40,
-      6: 40
+      3: 25,
+      4: 25,
+      5: 25,
+      6: 20,
+      7: 20
       };
   }
 
@@ -164,7 +165,7 @@ export class ShipYards extends TechnologyProgression {
   cost() {
     return {
       2: 20,
-      3: 30
+      3: 25
       };
   }
 
@@ -183,7 +184,7 @@ export class Terraforming extends TechnologyProgression {
 
   cost() {
     return {
-      1: 25
+      1: 20
       };
   }
 
@@ -222,8 +223,8 @@ export class Fighters extends TechnologyProgression {
   cost() {
     return {
       1: 25,
-      2: 30,
-      3: 40
+      2: 25,
+      3: 25
       };
   }
 
@@ -243,8 +244,8 @@ export class PointDefense extends TechnologyProgression {
   cost() {
     return {
       1: 20,
-      2: 25,
-      3: 30
+      2: 20,
+      3: 20
       };
   }
 
@@ -264,7 +265,7 @@ export class Cloaking extends TechnologyProgression {
   cost() {
     return {
       1: 30,
-      2: 40
+      2: 30
       };
   }
 
@@ -284,7 +285,7 @@ export class Scanners extends TechnologyProgression {
   cost() {
     return {
       1: 20,
-      2: 30
+      2: 20
       };
   }
 
@@ -303,7 +304,7 @@ export class Mines extends TechnologyProgression {
 
   cost() {
     return {
-      1: 20
+      1: 30
       };
   }
 
@@ -323,7 +324,7 @@ export class MineSweeper extends TechnologyProgression {
   cost() {
     return {
       1: 10,
-      2: 20
+      2: 15
       };
   }
 
