@@ -20,7 +20,7 @@ import { CommandFactory, AddColonyPointsCommand, AddMineralPointsCommand, Substr
      LoseShipCommand, PurchaseShipCommand} from './commands';
 
 
-var STORAGE_KEY = 'space-empires-4x-v2'
+var STORAGE_KEY = 'space-empires-4x-v3'
 
 var seen = [];
 
