@@ -8,8 +8,8 @@ import { Scout, ShipYard, Miner, ColonyShip, Decoy, Destroyer, Cruiser, BattleCr
          FighterThree, MSPipeline, Mine, MineSweeperShip } from './ships';
 import { ShipSize, Attack, Defense, Tactics, Move, ShipYards, Terraforming, Exploration,
          Fighters, PointDefense, Cloaking, Scanners, Mines, MineSweeper } from './technologies';
-import { CommandFactory, AddColonyPointsCommand, AddMineralPointsCommand, SubstractBidPointsCommand,
-     SubstractMaintenancePointsCommand, EndTurnCommand, IncreaseShipSizeCommand,
+import { CommandFactory, AddColonyPointsCommand, AddMineralPointsCommand, SubtractBidPointsCommand,
+     SubtractMaintenancePointsCommand, EndTurnCommand, IncreaseShipSizeCommand,
      IncreaseAttackCommand, IncreaseDefenseCommand, IncreaseTacticsCommand, IncreaseMoveCommand,
      IncreaseShipYardsCommand, IncreaseTerraformingCommand, IncreaseExplorationCommand,
      IncreaseSpaceWreckShipSizeCommand, IncreaseSpaceWreckAttackCommand, IncreaseSpaceWreckDefenseCommand,
@@ -331,25 +331,25 @@ var vm = new Vue({
     addFifteenMineralPoints: function () {
       this.addMineralPoints(15);
     },
-    substractBidPoints: function () {
+    subtractBidPoints: function () {
       if (this.constructionPoints - this.bidPoints < 0){
         this._notifyWarning("You do not have enough Colony points.");
         return;
       }
 
       if (this.bidPoints <= 0) {
-        this._notifyWarning("You cannot substract 0 or less Bid points.");
+        this._notifyWarning("You cannot subtract 0 or less Bid points.");
         return;
       }
 
-      this._executeCommand(new SubstractBidPointsCommand(this, this.bidPoints));
+      this._executeCommand(new SubtractBidPointsCommand(this, this.bidPoints));
       this.bidPoints = 0;
     },
-    substractMaintenancePoints: function () {
+    subtractMaintenancePoints: function () {
       if (this.constructionPoints - this.maintenance < 0){
-        this._executeCommand(new SubstractMaintenancePointsCommand(this, this.constructionPoints));
+        this._executeCommand(new SubtractMaintenancePointsCommand(this, this.constructionPoints));
       } else {
-        this._executeCommand(new SubstractMaintenancePointsCommand(this, this.maintenance));
+        this._executeCommand(new SubtractMaintenancePointsCommand(this, this.maintenance));
       }
 
     },
@@ -533,8 +533,8 @@ var vm = new Vue({
         'MineSweeper': new IncreaseMineSweeperCommand(this),
       }
 
-      if (!this.hasSubstractedMaintenancePoints()) {
-        this._notifyWarning("You cannot purchase until you do not substract maintenance points.");
+      if (!this.hasSubtractedMaintenancePoints()) {
+        this._notifyWarning("You cannot purchase until you do not subtract maintenance points.");
         return;
       }
 
@@ -564,10 +564,10 @@ var vm = new Vue({
 
       this._executeCommand(commands[technology.getName()]);
     },
-    hasSubstractedMaintenancePoints: function() {
+    hasSubtractedMaintenancePoints: function() {
       var result = false;
       this.commands.forEach(function (command) {
-        if (command instanceof SubstractMaintenancePointsCommand) {
+        if (command instanceof SubtractMaintenancePointsCommand) {
           result = true;
         }
         if (command instanceof EndTurnCommand) {
@@ -600,8 +600,8 @@ var vm = new Vue({
         'FighterThree': this.ships.fighterThrees,
       }
 
-      if (!this.hasSubstractedMaintenancePoints()) {
-        this._notifyWarning("You cannot purchase until you do not substract maintenance points.");
+      if (!this.hasSubtractedMaintenancePoints()) {
+        this._notifyWarning("You cannot purchase until you do not subtract maintenance points.");
         return;
       }
 

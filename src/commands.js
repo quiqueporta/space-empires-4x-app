@@ -66,7 +66,7 @@ export class AddMineralPointsCommand {
 }
 
 
-export class SubstractBidPointsCommand {
+export class SubtractBidPointsCommand {
   constructor(production_sheet, points) {
     this._production_sheet = production_sheet;
     this._points = parseInt(points);
@@ -81,24 +81,24 @@ export class SubstractBidPointsCommand {
   }
 
   toString() {
-    return "Substracted " + this._points + " Bid Points.";
+    return "Subtracted " + this._points + " Bid Points.";
   }
 
   toDict() {
     return {
-        name: "SubstractBidPointsCommand",
+        name: "SubtractBidPointsCommand",
         points: this._points
     };
   }
 
   static fromDict(production_sheet, dict) {
-    return new SubstractBidPointsCommand(production_sheet, dict.points);
+    return new SubtractBidPointsCommand(production_sheet, dict.points);
   }
 
 }
 
 
-export class SubstractMaintenancePointsCommand {
+export class SubtractMaintenancePointsCommand {
   constructor(production_sheet, points) {
     this._production_sheet = production_sheet;
     this._points = parseInt(points);
@@ -113,18 +113,18 @@ export class SubstractMaintenancePointsCommand {
   }
 
   toString() {
-    return "Substracted " + this._points + " Maintenance Points.";
+    return "Subtracted " + this._points + " Maintenance Points.";
   }
 
   toDict() {
     return {
-        name: "SubstractMaintenancePointsCommand",
+        name: "SubtractMaintenancePointsCommand",
         points: this._points
     };
   }
 
   static fromDict(production_sheet, dict) {
-    return new SubstractMaintenancePointsCommand(production_sheet, dict.points);
+    return new SubtractMaintenancePointsCommand(production_sheet, dict.points);
   }
 }
 
@@ -935,8 +935,8 @@ export class CommandFactory {
     var commands = {
       'AddColonyPointsCommand': AddColonyPointsCommand,
       'AddMineralPointsCommand': AddMineralPointsCommand,
-      'SubstractBidPointsCommand': SubstractBidPointsCommand,
-      'SubstractMaintenancePointsCommand': SubstractMaintenancePointsCommand,
+      'SubtractBidPointsCommand': SubtractBidPointsCommand,
+      'SubtractMaintenancePointsCommand': SubtractMaintenancePointsCommand,
       'EndTurnCommand': EndTurnCommand,
       'IncreaseShipSizeCommand': IncreaseShipSizeCommand,
       'IncreaseAttackCommand': IncreaseAttackCommand,
