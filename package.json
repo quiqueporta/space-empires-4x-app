@@ -17,7 +17,8 @@
     "toastr": "^2.1.4",
     "vue": "^2.5.11",
     "vue-analytics": "^5.10.4",
-    "vuejs-dialog": "^0.9.0"
+    "vuejs-dialog": "^0.9.0",
+    "yamljs": "^0.3.0"
   },
   "browserslist": [
     "> 1%",

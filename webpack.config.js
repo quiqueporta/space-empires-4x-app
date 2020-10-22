@@ -36,7 +36,14 @@ module.exports = {
         options: {
           name: '[name].[ext]?[hash]'
         }
-      }
+      },
+      {
+        test: /\.(yaml|yml)$/,
+        type: 'json',
+        parser: {
+          parse: yaml.parse
+        }
+      },
     ]
   },
   resolve: {
