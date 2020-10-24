@@ -1,4 +1,4 @@
-class TechnologyProgression {
+export class TechnologyProgression {
 
   constructor(tech_data) {
     this._minLevel = tech_data['start'];
