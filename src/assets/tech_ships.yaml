@@ -2,45 +2,59 @@ tech:
   - name: Ship Size
     start: 1
     cost: [10, 15, 20, 20, 20]
+    advanced: false
   - name: Attack
     start: 0
     cost: [20, 30,25]
+    advanced: false
   - name: Defense
     start: 0
     cost: [20, 30,25]
+    advanced: false
   - name: Tactics
     start: 0
     cost: [15, 15, 15]
+    advanced: false
   - name: Move
     start: 1
     cost: [20, 25, 25, 25, 20, 20]
+    advanced: false
   - name: Terraform
     start: 0
     cost: [20]
+    advanced: false
   - name: Exploration
     start: 0
     cost: [15]
+    advanced: false
   - name: SY
     start: 1
     cost: [20, 25]
+    advanced: false
   - name: Fighter
     start: 0
     cost: [25, 25, 25]
+    advanced: true
   - name: Point Defense
     start: 0
     cost: [20, 20, 20]
+    advanced: true
   - name: Cloaking
     start: 0
     cost: [30, 30]
+    advanced: true
   - name: Scanner
     start: 0
     cost: [20, 20]
+    advanced: true
   - name: Mines
     start: 0
     cost: [30]
+    advanced: true
   - name: Mine Sweep
     start: 0
     cost: [10, 15]
+    advanced: true
 ship:
   - type: SC
     name: Scout

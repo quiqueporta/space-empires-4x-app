@@ -1,11 +1,13 @@
-var path = require('path')
-var webpack = require('webpack')
+var path = require('path');
+var webpack = require('webpack');
+
+const yaml= require('yamljs');
 
 module.exports = {
+  mode: 'development',
   entry: './src/main.js',
   output: {
-    path: path.resolve(__dirname, './dist'),
-    publicPath: '/dist/',
+    path: path.resolve(__dirname, 'dist'),
     filename: 'build.js'
   },
   module: {
@@ -36,7 +38,14 @@ module.exports = {
         options: {
           name: '[name].[ext]?[hash]'
         }
-      },   
+      },
+      {
+        test: /\.yaml$/,
+        type: 'json',
+        parser: {
+          parse: yaml.parse
+        }
+      }
     ]
   },
   resolve: {
@@ -47,13 +56,13 @@ module.exports = {
   },
   devServer: {
     historyApiFallback: true,
-    noInfo: true,
-    overlay: true
+    overlay: true,
+    publicPath: '/dist'
   },
   performance: {
     hints: false
   },
-  devtool: '#eval-source-map'
+  devtool: 'eval-source-map'
 }
 
 if (process.env.NODE_ENV === 'production') {

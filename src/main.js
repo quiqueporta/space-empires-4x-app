@@ -8,6 +8,8 @@ import { AddColonyPointsCommand, AddMineralPointsCommand,
          SubtractBidPointsCommand, SubtractMaintenancePointsCommand,
          EndTurnCommand } from './commands';
 
+import DATA from './assets/tech_ships.yaml';
+
 // TODO: import ships
 // TODO: import more commands
 
@@ -81,6 +83,7 @@ var vm = new Vue({
   },
   methods: {
     initialData: function () {
+      var techs = {};
       return {
         turn: 1,
         commands: [],
