@@ -83,7 +83,13 @@ var vm = new Vue({
   },
   methods: {
     initialData: function () {
-      var techs = {};
+      console.log(DATA);
+      var techs = { 'normal': {}, 'advanced': {} };
+      for (i = 0; i < DATA['tech'].length; i++) {
+        tp = new TechnologyProgression(DATA['tech'][i]);
+        bucket = tp.advanced ? 'advanced' : 'normal';
+        techs[bucket].push(tp);
+      }
       return {
         turn: 1,
         commands: [],
@@ -91,9 +97,7 @@ var vm = new Vue({
         colonyPoints: 0,
         mineralPoints: 0,
         bidPoints: 0,
-        techs: {
-          // TODO: TECHS
-        },
+        techs: techs,
         ships: {
           // TODO: SHIPS
         }
