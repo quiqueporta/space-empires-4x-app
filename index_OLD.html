@@ -100,7 +100,21 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- TECH BUTTONS -->
+                                    <tr is="technology-button" :technology="shipSize3" title="Ship Size" v-on:increase-technology="increaseTechnologyCommand"></tr>
+                                    <tr is="technology-button" :technology="attack" title="Attack" v-on:increase-technology="increaseTechnologyCommand"></tr>
+                                    <tr is="technology-button" :technology="defense" title="Defense" v-on:increase-technology="increaseTechnologyCommand"></tr>
+                                    <tr is="technology-button" :technology="tactics" title="Tactics" v-on:increase-technology="increaseTechnologyCommand"></tr>
+                                    <tr is="technology-button" :technology="move" title="Move" v-on:increase-technology="increaseTechnologyCommand"></tr>
+                                    <tr is="technology-button" :technology="shipYards" title="Ship Yards" v-on:increase-technology="increaseTechnologyCommand"></tr>
+                                    <tr is="technology-button" :technology="terraforming" title="Terraforming" v-on:increase-technology="increaseTechnologyCommand"></tr>
+                                    <tr is="technology-button" :technology="exploration" title="Exploration" v-on:increase-technology="increaseTechnologyCommand"></tr>
+                                    <tr><td><strong>Advanced</strong></td></tr>
+                                    <tr is="technology-button" :technology="fighters" title="Fighters" v-on:increase-technology="increaseTechnologyCommand"></tr>
+                                    <tr is="technology-button" :technology="pointDefense" title="Point Defense" v-on:increase-technology="increaseTechnologyCommand"></tr>
+                                    <tr is="technology-button" :technology="cloaking" title="Cloaking" v-on:increase-technology="increaseTechnologyCommand"></tr>
+                                    <tr is="technology-button" :technology="scanners" title="Scanners" v-on:increase-technology="increaseTechnologyCommand"></tr>
+                                    <tr is="technology-button" :technology="mines" title="Mines" v-on:increase-technology="increaseTechnologyCommand"></tr>
+                                    <tr is="technology-button" :technology="mineSweeper" title="Mine Sweeper" v-on:increase-technology="increaseTechnologyCommand"></tr>
                                 </tbody>
                             </table>
                             <table class="table">
@@ -110,7 +124,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- SPACE WRECK BUTTONS-->
+                                    <tr is="space-wreck-technology-button" :technology="shipSize" title="Ship Size" v-on:increase-technology="increaseSpaceWreckTechnologyCommand"></tr>
+                                    <tr is="space-wreck-technology-button" :technology="attack" title="Attack" v-on:increase-technology="increaseSpaceWreckTechnologyCommand"></tr>
+                                    <tr is="space-wreck-technology-button" :technology="defense" title="Defense" v-on:increase-technology="increaseSpaceWreckTechnologyCommand"></tr>
+                                    <tr is="space-wreck-technology-button" :technology="tactics" title="Tactics" v-on:increase-technology="increaseSpaceWreckTechnologyCommand"></tr>
+                                    <tr is="space-wreck-technology-button" :technology="move" title="Move" v-on:increase-technology="increaseSpaceWreckTechnologyCommand"></tr>
+                                    <tr is="space-wreck-technology-button" :technology="shipYards" title="Ship Yards" v-on:increase-technology="increaseSpaceWreckTechnologyCommand"></tr>
+                                    <tr is="space-wreck-technology-button" :technology="terraforming" title="Terraforming" v-on:increase-technology="increaseSpaceWreckTechnologyCommand"></tr>
+                                    <tr is="space-wreck-technology-button" :technology="exploration" title="Exploration" v-on:increase-technology="increaseSpaceWreckTechnologyCommand"></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -120,7 +141,47 @@
                                 <div class="col p-1 text-center"><strong>Buy</strong></div>
                                 <div class="col p-1 text-center"><strong>Lose</strong></div>
                             </div>
-                            <!-- SHIP BUTTONS -->
+                            <ship-button :ship="colonyShip()" :quantity="numberColonyShips" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            </ship-button>
+                            <ship-button :ship="shipYard()" :quantity="numberShipYards" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            </ship-button>
+                            <ship-button :ship="miner()" :quantity="numberMiners" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            </ship-button>
+                            <ship-button :ship="decoy()" :quantity="numberDecoys" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            </ship-button>
+                            <ship-button :ship="scout()" :quantity="numberScouts" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            </ship-button>
+                            <ship-button :ship="destroyer()" :quantity="numberDestroyers" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            </ship-button>
+                            <ship-button :ship="base()" :quantity="numberBases" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            </ship-button>
+                            <ship-button :ship="cruiser()" :quantity="numberCruisers" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            </ship-button>
+                            <ship-button :ship="battleCruiser()" :quantity="numberBattleCruisers" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            </ship-button>
+                            <ship-button :ship="battleShip()" :quantity="numberBattleShips" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            </ship-button>
+                            <ship-button :ship="dreadnaught()" :quantity="numberDreadnaughts" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            </ship-button>
+                            <div class="row p-1">
+                                <div class="col p-1 text-center"><strong>Advanced</strong></div>
+                            </div>
+                            <ship-button :current-ship-size="shipSize.currentLevel" :ship="mine()" :quantity="numberMines" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            </ship-button>
+                            <ship-button :current-ship-size="shipSize.currentLevel" :ship="mineSweeperShip()" :quantity="numberMineSweeperShips" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            </ship-button>
+                            <ship-button :current-ship-size="shipSize.currentLevel" :ship="msPipeline()" :quantity="numberMSPipelines" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            </ship-button>
+                            <ship-button :current-ship-size="shipSize.currentLevel" :ship="raider()" :quantity="numberRaiders" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            </ship-button>
+                            <ship-button :current-ship-size="shipSize.currentLevel" :ship="carrier()" :quantity="numberCarriers" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            </ship-button>
+                            <ship-button :current-ship-size="shipSize.currentLevel" :ship="fighterOne()" :quantity="numberFighterOnes" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            </ship-button>
+                            <ship-button :current-ship-size="shipSize.currentLevel" :ship="fighterTwo()" :quantity="numberFighterTwos" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            </ship-button>
+                            <ship-button :current-ship-size="shipSize.currentLevel" :ship="fighterThree()" :quantity="numberFighterThrees" v-on:purchase-ship="purchaseShipCommand" v-on:lose-ship="loseShipCommand">
+                            </ship-button>
                         </div>
 
                         <div class="tab-pane fade" id="commands" role="tabpanel" aria-labelledby="commands-tab">

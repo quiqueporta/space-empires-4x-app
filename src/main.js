@@ -1,12 +1,15 @@
 import Vue from 'vue'
 import VuejsDialog from 'vuejs-dialog'
+import VueAnalytics from 'vue-analytics'
 import toastr from 'toastr'
 
 import { TechnologyProgression } from './technologies';
-import { AddColonyPointsCommand, AddMineralPointsCommand, SubtractBidPointsCommand, SubtractMaintenancePointsCommand, EndTurnCommand } from './commands';
+import { AddColonyPointsCommand, AddMineralPointsCommand,
+         SubtractBidPointsCommand, SubtractMaintenancePointsCommand,
+         EndTurnCommand } from './commands';
 
 // TODO: import ships
-// TODO: import commands
+// TODO: import more commands
 
 var STORAGE_KEY = 'space-empires-4x-v3'
 
@@ -61,6 +64,13 @@ Vue.component('space-wreck-technology-button', {
 
 
 Vue.use(VuejsDialog);
+
+Vue.use(VueAnalytics, {
+  id: 'UA-115639837-1',
+  autoTracking: {
+    screenview: true
+  }
+})
 
 // TODO: ANALYTICS???
 
@@ -123,7 +133,13 @@ var vm = new Vue({
     doNothing: function() {
     },
     undo: function() {
-      // TODO: UNDO
+      if (this.commands.length <= 0) {
+        return;
+      }
+
+      var command = this.commands.pop();
+      command.undo();
+      this.saveData();
     },
     addColonyPoints: function () {
       if (this.colonyPoints <= 0) {
@@ -301,6 +317,9 @@ var vm = new Vue({
   },
   computed: {
     reverseCommands() {
+      if (this.commands === undefined) {
+        this.commands = [];
+      }
       return this.commands.slice().reverse();
     },
     // TODO: Count ships

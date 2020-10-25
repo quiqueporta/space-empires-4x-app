@@ -1,7 +1,7 @@
-import { Scout, ShipYard, Miner, ColonyShip, Decoy, Destroyer, Cruiser, BattleCruiser,
-         BattleShip, Dreadnaught, Base,
-         Mine, MineSweeperShip, MSPipeline, Raider, Carrier, FighterOne, FighterTwo, FighterThree
-       } from './ships';
+// import { Scout, ShipYard, Miner, ColonyShip, Decoy, Destroyer, Cruiser, BattleCruiser,
+//          BattleShip, Dreadnaught, Base,
+//          Mine, MineSweeperShip, MSPipeline, Raider, Carrier, FighterOne, FighterTwo, FighterThree
+//        } from './ships';
 
 
 export class AddColonyPointsCommand {
@@ -11,11 +11,11 @@ export class AddColonyPointsCommand {
   }
 
   do() {
-    this._production_sheet.increaseContructionPoints(this._points);
+    this._production_sheet.increaseConstructionPoints(this._points);
   }
 
   undo(){
-    this._production_sheet.decreaseContructionPoints(this._points);
+    this._production_sheet.decreaseConstructionPoints(this._points);
   }
 
   toString() {
@@ -42,11 +42,11 @@ export class AddMineralPointsCommand {
   }
 
   do() {
-    this._production_sheet.increaseContructionPoints(this._points);
+    this._production_sheet.increaseConstructionPoints(this._points);
   }
 
   undo(){
-    this._production_sheet.decreaseContructionPoints(this._points);
+    this._production_sheet.decreaseConstructionPoints(this._points);
   }
 
   toString() {
@@ -73,11 +73,11 @@ export class SubtractBidPointsCommand {
   }
 
   do() {
-    this._production_sheet.decreaseContructionPoints(this._points);
+    this._production_sheet.decreaseConstructionPoints(this._points);
   }
 
   undo(){
-    this._production_sheet.increaseContructionPoints(this._points);
+    this._production_sheet.increaseConstructionPoints(this._points);
   }
 
   toString() {
@@ -105,11 +105,11 @@ export class SubtractMaintenancePointsCommand {
   }
 
   do() {
-    this._production_sheet.decreaseContructionPoints(this._points);
+    this._production_sheet.decreaseConstructionPoints(this._points);
   }
 
   undo(){
-    this._production_sheet.increaseContructionPoints(this._points);
+    this._production_sheet.increaseConstructionPoints(this._points);
   }
 
   toString() {

@@ -1,0 +1,3 @@
+* Manually change CP
+* Upgrade ships
+* Allow for "no maintenance" (Ameeoba scenario, etc)
