@@ -1,15 +1,22 @@
 export class TechnologyProgression {
 
   constructor(tech_data) {
+    if (tech_data === undefined) {
+      return;
+    }
     this.title = tech_data['name'];
     this.advanced = tech_data['advanced'];
     this._minLevel = tech_data['start'];
     this._maxLevel = tech_data['start'] + tech_data['cost'].length;
-    this._costs = {};
-    for (i = 0; i < tech_data['cost'].length; i++) {
-      this._costs[i + 1 + this._minLevel] = tech_data['cost'][i]
+    this.costs = {};
+    for (var i = 0; i < tech_data['cost'].length; i++) {
+      this.costs[i + 1 + this._minLevel] = tech_data['cost'][i]
     }
-    this.currentLevel = minLevel;
+    this.currentLevel = this._minLevel;
+  }
+
+  cleanTitle() {
+    return this.title.split(" ").join('');
   }
 
   increaseLevel() {
@@ -41,11 +48,11 @@ export class TechnologyProgression {
   }
 
   costCurrentLevel() {
-    return this._cost[this.currentLevel];
+    return this.costs[this.currentLevel];
   }
 
   costNextLevel() {
-    return this._cost[this.currentLevel + 1];
+    return this.costs[this.currentLevel + 1];
   }
 
 }

@@ -4,9 +4,10 @@ import VueAnalytics from 'vue-analytics'
 import toastr from 'toastr'
 
 import { TechnologyProgression } from './technologies';
-import { AddColonyPointsCommand, AddMineralPointsCommand,
+import { CommandFactory, AddColonyPointsCommand, AddMineralPointsCommand,
          SubtractBidPointsCommand, SubtractMaintenancePointsCommand,
-         EndTurnCommand } from './commands';
+         EndTurnCommand, 
+         IncreaseTechCommand} from './commands';
 
 import DATA from './assets/tech_ships.yaml';
 
@@ -72,9 +73,7 @@ Vue.use(VueAnalytics, {
   autoTracking: {
     screenview: true
   }
-})
-
-// TODO: ANALYTICS???
+});
 
 var vm = new Vue({
   el: '#app',
@@ -84,11 +83,10 @@ var vm = new Vue({
   methods: {
     initialData: function () {
       console.log(DATA);
-      var techs = { 'normal': {}, 'advanced': {} };
-      for (i = 0; i < DATA['tech'].length; i++) {
-        tp = new TechnologyProgression(DATA['tech'][i]);
-        bucket = tp.advanced ? 'advanced' : 'normal';
-        techs[bucket].push(tp);
+      var techs = [];
+      for (var i = 0; i < DATA['tech'].length; i++) {
+        var tp = new TechnologyProgression(DATA['tech'][i]);
+        techs.push(tp);
       }
       return {
         turn: 1,
@@ -111,21 +109,32 @@ var vm = new Vue({
         return this.initialData();
       };
       var data = spaceEmpiresStorage.fetch();
-      // TODO: COMMAND FACTORY
-      // TODO: Data Loading
+      var tech_data = [];
+      for (var i = 0; i < data.techs.length; i++) {
+        tech_data.push(Object.assign(new TechnologyProgression(), JSON.parse(data.techs[i])));
+      }  
+      data.techs = tech_data;
+      // TODO: Ships Data Loading
+
+      var commandFactory = new CommandFactory();
+      
+      data.commands = data.commands.map(function(command) { return commandFactory.create(production_sheet, data, command.name, command) });
+      
       return data;
     },
     saveData: function() {
+      var tech_data = [];
+      for (var i = 0; i < this.techs.length; i++) {
+        tech_data.push(JSON.stringify(this.techs[i]));
+      }
       var data = {
         turn: this.turn,
-        // TODO: COMMANDS
+        commands: this.commands.map(function(command) { return command.toDict();}),
         constructionPoints: this.constructionPoints,
         colonyPoints: this.colonyPoints,
         mineralPoints: this.mineralPoints,
         bidPoints: this.bidPoints,
-        techs: {
-          // TODO: SAVE TECHS
-        },
+        techs: tech_data,
         ships: {
           // TODO: SAVE SHIPS
         }
@@ -223,24 +232,21 @@ var vm = new Vue({
     decreaseConstructionPoints: function(points) {
       this.constructionPoints -= points;
     },
-    // TODO: INCREASE/DECREASE TECHS
     increaseTechnologyCommand: function(technology) {
-      console.log(technology);
-      var commands = {
-        // TECH COMMANDS
-      }
-
       if (!this.hasSubtractedMaintenancePoints()) {
         this._notifyWarning('You cannot purchase technology until after subtracting maintenance.');
         return;
       }
 
-      if (!technology.canIncrease(this.constructionPoints)) {
-        this._notifyWarning('You cannot increase that technology.');
+      if (technology.onMaxLevel()) {
+        this._notifyWarning(technology.title + ' is already at maximum.');
+        return;
+      } else if (!technology.canIncrease(this.constructionPoints)) {
+        this._notifyWarning('You do not have enough CP to increase ' + technology.title + '.');
         return;
       }
 
-      this._executeCommand(commands[technology.getName()]);
+     this._executeCommand(new IncreaseTechCommand(this, technology));
     },
     increaseSpaceWreckTechnologyCommand: function(technology) {
       // TODO: Do this part.
