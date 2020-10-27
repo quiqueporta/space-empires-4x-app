@@ -6,6 +6,7 @@ export class TechnologyProgression {
     }
     this.title = tech_data['name'];
     this.advanced = tech_data['advanced'];
+    this.wreck = tech_data['shipwreck'];
     this._minLevel = tech_data['start'];
     this._maxLevel = tech_data['start'] + tech_data['cost'].length;
     this.costs = {};

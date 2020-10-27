@@ -87,6 +87,7 @@ var vm = new Vue({
       for (var i = 0; i < DATA['tech'].length; i++) {
         var tp = new TechnologyProgression(DATA['tech'][i]);
         techs.push(tp);
+
       }
       return {
         turn: 1,
