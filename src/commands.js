@@ -154,19 +154,24 @@ export class EndTurnCommand {
 // TODO: ShipWreck commands: ShipSize, Attack, Defense, Tactics, Move, SY, Terraforming, Exploration
 
 export class IncreaseTechCommand {
-  constructor(production_sheet, tech) {
+  constructor(production_sheet, tech, wreck) {
     this._production_sheet = production_sheet;
     this._tech = tech;
+    this._wreck = wreck;
   }
 
   do () {
     this._tech.increaseLevel();
-    this._production_sheet.decreaseConstructionPoints(this._tech.costCurrentLevel());
+    if (!this._wreck) {
+      this._production_sheet.decreaseConstructionPoints(this._tech.costCurrentLevel());
+    }
   }
 
   undo () {
     this._tech.decreaseLevel();
-    this._production_sheet.increaseConstructionPoints(this._tech.costNextLevel());
+    if (!this._wreck) {
+      this._production_sheet.increaseConstructionPoints(this._tech.costNextLevel());
+    }
   }
 
   toString () {
@@ -176,14 +181,15 @@ export class IncreaseTechCommand {
   toDict() {
     return {
       name: 'IncreaseTechCommand',
-      tech: this._tech.title
+      tech: this._tech.title,
+      wreck: this._wreck
     }
   };
 
   static fromDict(production_sheet, data, dict) {
     for (var i = 0; i < data.techs.length; i++) {
       if (dict.tech == data.techs[i].title) {
-        return new IncreaseTechCommand(production_sheet, data.techs[i])
+        return new IncreaseTechCommand(production_sheet, data.techs[i], dict.wreck)
       }
     }
     return;

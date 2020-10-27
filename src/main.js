@@ -49,7 +49,7 @@ Vue.component('technology-button', {
   props: ['technology', 'title'],
   methods: {
     increaseTechnology: function () {
-      this.$emit('increase-technology', this.technology);
+      this.$emit('increase-technology', {'technology': this.technology, 'wreck': false});
     }
   }
 });
@@ -60,7 +60,7 @@ Vue.component('space-wreck-technology-button', {
   props: ['technology', 'title'],
   methods: {
     increaseTechnology: function () {
-      this.$emit('increase-technology', this.technology);
+      this.$emit('increase-technology', {'technology': this.technology, 'wreck': true});
     }
   }
 });
@@ -232,8 +232,11 @@ var vm = new Vue({
     decreaseConstructionPoints: function(points) {
       this.constructionPoints -= points;
     },
-    increaseTechnologyCommand: function(technology) {
-      if (!this.hasSubtractedMaintenancePoints()) {
+    increaseTechnologyCommand: function(tech_info) {
+      var technology = tech_info['technology'];
+      var wreck = tech_info['wreck'];
+
+      if (!wreck && !this.hasSubtractedMaintenancePoints()) {
         this._notifyWarning('You cannot purchase technology until after subtracting maintenance.');
         return;
       }
@@ -241,12 +244,12 @@ var vm = new Vue({
       if (technology.onMaxLevel()) {
         this._notifyWarning(technology.title + ' is already at maximum.');
         return;
-      } else if (!technology.canIncrease(this.constructionPoints)) {
+      } else if (!wreck && !technology.canIncrease(this.constructionPoints)) {
         this._notifyWarning('You do not have enough CP to increase ' + technology.title + '.');
         return;
       }
 
-     this._executeCommand(new IncreaseTechCommand(this, technology));
+     this._executeCommand(new IncreaseTechCommand(this, technology, wreck));
     },
     increaseSpaceWreckTechnologyCommand: function(technology) {
       // TODO: Do this part.

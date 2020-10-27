@@ -101,9 +101,19 @@
                                 </thead>
                                 <tbody>
                                     <!-- TECH BUTTONS -->
-                                    <tr is="technology-button" v-for="technology in techs" v-if="!technology.advanced" v-bind:technology="technology" v-bind:title="technology.title" v-on:increase-technology="increaseTechnologyCommand"></tr>
+                                    <tr is="technology-button" 
+                                        v-for="technology in techs"
+                                        v-if="!technology.advanced"
+                                        v-bind:technology="technology"
+                                        v-bind:title="technology.title"
+                                        v-on:increase-technology="increaseTechnologyCommand"></tr>
                                     <tr><td><strong>Advanced</strong></td></tr>
-                                    <tr is="technology-button" v-for="technology in techs" v-if="technology.advanced" v-bind:technology="technology" v-bind:title="technology.title" v-on:increase-technology="increaseTechnologyCommand"></tr>
+                                    <tr is="technology-button"
+                                        v-for="technology in techs"
+                                        v-if="technology.advanced"
+                                        v-bind:technology="technology"
+                                        v-bind:title="technology.title"
+                                        v-on:increase-technology="increaseTechnologyCommand"></tr>
                                 </tbody>
                             </table>
                             <table class="table">
