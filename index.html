@@ -100,7 +100,6 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- TECH BUTTONS -->
                                     <tr is="technology-button" 
                                         v-for="technology in techs"
                                         v-if="!technology.advanced"
@@ -123,7 +122,12 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- SPACE WRECK BUTTONS-->
+                                    <tr is="space-wreck-technology-button"
+                                        v-for="technology in techs"
+                                        v-if="technology.wreck"
+                                        v-bind:technology="technology"
+                                        v-bind:title="technology.title"
+                                        v-on:increase-technology="increaseTechnologyCommand"></tr>
                                 </tbody>
                             </table>
                         </div>
