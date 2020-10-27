@@ -284,14 +284,6 @@ var vm = new Vue({
     findShip: function(ship) {
       // TODO: Find ship
     },
-    _increaseTechnology: function(technology) {
-      technology.increaseLevel();
-      this.decreaseConstructionPoints(technology.costCurrentLevel());
-    },
-    _decreaseTechnology: function(technology) {
-      technology.decreaseLevel();
-      this.increaseConstructionPoints(technology.costNextLevel());
-    },
     // TODO: Space Wreck Tech
     _executeCommand: function(command) {
       command.do();
