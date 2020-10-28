@@ -137,7 +137,11 @@
                                 <div class="col p-1 text-center"><strong>Buy</strong></div>
                                 <div class="col p-1 text-center"><strong>Lose</strong></div>
                             </div>
-                            <!-- SHIP BUTTONS -->
+                            <ship-button v-for="ship in ships"
+                                         v-bind:ship="ship"
+                                         v-bind:quantity="ship.currentCount"
+                                         v-on:purchase-ship="purchaseShipCommand"
+                                         v-on:lose-ship="loseShipCommand" />
                         </div>
 
                         <div class="tab-pane fade" id="commands" role="tabpanel" aria-labelledby="commands-tab">
@@ -184,7 +188,7 @@
       <div class="row p-1">
             <div class="col p-1">
                 <button type="button" class="btn btn-success btn-block" v-on:click="purchaseShip">
-                    <small v-if="ship.short_name != ''">{{ ship.short_name }} - </small>{{ ship.name }} <small>({{ ship.cost }})</small>
+                    <small v-if="ship.shortName() != ''">{{ ship.shortName() }} - </small>{{ ship.name }} <small>({{ ship.cost }})</small>
                     <span class="badge badge-light">{{ quantity }}</span>
                 </button>
             </div>

@@ -3,15 +3,15 @@ import VuejsDialog from 'vuejs-dialog'
 import VueAnalytics from 'vue-analytics'
 import toastr from 'toastr'
 
+import { Ship } from './ships';
 import { TechnologyProgression } from './technologies';
 import { CommandFactory, AddColonyPointsCommand, AddMineralPointsCommand,
          SubtractBidPointsCommand, SubtractMaintenancePointsCommand,
-         EndTurnCommand, 
-         IncreaseTechCommand} from './commands';
+         EndTurnCommand, IncreaseTechCommand, PurchaseShipCommand,
+         LoseShipCommand } from './commands';
 
 import DATA from './assets/tech_ships.yaml';
 
-// TODO: import ships
 // TODO: import more commands
 
 var STORAGE_KEY = 'space-empires-4x-v3'
@@ -41,8 +41,18 @@ var spaceEmpiresStorage = {
   }
 }
 
-
-// TODO: SHIP BUTTON COMPONENT
+Vue.component('ship-button', {
+  template: '#ship-button',
+  props: ['ship', 'quantity'],
+  methods: {
+    purchaseShip: function () {
+      this.$emit('purchase-ship', this.ship);
+    },
+    loseShip: function () {
+      this.$emit('lose-ship', this.ship);
+    }
+  }
+})
 
 Vue.component('technology-button', {
   template: '#technology-button',
@@ -83,12 +93,8 @@ var vm = new Vue({
   methods: {
     initialData: function () {
       console.log(DATA);
-      var techs = [];
-      for (var i = 0; i < DATA['tech'].length; i++) {
-        var tp = new TechnologyProgression(DATA['tech'][i]);
-        techs.push(tp);
-
-      }
+      var techs = DATA['tech'].map(tech => new TechnologyProgression(tech));
+      var ships = DATA['ship'].map(ship => new Ship(ship));
       return {
         turn: 1,
         commands: [],
@@ -97,9 +103,7 @@ var vm = new Vue({
         mineralPoints: 0,
         bidPoints: 0,
         techs: techs,
-        ships: {
-          // TODO: SHIPS
-        }
+        ships: ships
       }
     },
     // TODO: FUNCTIONS FOR EACH SHIP?
@@ -110,13 +114,12 @@ var vm = new Vue({
         return this.initialData();
       };
       var data = spaceEmpiresStorage.fetch();
-      var tech_data = [];
-      for (var i = 0; i < data.techs.length; i++) {
-        tech_data.push(Object.assign(new TechnologyProgression(), JSON.parse(data.techs[i])));
-      }  
+      var tech_data = data.techs.map(tech => Object.assign(new TechnologyProgression(), JSON.parse(tech)));
       data.techs = tech_data;
-      // TODO: Ships Data Loading
 
+      var ship_data = data.ships.map(ship => Object.assign(new Ship(), JSON.parse(ship)));
+      data.ships = ship_data;
+      
       var commandFactory = new CommandFactory();
       
       data.commands = data.commands.map(function(command) { return commandFactory.create(production_sheet, data, command.name, command) });
@@ -124,10 +127,8 @@ var vm = new Vue({
       return data;
     },
     saveData: function() {
-      var tech_data = [];
-      for (var i = 0; i < this.techs.length; i++) {
-        tech_data.push(JSON.stringify(this.techs[i]));
-      }
+      var tech_data = this.techs.map(tech => JSON.stringify(tech));
+      var ship_data = this.ships.map(ship => JSON.stringify(ship));
       var data = {
         turn: this.turn,
         commands: this.commands.map(function(command) { return command.toDict();}),
@@ -136,9 +137,7 @@ var vm = new Vue({
         mineralPoints: this.mineralPoints,
         bidPoints: this.bidPoints,
         techs: tech_data,
-        ships: {
-          // TODO: SAVE SHIPS
-        }
+        ships: ship_data
       };
       spaceEmpiresStorage.save(data);
     },
@@ -252,9 +251,6 @@ var vm = new Vue({
 
      this._executeCommand(new IncreaseTechCommand(this, technology, wreck));
     },
-    increaseSpaceWreckTechnologyCommand: function(technology) {
-      // TODO: Do this part.
-    },
     hasSubtractedMaintenancePoints: function() {
       var result = false;
       this.commands.forEach(function (command) {
@@ -268,24 +264,47 @@ var vm = new Vue({
       return result;
     },
     purchaseShipCommand: function(ship) {
-      // TODO: Purchase ship command
+      if (!this.hasSubtractedMaintenancePoints()) {
+        this._notifyWarning('You cannot purchase ships until after subtracting maintenance.');
+        return;
+      }
+
+      if (!ship.requirementsMet(this.techs)) {
+        missing = ship.missingRequirements(this.techs);
+        warning = missing.map ( m => "You need " + m + " technology.").join("<br/>");
+        this._notifyWarning(warning);
+        return;
+      }
+
+      if (ship.cost > this.constructionPoints) {
+        this._notifyWarning('You do not have enough CPs');
+        return;
+      };
+
+      this._executeCommand(new PurchaseShipCommand(this, ship));
     },
     purchaseShip: function(ship) {
-      // TODO: Purchase ship
+      ship.increaseCount();
+      this.decreaseConstructionPoints(ship.cost);
     },
     sellShip: function(ship) {
-      // TODO: Sell ship
+      ship.decreaseCount();
+      this.increaseConstructionPoints(ship.cost);
     },
     loseShipCommand: function(ship) {
-      // TODO: Lose ship command
+      if (ship.currentCount <= 0) {
+        this._notifyWarning("You don't have any more " + ship.name + "s to lose.");
+        return;
+      }
+
+      this._executeCommand(new LoseShipCommand(this, ship));
     },
     loseShip: function(ship) {
-      // TODO: Lose ship
+      ship.decreaseCount();
     },
-    findShip: function(ship) {
-      // TODO: Find ship
+    regainShip: function(ship) {
+      ship.increaseCount();
     },
-    // TODO: Space Wreck Tech
     _executeCommand: function(command) {
       command.do();
       this.commands.push(command);
@@ -334,7 +353,9 @@ var vm = new Vue({
     // TODO: Count ships
     maintenance() {
       var result = 0;
-      // TODO: get ships
+      for (var ship of this.ships) {
+        result += ship.totalMaintenance();
+      }
       return result;
     }
   }

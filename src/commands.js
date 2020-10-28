@@ -151,8 +151,6 @@ export class EndTurnCommand {
   }
 }
 
-// TODO: ShipWreck commands: ShipSize, Attack, Defense, Tactics, Move, SY, Terraforming, Exploration
-
 export class IncreaseTechCommand {
   constructor(production_sheet, tech, wreck) {
     this._production_sheet = production_sheet;
@@ -187,9 +185,79 @@ export class IncreaseTechCommand {
   };
 
   static fromDict(production_sheet, data, dict) {
-    for (var i = 0; i < data.techs.length; i++) {
-      if (dict.tech == data.techs[i].title) {
-        return new IncreaseTechCommand(production_sheet, data.techs[i], dict.wreck)
+    for (var tech of data.techs) {
+      if (dict.tech == tech.title) {
+        return new IncreaseTechCommand(production_sheet, tech, dict.wreck)
+      }
+    }
+    return;
+  }
+}
+
+export class PurchaseShipCommand {
+  constructor(production_sheet, ship) {
+    this._production_sheet = production_sheet;
+    this._ship = ship;
+  }
+
+  do() {
+    this._production_sheet.purchaseShip(this._ship);
+  }
+
+  undo() {
+    this._production_sheet.sellShip(this._ship);
+  }
+
+  toString() {
+    return this._ship.name + " purchased.";
+  }
+
+  toDict() {
+    return {
+      name: "PurchaseShipCommand",
+      ship_type: this._ship.type
+    };
+  }
+
+  static fromDict(production_sheet, dict) {
+    for (var ship of data.ships) {
+      if (dict.ship_type == ship.type) {
+        return new PurchaseShipCommand(production_sheet, ship)
+      }
+    }
+    return;
+  }
+}
+
+export class LoseShipCommand {
+  constructor(production_sheet, ship) {
+    this._production_sheet = production_sheet;
+    this._ship = ship;
+  }
+
+  do() {
+    this._production_sheet.loseShip(this._ship);
+  }
+
+  undo() {
+    this._production_sheet.regainShip(this._ship);
+  }
+
+  toString() {
+    return this._ship.name + ' lost.';
+  }
+
+  toDict() {
+    return {
+      name: 'LoseShipCommand',
+      ship_type: this._ship.type
+    };
+  }
+
+  static fromDict(production_sheet, dict) {
+    for (var ship of data.ships) {
+      if (dict.ship_type == ship.type) {
+        return new LoseShipCommand(production_sheet, ship)
       }
     }
     return;

@@ -14,11 +14,15 @@ export class Ship {
 			this.maintenance = ship_data['maintenance'];
 		}
 		if ('prereq' in ship_data) {
-			prs = ship_data['prereq']
-			for (var i = 0; i < prs.length; i++) {
-				var pr = {'tech': prs[i]['name'], 'level': prs[i]['level']};
-				this._prereq.push(pr);
-			}
+			ship_data['prereq'].map (function(prereq) { return {'tech': prereq['name'], 'level': prereq['level']}} );
+		}
+	}
+
+	shortName() {
+		if (this.type === this.name) {
+			return '';
+		} else {
+			return this.type;
 		}
 	}
 
