@@ -138,6 +138,8 @@
                                 <div class="col p-1 text-center"><strong>Lose</strong></div>
                             </div>
                             <ship-button v-for="ship in ships"
+                                         v-bind:key="ship.type"
+                                         v-bind:techs="techs"
                                          v-bind:ship="ship"
                                          v-bind:quantity="ship.currentCount"
                                          v-on:purchase-ship="purchaseShipCommand"
@@ -185,7 +187,7 @@
     </div>
 
     <template id="ship-button">
-      <div class="row p-1">
+      <div class="row p-1" v-if="ship.requirementsMet(techs)">
             <div class="col p-1">
                 <button type="button" class="btn btn-success btn-block" v-on:click="purchaseShip">
                     <small v-if="ship.shortName() != ''">{{ ship.shortName() }} - </small>{{ ship.name }} <small>({{ ship.cost }})</small>

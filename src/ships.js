@@ -1,20 +1,26 @@
 export class Ship {
 	constructor(ship_data) {
+		if (ship_data === undefined) {
+      return;
+    }
 		this.type = ship_data['type']
 		this.name = ship_data['name']
 		this.cost = ship_data['cp']
 		this.hullSize = ship_data['hull']
 		this.shipSize = ship_data['size']
 		this._maintenance = true;
-		this._prereq = []
 		this._maxCount = 50
 		this.currentCount = 0;
 
 		if ('maintenance' in ship_data) {
 			this.maintenance = ship_data['maintenance'];
 		}
+		this._prereq = { 'Ship Size': this.shipSize };
+		
 		if ('prereq' in ship_data) {
-			ship_data['prereq'].map (function(prereq) { return {'tech': prereq['name'], 'level': prereq['level']}} );
+			for (var prereq of ship_data['prereq']) {
+				this._prereq[prereq['name']] = prereq['level'];
+			}
 		}
 	}
 
@@ -59,6 +65,12 @@ export class Ship {
 	}
 
 	requirementsMet(techs) {
+		for (var tech of techs) {
+			if (tech.title in this._prereq && this._prereq[tech.title] > tech.currentLevel) {
+				console.log(tech.title + ' is only level ' + tech.currentLevel + ', ' + this._prereq[tech.title] + ' needed.')
+				return false;
+			}
+		}
 		return true;
 	}
 }

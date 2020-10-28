@@ -43,7 +43,7 @@ var spaceEmpiresStorage = {
 
 Vue.component('ship-button', {
   template: '#ship-button',
-  props: ['ship', 'quantity'],
+  props: ['ship', 'quantity','techs'],
   methods: {
     purchaseShip: function () {
       this.$emit('purchase-ship', this.ship);
