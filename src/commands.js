@@ -1,5 +1,3 @@
-// TODO: IMPORT SHIPS
-
 export class AddColonyPointsCommand {
   constructor(production_sheet, points) {
     this._production_sheet = production_sheet;

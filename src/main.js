@@ -12,8 +12,6 @@ import { CommandFactory, AddColonyPointsCommand, AddMineralPointsCommand,
 
 import DATA from './assets/tech_ships.yaml';
 
-// TODO: import more commands
-
 var STORAGE_KEY = 'space-empires-4x-v3'
 
 var seen = [];
@@ -106,7 +104,6 @@ var vm = new Vue({
         ships: ships
       }
     },
-    // TODO: FUNCTIONS FOR EACH SHIP?
     loadData: function(production_sheet) {
       var isEmpty = Object.keys(spaceEmpiresStorage.fetch()).length === 0 &&
                                 spaceEmpiresStorage.fetch().constructor === Object;
@@ -350,7 +347,6 @@ var vm = new Vue({
       }
       return this.commands.slice().reverse();
     },
-    // TODO: Count ships
     maintenance() {
       var result = 0;
       for (var ship of this.ships) {
