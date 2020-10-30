@@ -162,7 +162,7 @@ ship:
       - name: Cloaking
         level: 1
   - type: CV
-    name: Raider
+    name: Carrier
     cp: 12
     hull: 1
     size: 1
