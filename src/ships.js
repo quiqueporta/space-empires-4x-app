@@ -67,7 +67,6 @@ export class Ship {
 	requirementsMet(techs) {
 		for (var tech of techs) {
 			if (tech.title in this._prereq && this._prereq[tech.title] > tech.currentLevel) {
-				console.log(tech.title + ' is only level ' + tech.currentLevel + ', ' + this._prereq[tech.title] + ' needed.')
 				return false;
 			}
 		}

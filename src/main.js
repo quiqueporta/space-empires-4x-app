@@ -90,7 +90,6 @@ var vm = new Vue({
   },
   methods: {
     initialData: function () {
-      console.log(DATA);
       var techs = DATA['tech'].map(tech => new TechnologyProgression(tech));
       var ships = DATA['ship'].map(ship => new Ship(ship));
       return {
