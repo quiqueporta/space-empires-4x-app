@@ -1,8 +1,8 @@
 {
   "name": "space_empires_4x",
   "description": "A Space Empires Production Sheet",
-  "version": "1.0.0",
-  "author": "Quique Porta <quiqueporta@gmail.com>",
+  "version": "3.0.0",
+  "author": "Scott Lewis <sigmazero13@gmail.com>, Quique Porta <quiqueporta@gmail.com>",
   "license": "MIT",
   "private": true,
   "scripts": {

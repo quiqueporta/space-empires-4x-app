@@ -1,7 +1,5 @@
 <template>
   <div id="app">
-    <div class="testitout">THIS IS A TEST</div>
-            
     <div class="container-fluid">
         <div class="row p-1">
             <div class="col">
@@ -30,47 +28,11 @@
                 <div class="tab-content" id="spaceEmpiresContent">
 
                     <div class="tab-pane fade show active" id="cp" role="tabpanel" aria-labelledby="cp-tab">
-                        <div class="container-fluid">
-                            <div class="row p-1">
-                                <div class="col p-1">
-                                    <div class="form-inline">
-                                        <div class="form-group">
-                                            <input type="number" class="form-control-lg pad-r" v-model="colonyPoints">
-                                        </div>
-                                            <button type="button" class="btn btn-primary" v-on:click="addColonyPoints">Add Colony Points</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row p-1">
-                                <div class="col p-1">
-                                    <button type="button" class="btn btn-primary" v-on:click="addFiveMineralPoints">Add 5 Mineral Points</button>
-                                </div>
-                                <div class="col p-1">
-                                    <button type="button" class="btn btn-primary" v-on:click="addTenMineralPoints">Add 10 Mineral Points</button>
-                                </div>
-                                <div class="col p-1">
-                                    <button type="button" class="btn btn-primary" v-on:click="addFifteenMineralPoints">Add 15 Mineral Points</button>
-                                </div>
-                            </div>
-                            <div class="row p-1">
-                                <div class="col p-1">
-                                    <button type="button" class="btn btn-warning" v-on:click="subtractMaintenancePoints">
-                                        Subtract Maintenance Points
-                                        <span class="badge badge-light">{{ maintenance }}</span>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="row p-1">
-                                <div class="col p-1">
-                                    <div class="form-inline">
-                                        <div class="form-group">
-                                            <input type="number" v-model="bidPoints" class="form-control-lg">
-                                        </div>
-                                        <button type="button" class="btn btn-warning" v-on:click="subtractBidPoints">Subtract Bid Points</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <CPTab v-bind:psheet="this"
+                               v-bind:colonyPoints="colonyPoints"
+                               v-bind:bidPoints="bidPoints"
+                               v-bind:maintenance="maintenance"
+                               v-bind:constructionPoints="constructionPoints" />
                     </div>
 
                     <div class="tab-pane fade" id="technologies" role="tabpanel" aria-labelledby="technologies-tab">
@@ -156,26 +118,27 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import VuejsDialog from 'vuejs-dialog'
-import VueAnalytics from 'vue-analytics'
+import Vue from 'vue';
+import VuejsDialog from 'vuejs-dialog';
+import VueAnalytics from 'vue-analytics';
+
+import CPTab from "./CPTab.vue";
 
 import ShipRow from "./ShipRow.vue";
 import TechRow from "./TechRow.vue";
 import SpaceWreckTechRow from "./SpaceWreckTechRow.vue";
 
-import toastr from 'toastr'
+import toastr from 'toastr';
 
-import { Ship } from './ships';
-import { TechnologyProgression } from './technologies';
-import { CommandFactory, AddColonyPointsCommand, AddMineralPointsCommand,
-         SubtractBidPointsCommand, SubtractMaintenancePointsCommand,
+import { Ship } from '../models/ships';
+import { TechnologyProgression } from '../models/technologies';
+import { CommandFactory,
          EndTurnCommand, IncreaseTechCommand, PurchaseShipCommand,
-         LoseShipCommand } from './commands';
+         LoseShipCommand } from '../models/commands';
 
-import DATA from './assets/tech_ships.yaml';
+import DATA from '../assets/tech_ships.yaml';
 
-var STORAGE_KEY = 'space-empires-4x-v3'
+var STORAGE_KEY = 'space-empires-4x-v3-sz13'
 
 var seen = [];
 
@@ -213,7 +176,7 @@ Vue.use(VueAnalytics, {
 
 export default {
   name: "App",
-  components: { ShipRow, TechRow, SpaceWreckTechRow },
+  components: { CPTab, ShipRow, TechRow, SpaceWreckTechRow },
    data: function() {
     return this.loadData(this);
   },
@@ -281,52 +244,6 @@ export default {
       var command = this.commands.pop();
       command.undo();
       this.saveData();
-    },
-    addColonyPoints: function () {
-      if (this.colonyPoints <= 0) {
-        this._notifyWarning('Colony Points must be more than 0');
-        return;
-      }
-
-      this._executeCommand(new AddColonyPointsCommand(this, this.colonyPoints));
-    },
-    addMineralPoints: function(points) {
-      if (points <= 0) {
-        this._notifyWarning('Mineral Points must be more than 0');
-        return;
-      }
-
-      this._executeCommand(new AddMineralPointsCommand(this, points));
-    },
-    addFiveMineralPoints: function () {
-      this.addMineralPoints(5);
-    },
-    addTenMineralPoints: function () {
-      this.addMineralPoints(10);
-    },
-    addFifteenMineralPoints: function () {
-      this.addMineralPoints(15);
-    },
-    subtractBidPoints: function () {
-      if (this.bidPoints > this.constructionPoints) {
-        this._notifyWarning('You do not have enough CP for that bid.');
-        return;
-      }
-
-      if (this.bidPoints < 0) {
-        this._executeCommand('Your bid cannot be less than 0');
-        return;
-      }
-
-      this._executeCommand(new SubtractBidPointsCommand(this, this.bidPoints));
-      this.bidPoints = 0;
-    },
-    subtractMaintenancePoints: function () {
-      if (this.maintenance > this.constructionPoints) {
-        this._executeCommand(new SubtractMaintenancePointsCommand(this, this.constructionPoints));
-      } else {
-        this._executeCommand(new SubtractMaintenancePointsCommand(this, this.maintenance));
-      }
     },
     endTurn: function() {
       if (this.turn >= 20) {
@@ -496,10 +413,6 @@ export default {
 </script>
 
 <style>
-.testitout {
-  color: red;
-  font-size: 30pt;
-}
 .pad-r {
   margin-right: 10px;
 }
