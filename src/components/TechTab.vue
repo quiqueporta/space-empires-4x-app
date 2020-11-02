@@ -50,7 +50,7 @@ import SpaceWreckTechRow from "./SpaceWreckTechRow.vue";
 export default {
   name: "TechTab",
   components: { TechRow, SpaceWreckTechRow },
-  props: [ 'techs', 'constructionPoints', 'psheet' ],
+  props: [ 'techs', 'psheet' ],
   methods: {
     increaseTechnologyCommand: function(tech_info) {
       var technology = tech_info['technology'];
@@ -64,7 +64,7 @@ export default {
       if (technology.onMaxLevel()) {
         this.psheet._notifyWarning(technology.title + ' is already at maximum.');
         return;
-      } else if (!wreck && !technology.canIncrease(this.constructionPoints)) {
+      } else if (!wreck && !technology.canIncrease(this.psheet.constructionPoints)) {
         this.psheet._notifyWarning('You do not have enough CP to increase ' + technology.title + '.');
         return;
       }

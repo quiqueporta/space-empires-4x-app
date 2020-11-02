@@ -4,7 +4,7 @@
           <div class="col p-1">
               <div class="form-inline">
                   <div class="form-group">
-                      <input type="number" class="form-control-lg pad-r" v-model="colonyPoints">
+                      <input type="number" class="form-control-lg pad-r" v-model="psheet.colonyPoints">
                   </div>
                       <button type="button" class="btn btn-primary" v-on:click="addColonyPoints">Add Colony Points</button>
               </div>
@@ -25,7 +25,7 @@
           <div class="col p-1">
               <button type="button" class="btn btn-warning" v-on:click="subtractMaintenancePoints">
                   Subtract Maintenance Points
-                  <span class="badge badge-light">{{ maintenance }}</span>
+                  <span class="badge badge-light">{{ psheet.maintenance }}</span>
               </button>
           </div>
       </div>
@@ -33,7 +33,7 @@
           <div class="col p-1">
               <div class="form-inline">
                   <div class="form-group">
-                      <input type="number" v-model="bidPoints" class="form-control-lg">
+                      <input type="number" v-model="psheet.bidPoints" class="form-control-lg">
                   </div>
                   <button type="button" class="btn btn-warning" v-on:click="subtractBidPoints">Subtract Bid Points</button>
               </div>
@@ -48,19 +48,19 @@ import { AddColonyPointsCommand, AddMineralPointsCommand, SubtractBidPointsComma
 
 export default {
   name: "CPTab",
-  props: [ 'colonyPoints', 'bidPoints', 'constructionPoints', 'maintenance', 'psheet' ],
+  props: [ 'psheet' ],
   methods: {
     addColonyPoints: function () {
-      if (this.colonyPoints <= 0) {
+      if (this.psheet.colonyPoints <= 0) {
         this.psheet._notifyWarning('Colony Points must be more than 0');
         return;
       }
 
-      this.psheet._executeCommand(new AddColonyPointsCommand(this.psheet, this.colonyPoints));
+      this.psheet._executeCommand(new AddColonyPointsCommand(this.psheet, this.psheet.colonyPoints));
     },
     addMineralPoints: function(points) {
       if (points <= 0) {
-        this._notifyWarning('Mineral Points must be more than 0');
+        this.psheet._notifyWarning('Mineral Points must be more than 0');
         return;
       }
 
@@ -76,7 +76,7 @@ export default {
       this.addMineralPoints(15);
     },
     subtractBidPoints: function () {
-      if (this.psheet.bidPoints > this.constructionPoints) {
+      if (this.psheet.bidPoints > this.psheet.constructionPoints) {
         this.psheet._notifyWarning('You do not have enough CP for that bid.');
         return;
       }
@@ -86,14 +86,14 @@ export default {
         return;
       }
 
-      this.psheet._executeCommand(new SubtractBidPointsCommand(this.psheet, this.bidPoints));
-      this.bidPoints = 0;
+      this.psheet._executeCommand(new SubtractBidPointsCommand(this.psheet, this.psheet.bidPoints));
+      this.psheet.bidPoints = 0;
     },
     subtractMaintenancePoints: function () {
-      if (this.maintenance > this.constructionPoints) {
-        this.psheet._executeCommand(new SubtractMaintenancePointsCommand(this.psheet, this.constructionPoints));
+      if (this.psheet.maintenance > this.psheet.constructionPoints) {
+        this.psheet._executeCommand(new SubtractMaintenancePointsCommand(this.psheet, this.psheet.constructionPoints));
       } else {
-        this.psheet._executeCommand(new SubtractMaintenancePointsCommand(this.psheet, this.maintenance));
+        this.psheet._executeCommand(new SubtractMaintenancePointsCommand(this.psheet, this.psheet.maintenance));
       }
     }
   }

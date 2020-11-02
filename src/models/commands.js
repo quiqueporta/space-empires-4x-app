@@ -2,6 +2,7 @@ export class AddColonyPointsCommand {
   constructor(production_sheet, points) {
     this._production_sheet = production_sheet;
     this._points = parseInt(points);
+    this._key = Date.now();
   }
 
   do() {
@@ -23,6 +24,10 @@ export class AddColonyPointsCommand {
     };
   }
 
+  key() {
+    return this._key;
+  }
+
   static fromDict(production_sheet, _data, dict) {
     return new AddColonyPointsCommand(production_sheet, dict.points);
   }
@@ -32,6 +37,7 @@ export class AddMineralPointsCommand {
   constructor(production_sheet, points) {
     this._production_sheet = production_sheet;
     this._points = parseInt(points);
+    this._key = Date.now();
   }
 
   do() {
@@ -53,6 +59,10 @@ export class AddMineralPointsCommand {
     };
   }
 
+  key() {
+    return this._key;
+  }
+
   static fromDict(production_sheet, _data, dict) {
     return new AddMineralPointsCommand(production_sheet, dict.points);
   }
@@ -62,6 +72,7 @@ export class SubtractMaintenancePointsCommand {
   constructor(production_sheet, points) {
     this._production_sheet = production_sheet;
     this._points = parseInt(points);
+    this._key = Date.now();
   }
 
   do() {
@@ -83,6 +94,10 @@ export class SubtractMaintenancePointsCommand {
     };
   }
 
+  key() {
+    return this._key;
+  }
+
   static fromDict(production_sheet, _data, dict) {
     return new SubtractMaintenancePointsCommand(production_sheet, dict.points);
   }
@@ -92,6 +107,7 @@ export class SubtractBidPointsCommand {
   constructor(production_sheet, points) {
     this._production_sheet = production_sheet;
     this._points = parseInt(points);
+    this._key = Date.now();
   }
 
   do() {
@@ -113,6 +129,10 @@ export class SubtractBidPointsCommand {
     };
   }
 
+  key() {
+    return this._key;
+  }
+
   static fromDict(production_sheet, _data, dict) {
     return new SubtractBidPointsCommand(production_sheet, dict.points);
   }
@@ -122,6 +142,7 @@ export class EndTurnCommand {
   constructor(production_sheet, turn) {
     this._production_sheet = production_sheet;
     this._turn = turn;
+    this._key = Date.now();
   }
 
   do() {
@@ -136,12 +157,15 @@ export class EndTurnCommand {
     return "End turn " + this._turn + " with " + this._production_sheet.constructionPoints + " CPs.";
   }
 
-
   toDict() {
     return {
         name: "EndTurnCommand",
         turn: this._turn
     };
+  }
+
+  key() {
+    return this._key;
   }
 
   static fromDict(production_sheet, _data, dict) {
@@ -154,6 +178,7 @@ export class IncreaseTechCommand {
     this._production_sheet = production_sheet;
     this._tech = tech;
     this._wreck = wreck;
+    this._key = Date.now();
   }
 
   do () {
@@ -180,7 +205,11 @@ export class IncreaseTechCommand {
       tech: this._tech.title,
       wreck: this._wreck
     }
-  };
+  }
+
+  key() {
+    return this._key;
+  }
 
   static fromDict(production_sheet, data, dict) {
     for (var tech of data.techs) {
@@ -196,6 +225,7 @@ export class PurchaseShipCommand {
   constructor(production_sheet, ship) {
     this._production_sheet = production_sheet;
     this._ship = ship;
+    this._key = Date.now();
   }
 
   do() {
@@ -217,6 +247,10 @@ export class PurchaseShipCommand {
     };
   }
 
+  key() {
+    return this._key;
+  }
+
   static fromDict(production_sheet, dict) {
     for (var ship of data.ships) {
       if (dict.ship_type == ship.type) {
@@ -231,6 +265,7 @@ export class LoseShipCommand {
   constructor(production_sheet, ship) {
     this._production_sheet = production_sheet;
     this._ship = ship;
+    this._key = Date.now();
   }
 
   do() {
@@ -250,6 +285,10 @@ export class LoseShipCommand {
       name: 'LoseShipCommand',
       ship_type: this._ship.type
     };
+  }
+
+  key() {
+    return this._key;
   }
 
   static fromDict(production_sheet, dict) {

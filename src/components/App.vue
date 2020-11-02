@@ -28,31 +28,18 @@
                 <div class="tab-content" id="spaceEmpiresContent">
 
                     <div class="tab-pane fade show active" id="cp" role="tabpanel" aria-labelledby="cp-tab">
-                        <CPTab v-bind:psheet="this"
-                               v-bind:colonyPoints="colonyPoints"
-                               v-bind:bidPoints="bidPoints"
-                               v-bind:maintenance="maintenance"
-                               v-bind:constructionPoints="constructionPoints" />
+                        <CPTab v-bind:psheet="this" />
                     </div>
 
                     <div class="tab-pane fade" id="technologies" role="tabpanel" aria-labelledby="technologies-tab">
                         <TechTab v-bind:psheet="this"
-                                 v-bind:techs="techs"
-                                 v-bind:constructionPoints="constructionPoints" />
+                                 v-bind:techs="techs" />
                     </div>
 
                     <div class="tab-pane fade container" id="ships" role="tabpanel" aria-labelledby="ships-tab">
-                        <div class="row p-1">
-                            <div class="col p-1 text-center"><strong>Buy</strong></div>
-                            <div class="col p-1 text-center"><strong>Lose</strong></div>
-                        </div>
-                        <ShipRow v-for="ship in ships"
-                                 v-bind:key="ship.type"
-                                 v-bind:techs="techs"
-                                 v-bind:ship="ship"
-                                 v-bind:quantity="ship.currentCount"
-                                 v-on:purchase-ship="purchaseShipCommand"
-                                 v-on:lose-ship="loseShipCommand" />
+                        <ShipTab v-bind:psheet="this"
+                                 v-bind:ships="ships"
+                                 v-bind:techs="techs" />
                     </div>
 
                     <div class="tab-pane fade" id="commands" role="tabpanel" aria-labelledby="commands-tab">
@@ -65,7 +52,7 @@
                             <div class="col p-1">
                                 <ul>
                                     <li v-for="command in reverseCommands"
-                                        v-bind:key="command"
+                                        v-bind:key="command.key()"
                                         >
                                         {{ command.toString() }}
                                     </li>
@@ -89,16 +76,14 @@ import VueAnalytics from 'vue-analytics';
 
 import CPTab from "./CPTab.vue";
 import TechTab from "./TechTab.vue";
-
-import ShipRow from "./ShipRow.vue";
+import ShipTab from "./ShipTab.vue";
 
 import toastr from 'toastr';
 
 import { Ship } from '../models/ships';
 import { TechnologyProgression } from '../models/technologies';
-import { CommandFactory,
-         EndTurnCommand, IncreaseTechCommand, PurchaseShipCommand,
-         LoseShipCommand } from '../models/commands';
+import { CommandFactory, SubtractMaintenancePointsCommand,
+         EndTurnCommand } from '../models/commands';
 
 import DATA from '../assets/tech_ships.yaml';
 
@@ -140,7 +125,7 @@ Vue.use(VueAnalytics, {
 
 export default {
   name: "App",
-  components: { CPTab, TechTab, ShipRow },
+  components: { CPTab, TechTab, ShipTab },
    data: function() {
     return this.loadData(this);
   },
@@ -250,26 +235,6 @@ export default {
       });
       return result;
     },
-    purchaseShipCommand: function(ship) {
-      if (!this.hasSubtractedMaintenancePoints()) {
-        this._notifyWarning('You cannot purchase ships until after subtracting maintenance.');
-        return;
-      }
-
-      if (!ship.requirementsMet(this.techs)) {
-        missing = ship.missingRequirements(this.techs);
-        warning = missing.map ( m => "You need " + m + " technology.").join("<br/>");
-        this._notifyWarning(warning);
-        return;
-      }
-
-      if (ship.cost > this.constructionPoints) {
-        this._notifyWarning('You do not have enough CPs');
-        return;
-      };
-
-      this._executeCommand(new PurchaseShipCommand(this, ship));
-    },
     purchaseShip: function(ship) {
       ship.increaseCount();
       this.decreaseConstructionPoints(ship.cost);
@@ -277,14 +242,6 @@ export default {
     sellShip: function(ship) {
       ship.decreaseCount();
       this.increaseConstructionPoints(ship.cost);
-    },
-    loseShipCommand: function(ship) {
-      if (ship.currentCount <= 0) {
-        this._notifyWarning("You don't have any more " + ship.name + "s to lose.");
-        return;
-      }
-
-      this._executeCommand(new LoseShipCommand(this, ship));
     },
     loseShip: function(ship) {
       ship.decreaseCount();
