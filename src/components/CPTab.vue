@@ -4,7 +4,7 @@
           <div class="col p-1">
               <div class="form-inline">
                   <div class="form-group">
-                      <input type="number" class="form-control-lg pad-r" v-model="psheet.colonyPoints">
+                      <input type="number" class="form-control-lg pad-r" v-model="colonyPoints">
                   </div>
                       <button type="button" class="btn btn-primary" v-on:click="addColonyPoints">Add Colony Points</button>
               </div>
@@ -25,7 +25,7 @@
           <div class="col p-1">
               <button type="button" class="btn btn-warning" v-on:click="subtractMaintenancePoints">
                   Subtract Maintenance Points
-                  <span class="badge badge-light">{{ psheet.maintenance }}</span>
+                  <span class="badge badge-light">{{ maintenance }}</span>
               </button>
           </div>
       </div>
@@ -33,7 +33,7 @@
           <div class="col p-1">
               <div class="form-inline">
                   <div class="form-group">
-                      <input type="number" v-model="psheet.bidPoints" class="form-control-lg">
+                      <input type="number" v-model="bidPoints" class="form-control-lg">
                   </div>
                   <button type="button" class="btn btn-warning" v-on:click="subtractBidPoints">Subtract Bid Points</button>
               </div>

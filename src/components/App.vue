@@ -36,44 +36,9 @@
                     </div>
 
                     <div class="tab-pane fade" id="technologies" role="tabpanel" aria-labelledby="technologies-tab">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Technology</th>
-                                    <th scope="col">New Technology Level (CP Cost)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr is="TechRow" 
-                                    v-for="technology in normalTechs()"
-                                    v-bind:key="technology.name"
-                                    v-bind:technology="technology"
-                                    v-bind:title="technology.title"
-                                    v-on:increase-technology="increaseTechnologyCommand"></tr>
-                                <tr><td><strong>Advanced</strong></td></tr>
-                                <tr is="TechRow"
-                                    v-for="technology in advancedTechs()"
-                                    v-bind:key="technology.name"
-                                    v-bind:technology="technology"
-                                    v-bind:title="technology.title"
-                                    v-on:increase-technology="increaseTechnologyCommand"></tr>
-                            </tbody>
-                        </table>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Space Wreck Technology</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr is="SpaceWreckTechRow"
-                                    v-for="technology in wreckTechs()"
-                                    v-bind:key="technology.name"
-                                    v-bind:technology="technology"
-                                    v-bind:title="technology.title"
-                                    v-on:increase-technology="increaseTechnologyCommand"></tr>
-                            </tbody>
-                        </table>
+                        <TechTab v-bind:psheet="this"
+                                 v-bind:techs="techs"
+                                 v-bind:constructionPoints="constructionPoints" />
                     </div>
 
                     <div class="tab-pane fade container" id="ships" role="tabpanel" aria-labelledby="ships-tab">
@@ -123,10 +88,9 @@ import VuejsDialog from 'vuejs-dialog';
 import VueAnalytics from 'vue-analytics';
 
 import CPTab from "./CPTab.vue";
+import TechTab from "./TechTab.vue";
 
 import ShipRow from "./ShipRow.vue";
-import TechRow from "./TechRow.vue";
-import SpaceWreckTechRow from "./SpaceWreckTechRow.vue";
 
 import toastr from 'toastr';
 
@@ -176,7 +140,7 @@ Vue.use(VueAnalytics, {
 
 export default {
   name: "App",
-  components: { CPTab, ShipRow, TechRow, SpaceWreckTechRow },
+  components: { CPTab, TechTab, ShipRow },
    data: function() {
     return this.loadData(this);
   },
@@ -274,25 +238,6 @@ export default {
     decreaseConstructionPoints: function(points) {
       this.constructionPoints -= points;
     },
-    increaseTechnologyCommand: function(tech_info) {
-      var technology = tech_info['technology'];
-      var wreck = tech_info['wreck'];
-
-      if (!wreck && !this.hasSubtractedMaintenancePoints()) {
-        this._notifyWarning('You cannot purchase technology until after subtracting maintenance.');
-        return;
-      }
-
-      if (technology.onMaxLevel()) {
-        this._notifyWarning(technology.title + ' is already at maximum.');
-        return;
-      } else if (!wreck && !technology.canIncrease(this.constructionPoints)) {
-        this._notifyWarning('You do not have enough CP to increase ' + technology.title + '.');
-        return;
-      }
-
-     this._executeCommand(new IncreaseTechCommand(this, technology, wreck));
-    },
     hasSubtractedMaintenancePoints: function() {
       var result = false;
       this.commands.forEach(function (command) {
@@ -383,15 +328,6 @@ export default {
     _notifyInfo: function(message) {
       this._notifyOptions();
       toastr.info(message);
-    },
-    normalTechs: function() {
-      return this.techs.filter(tech => !tech.advanced);
-    },
-    advancedTechs: function() {
-      return this.techs.filter(tech => tech.advanced);
-    },
-    wreckTechs: function() {
-      return this.techs.filter(tech => tech.wreck);
     }
   },
   computed: {
