@@ -26,7 +26,6 @@
                 </ul>
 
                 <div class="tab-content" id="spaceEmpiresContent">
-
                     <div class="tab-pane fade show active" id="cp" role="tabpanel" aria-labelledby="cp-tab">
                         <CPTab v-bind:psheet="this" />
                     </div>
@@ -43,26 +42,9 @@
                     </div>
 
                     <div class="tab-pane fade" id="commands" role="tabpanel" aria-labelledby="commands-tab">
-                        <div class="row p-1">
-                            <div class="col p-1 mt-5">
-                                <button type="button" class="btn btn-warning btn-block" v-on:click="undo">Undo</button>
-                            </div>
-                        </div>
-                        <div class="row p-1">
-                            <div class="col p-1">
-                                <ul>
-                                    <li v-for="command in reverseCommands"
-                                        v-bind:key="command.key()"
-                                        >
-                                        {{ command.toString() }}
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+                        <HistoryTab v-bind:psheet="this" />
                     </div>
-
                 </div>
-
             </div>
         </div>
     </div>
@@ -77,6 +59,7 @@ import VueAnalytics from 'vue-analytics';
 import CPTab from "./CPTab.vue";
 import TechTab from "./TechTab.vue";
 import ShipTab from "./ShipTab.vue";
+import HistoryTab from "./HistoryTab.vue";
 
 import toastr from 'toastr';
 
@@ -125,7 +108,7 @@ Vue.use(VueAnalytics, {
 
 export default {
   name: "App",
-  components: { CPTab, TechTab, ShipTab },
+  components: { CPTab, TechTab, ShipTab, HistoryTab },
    data: function() {
     return this.loadData(this);
   },
@@ -184,15 +167,6 @@ export default {
       location.reload();
     },
     doNothing: function() {
-    },
-    undo: function() {
-      if (this.commands.length <= 0) {
-        return;
-      }
-
-      var command = this.commands.pop();
-      command.undo();
-      this.saveData();
     },
     endTurn: function() {
       if (this.turn >= 20) {
@@ -288,12 +262,6 @@ export default {
     }
   },
   computed: {
-    reverseCommands() {
-      if (this.commands === undefined) {
-        this.commands = [];
-      }
-      return this.commands.slice().reverse();
-    },
     maintenance() {
       var result = 0;
       for (var ship of this.ships) {

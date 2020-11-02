@@ -9,14 +9,14 @@
         </thead>
         <tbody>
             <tr is="TechRow" 
-                v-for="technology in normalTechs()"
+                v-for="technology in normalTechs"
                 v-bind:key="technology.name"
                 v-bind:technology="technology"
                 v-bind:title="technology.title"
                 v-on:increase-technology="increaseTechnologyCommand"></tr>
             <tr><td><strong>Advanced</strong></td></tr>
             <tr is="TechRow"
-                v-for="technology in advancedTechs()"
+                v-for="technology in advancedTechs"
                 v-bind:key="technology.name"
                 v-bind:technology="technology"
                 v-bind:title="technology.title"
@@ -31,7 +31,7 @@
         </thead>
         <tbody>
             <tr is="SpaceWreckTechRow"
-                v-for="technology in wreckTechs()"
+                v-for="technology in wreckTechs"
                 v-bind:key="technology.name"
                 v-bind:technology="technology"
                 v-bind:title="technology.title"
@@ -71,6 +71,8 @@ export default {
 
      this.psheet._executeCommand(new IncreaseTechCommand(this.psheet, technology, wreck));
     },
+  },
+  computed: {
     normalTechs: function() {
       return this.techs.filter(tech => !tech.advanced);
     },
