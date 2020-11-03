@@ -1,36 +1,36 @@
 <template>
   <div id="app">
     <b-container>
-        <b-row>
-            <b-col>
-                <h2>Turn {{ turn }} - CPs <span class="badge badge-info">{{ constructionPoints }}</span></h2>
-            </b-col>
-        </b-row>
-        <b-row>
-            <b-col>
-                <button v-confirm="{ok: clearAll, cancel: doNothing, message: 'Are you sure?'}" class="btn btn-danger">Clear All</button>
-                <button type="button" class="btn btn-dark" v-on:click="endTurn">End Turn</button>
-            </b-col>
-        </b-row>
-        <b-row>
-          <b-tabs content-class="mt-3">
-            <b-tab title="CPs" active>
-              <CPTab v-bind:psheet="this" />
-            </b-tab>
-            <b-tab title="Tech">
-              <TechTab v-bind:psheet="this"
-                       v-bind:techs="techs" />
-            </b-tab>
-            <b-tab title="Ships">
-              <ShipTab v-bind:psheet="this"
-                       v-bind:ships="ships"
-                       v-bind:techs="techs" />
-            </b-tab>
-            <b-tab title="History">
-              <HistoryTab v-bind:psheet="this" />
-            </b-tab>
-          </b-tabs>
-        </b-row>
+      <b-row>
+        <b-col>
+          <h2>Turn {{ turn }} - CPs <span class="badge badge-info">{{ constructionPoints }}</span></h2>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          <button v-confirm="{ok: clearAll, cancel: doNothing, message: 'Are you sure?'}" class="btn btn-danger">Clear All</button>
+          <button type="button" class="btn btn-dark" v-on:click="endTurn">End Turn</button>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-tabs content-class="mt-3">
+          <b-tab title="CPs" active>
+            <CPTab v-bind:psheet="this" />
+          </b-tab>
+          <b-tab title="Tech">
+            <TechTab v-bind:psheet="this"
+                      v-bind:techs="techs" />
+          </b-tab>
+          <b-tab title="Ships">
+            <ShipTab v-bind:psheet="this"
+                      v-bind:ships="ships"
+                      v-bind:techs="techs" />
+          </b-tab>
+          <b-tab title="History">
+            <HistoryTab v-bind:psheet="this" />
+          </b-tab>
+        </b-tabs>
+      </b-row>
     </b-container>
   </div>  
 </template>
@@ -46,9 +46,6 @@ import CPTab from "./CPTab.vue";
 import TechTab from "./TechTab.vue";
 import ShipTab from "./ShipTab.vue";
 import HistoryTab from "./HistoryTab.vue";
-
-// import toastr from 'toastr';
-import VueToastr from 'vue-toastr';
 
 import { Ship } from '../models/ships';
 import { TechnologyProgression } from '../models/technologies';
@@ -94,7 +91,6 @@ Vue.use(VueAnalytics, {
 });
 
 Vue.use(BootstrapVue);
-Vue.use(VueToastr);
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
@@ -257,6 +253,9 @@ export default {
 </script>
 
 <style>
+.tabs {
+  padding-top: 15px;
+}
 .pad-r {
   margin-right: 10px;
 }

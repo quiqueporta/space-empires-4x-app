@@ -1,45 +1,31 @@
 <template>
-  <div class="container-fluid">
-      <div class="row p-1">
-          <div class="col p-1">
-              <div class="form-inline">
-                  <div class="form-group">
-                      <input type="number" class="form-control-lg pad-r" v-model="psheet.colonyPoints">
-                  </div>
-                      <button type="button" class="btn btn-primary" v-on:click="addColonyPoints">Add Colony Points</button>
-              </div>
-          </div>
-      </div>
-      <div class="row p-1">
-          <div class="col p-1">
-              <button type="button" class="btn btn-primary" v-on:click="addFiveMineralPoints">Add 5 Mineral Points</button>
-          </div>
-          <div class="col p-1">
-              <button type="button" class="btn btn-primary" v-on:click="addTenMineralPoints">Add 10 Mineral Points</button>
-          </div>
-          <div class="col p-1">
-              <button type="button" class="btn btn-primary" v-on:click="addFifteenMineralPoints">Add 15 Mineral Points</button>
-          </div>
-      </div>
-      <div class="row p-1">
-          <div class="col p-1">
-              <button type="button" class="btn btn-warning" v-on:click="subtractMaintenancePoints">
-                  Subtract Maintenance Points
-                  <span class="badge badge-light">{{ psheet.maintenance }}</span>
-              </button>
-          </div>
-      </div>
-      <div class="row p-1">
-          <div class="col p-1">
-              <div class="form-inline">
-                  <div class="form-group">
-                      <input type="number" v-model="psheet.bidPoints" class="form-control-lg">
-                  </div>
-                  <button type="button" class="btn btn-warning" v-on:click="subtractBidPoints">Subtract Bid Points</button>
-              </div>
-          </div>
-      </div>
-  </div>
+  <b-container>
+    <b-form-row>
+      <b-col><b-form-input v-model="psheet.colonyPoints" :type="number" /></b-col>
+      <b-col>
+        <b-button variant="primary" v-on:click="addColonyPoints">Add Colony Points</b-button>
+      </b-col>
+    </b-form-row>
+    <b-form-row>
+      <b-col><b-button variant="primary" v-on:click="addFiveMineralPoints">Add 5 Mineral Points</b-button></b-col>
+      <b-col><b-button variant="primary" v-on:click="addTenMineralPoints">Add 10 Mineral Points</b-button></b-col>
+      <b-col><b-button variant="primary" v-on:click="addFifteenMineralPoints">Add 15 Mineral Points</b-button></b-col>
+    </b-form-row>
+    <b-form-row>
+      <b-col>
+        <b-button variant="warning" v-on:click="subtractMaintenancePoints">
+          Subtract Maintenance Points
+          <b-badge variant="light">{{ psheet.maintenance }}</b-badge>
+        </b-button>
+      </b-col>
+    </b-form-row>
+    <b-form-row>
+      <b-col><b-form-input v-model="psheet.bidPoints" :type="number" /></b-col>
+      <b-col>
+        <b-button variant="warning" v-on:click="subtractBidPoints">Subtract Bid Points</b-button>
+      </b-col>
+    </b-form-row>
+  </b-container>
 </template>
 
 <script>
@@ -99,3 +85,10 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.form-row {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+</style>
