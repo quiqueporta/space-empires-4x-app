@@ -1,44 +1,27 @@
 <template>
-  <div class="container-fluid">
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Technology</th>
-                <th scope="col">New Technology Level (CP Cost)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr is="TechRow" 
-                v-for="technology in normalTechs"
-                v-bind:key="technology.name"
-                v-bind:technology="technology"
-                v-bind:title="technology.title"
-                v-on:increase-technology="increaseTechnologyCommand"></tr>
-            <tr><td><strong>Advanced</strong></td></tr>
-            <tr is="TechRow"
-                v-for="technology in advancedTechs"
-                v-bind:key="technology.name"
-                v-bind:technology="technology"
-                v-bind:title="technology.title"
-                v-on:increase-technology="increaseTechnologyCommand"></tr>
-        </tbody>
-    </table>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Space Wreck Technology</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr is="SpaceWreckTechRow"
-                v-for="technology in wreckTechs"
-                v-bind:key="technology.name"
-                v-bind:technology="technology"
-                v-bind:title="technology.title"
-                v-on:increase-technology="increaseTechnologyCommand"></tr>
-        </tbody>
-    </table>
-  </div>
+  <b-container fluid>
+    <b-row>
+      <b-col><strong>Technology</strong></b-col>
+      <b-col><strong>New Tech Level (CP Cost)</strong></b-col>
+    </b-row>
+    <TechRow
+      v-for="technology in normalTechs"
+      v-bind:key="technology.title"
+      v-bind:technology="technology"
+      v-on:increase-technology="increaseTechnologyCommand" />
+    <div class="w-100"><strong>Advanced</strong></div>
+    <TechRow
+      v-for="technology in advancedTechs"
+      v-bind:key="technology.title"
+      v-bind:technology="technology"
+      v-on:increase-technology="increaseTechnologyCommand" />
+    <div class="w-100"><strong>Space Wreck Technology</strong></div>
+    <SpaceWreckTechRow
+      v-for="technology in wreckTechs"
+      v-bind:key="wreckKey(technology)"
+      v-bind:technology="technology"
+      v-on:increase-technology="increaseTechnologyCommand" />
+  </b-container>
 </template>
 
 <script>
@@ -71,6 +54,9 @@ export default {
 
      this.psheet._executeCommand(new IncreaseTechCommand(this.psheet, technology, wreck));
     },
+    wreckKey: function(tech) {
+      return tech.title + " Wreck";
+    }
   },
   computed: {
     normalTechs: function() {

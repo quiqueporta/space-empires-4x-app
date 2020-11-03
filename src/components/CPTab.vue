@@ -1,7 +1,7 @@
 <template>
-  <b-container>
+  <b-container fluid>
     <b-form-row>
-      <b-col><b-form-input v-model="psheet.colonyPoints" :type="number" /></b-col>
+      <b-col><b-form-input v-model="psheet.colonyPoints" type="number" /></b-col>
       <b-col>
         <b-button variant="primary" v-on:click="addColonyPoints">Add Colony Points</b-button>
       </b-col>
@@ -20,7 +20,7 @@
       </b-col>
     </b-form-row>
     <b-form-row>
-      <b-col><b-form-input v-model="psheet.bidPoints" :type="number" /></b-col>
+      <b-col><b-form-input v-model="psheet.bidPoints" type="number" /></b-col>
       <b-col>
         <b-button variant="warning" v-on:click="subtractBidPoints">Subtract Bid Points</b-button>
       </b-col>

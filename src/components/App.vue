@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <b-container>
+    <b-container fluid>
       <b-row>
         <b-col>
           <h2>Turn {{ turn }} - CPs <span class="badge badge-info">{{ constructionPoints }}</span></h2>
@@ -255,6 +255,7 @@ export default {
 <style>
 .tabs {
   padding-top: 15px;
+  width: 90%
 }
 .pad-r {
   margin-right: 10px;
