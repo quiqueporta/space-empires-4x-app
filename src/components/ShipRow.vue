@@ -1,17 +1,15 @@
 <template>
-  <div class="row p-1" v-if="ship.requirementsMet(techs)">
-        <div class="col p-1">
-            <button type="button" class="btn btn-success btn-block" v-on:click="purchaseShip">
-                <small v-if="ship.shortName() != ''">{{ ship.shortName() }} - </small>{{ ship.name }} <small>({{ ship.cost }})</small>
-                <span class="badge badge-light">{{ quantity }}</span>
-            </button>
-        </div>
-        <div class="col p-1">
-            <button type="button" class="btn btn-danger btn-block" v-on:click="loseShip">
-                {{ ship.name }}
-            </button>
-        </div>
-  </div>
+  <b-row v-if="ship.requirementsMet(techs)">
+    <b-col>
+      <b-button variant="success" v-on:click="purchaseShip">
+        <small v-if="ship.shortName() != ''">{{ ship.shortName() }} - </small>{{ ship.name}} <small>({{ ship.cost }})</small>
+        <b-badge variant="light">{{ quantity }}</b-badge>
+      </b-button>
+    </b-col>
+    <b-col>
+      <b-button variant="danger" v-on:click="loseShip">{{ ship.name }}</b-button>
+    </b-col>
+  </b-row>
 </template>
 
 <script>

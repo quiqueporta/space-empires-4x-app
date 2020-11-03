@@ -1,9 +1,9 @@
 <template>
-  <div class="container-fluid">
-    <div class="row p-1">
-        <div class="col p-1 text-center"><strong>Buy</strong></div>
-        <div class="col p-1 text-center"><strong>Lose</strong></div>
-    </div>
+  <b-container fluid>
+    <b-row>
+      <b-col><strong>Buy</strong></b-col>
+      <b-col><strong>Lose</strong></b-col>
+    </b-row>
     <ShipRow v-for="ship in ships"
              v-bind:key="ship.type"
              v-bind:techs="techs"
@@ -11,7 +11,7 @@
              v-bind:quantity="ship.currentCount"
              v-on:purchase-ship="purchaseShipCommand"
              v-on:lose-ship="loseShipCommand" />
-  </div>
+  </b-container>
 </template>
 
 <script>
