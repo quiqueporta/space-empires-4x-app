@@ -217,7 +217,7 @@ export class PurchaseShipCommand {
     };
   }
 
-  static fromDict(production_sheet, dict) {
+  static fromDict(production_sheet, data, dict) {
     for (var ship of data.ships) {
       if (dict.ship_type == ship.type) {
         return new PurchaseShipCommand(production_sheet, ship)
@@ -252,7 +252,7 @@ export class LoseShipCommand {
     };
   }
 
-  static fromDict(production_sheet, dict) {
+  static fromDict(production_sheet, data, dict) {
     for (var ship of data.ships) {
       if (dict.ship_type == ship.type) {
         return new LoseShipCommand(production_sheet, ship)
@@ -268,9 +268,11 @@ export class CommandFactory {
     var commands = {
       'AddColonyPointsCommand': AddColonyPointsCommand,
       'AddMineralPointsCommand': AddMineralPointsCommand,
-      'SubtratBidPointsCommand': SubtractBidPointsCommand,
+      'SubtractBidPointsCommand': SubtractBidPointsCommand,
       'SubtractMaintenancePointsCommand': SubtractMaintenancePointsCommand,
       'EndTurnCommand': EndTurnCommand,
+      'PurchaseShipCommand': PurchaseShipCommand,
+      'LoseShipCommand': LoseShipCommand,
       'IncreaseTechCommand': IncreaseTechCommand
     };
 
