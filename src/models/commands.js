@@ -1,8 +1,8 @@
 export class AddColonyPointsCommand {
-  constructor(production_sheet, points) {
+  constructor(production_sheet, points, key=Date.now()) {
     this._production_sheet = production_sheet;
     this._points = parseInt(points);
-    this._key = Date.now();
+    this._key = key;
   }
 
   do() {
@@ -20,7 +20,8 @@ export class AddColonyPointsCommand {
   toDict() {
     return {
       name: "AddColonyPointsCommand",
-      points: this._points
+      points: this._points,
+      key: this._key
     };
   }
 
@@ -29,15 +30,15 @@ export class AddColonyPointsCommand {
   }
 
   static fromDict(production_sheet, _data, dict) {
-    return new AddColonyPointsCommand(production_sheet, dict.points);
+    return new AddColonyPointsCommand(production_sheet, dict.points, dict.key);
   }
 }
 
 export class AddMineralPointsCommand {
-  constructor(production_sheet, points) {
+  constructor(production_sheet, points, key=Date.now()) {
     this._production_sheet = production_sheet;
     this._points = parseInt(points);
-    this._key = Date.now();
+    this._key = key;
   }
 
   do() {
@@ -55,7 +56,8 @@ export class AddMineralPointsCommand {
   toDict() {
     return {
         name: "AddMineralPointsCommand",
-        points: this._points
+        points: this._points,
+        key: this._key
     };
   }
 
@@ -64,15 +66,15 @@ export class AddMineralPointsCommand {
   }
 
   static fromDict(production_sheet, _data, dict) {
-    return new AddMineralPointsCommand(production_sheet, dict.points);
+    return new AddMineralPointsCommand(production_sheet, dict.points, dict.key);
   }
 }
 
 export class SubtractMaintenancePointsCommand {
-  constructor(production_sheet, points) {
+  constructor(production_sheet, points, key=Date.now()) {
     this._production_sheet = production_sheet;
     this._points = parseInt(points);
-    this._key = Date.now();
+    this._key = key;
   }
 
   do() {
@@ -90,7 +92,8 @@ export class SubtractMaintenancePointsCommand {
   toDict() {
     return {
         name: "SubtractMaintenancePointsCommand",
-        points: this._points
+        points: this._points,
+        key: this._key
     };
   }
 
@@ -99,15 +102,15 @@ export class SubtractMaintenancePointsCommand {
   }
 
   static fromDict(production_sheet, _data, dict) {
-    return new SubtractMaintenancePointsCommand(production_sheet, dict.points);
+    return new SubtractMaintenancePointsCommand(production_sheet, dict.points, dict.key);
   }
 }
 
 export class SubtractBidPointsCommand {
-  constructor(production_sheet, points) {
+  constructor(production_sheet, points, key=Date.now()) {
     this._production_sheet = production_sheet;
     this._points = parseInt(points);
-    this._key = Date.now();
+    this._key = key;
   }
 
   do() {
@@ -125,7 +128,8 @@ export class SubtractBidPointsCommand {
   toDict() {
     return {
         name: "SubtractBidPointsCommand",
-        points: this._points
+        points: this._points,
+        key: this._key
     };
   }
 
@@ -134,15 +138,15 @@ export class SubtractBidPointsCommand {
   }
 
   static fromDict(production_sheet, _data, dict) {
-    return new SubtractBidPointsCommand(production_sheet, dict.points);
+    return new SubtractBidPointsCommand(production_sheet, dict.points, dict.key);
   }
 }
 
 export class EndTurnCommand {
-  constructor(production_sheet, turn) {
+  constructor(production_sheet, turn, key=Date.now()) {
     this._production_sheet = production_sheet;
     this._turn = turn;
-    this._key = Date.now();
+    this._key = key;
   }
 
   do() {
@@ -160,7 +164,8 @@ export class EndTurnCommand {
   toDict() {
     return {
         name: "EndTurnCommand",
-        turn: this._turn
+        turn: this._turn,
+        key: this._key
     };
   }
 
@@ -169,16 +174,16 @@ export class EndTurnCommand {
   }
 
   static fromDict(production_sheet, _data, dict) {
-    return new EndTurnCommand(production_sheet, dict.turn);
+    return new EndTurnCommand(production_sheet, dict.turn, dict.key);
   }
 }
 
 export class IncreaseTechCommand {
-  constructor(production_sheet, tech, wreck) {
+  constructor(production_sheet, tech, wreck, key=Date.now()) {
     this._production_sheet = production_sheet;
     this._tech = tech;
     this._wreck = wreck;
-    this._key = Date.now();
+    this._key = key;
   }
 
   do () {
@@ -203,7 +208,8 @@ export class IncreaseTechCommand {
     return {
       name: 'IncreaseTechCommand',
       tech: this._tech.title,
-      wreck: this._wreck
+      wreck: this._wreck,
+      key: this._key
     }
   }
 
@@ -214,7 +220,7 @@ export class IncreaseTechCommand {
   static fromDict(production_sheet, data, dict) {
     for (var tech of data.techs) {
       if (dict.tech == tech.title) {
-        return new IncreaseTechCommand(production_sheet, tech, dict.wreck)
+        return new IncreaseTechCommand(production_sheet, tech, dict.wreck, dict.key)
       }
     }
     return;
@@ -222,10 +228,10 @@ export class IncreaseTechCommand {
 }
 
 export class PurchaseShipCommand {
-  constructor(production_sheet, ship) {
+  constructor(production_sheet, ship, key=Date.now()) {
     this._production_sheet = production_sheet;
     this._ship = ship;
-    this._key = Date.now();
+    this._key = key;
   }
 
   do() {
@@ -243,7 +249,8 @@ export class PurchaseShipCommand {
   toDict() {
     return {
       name: "PurchaseShipCommand",
-      ship_type: this._ship.type
+      ship_type: this._ship.type,
+      key: this._key
     };
   }
 
@@ -251,10 +258,10 @@ export class PurchaseShipCommand {
     return this._key;
   }
 
-  static fromDict(production_sheet, dict) {
+  static fromDict(production_sheet, data, dict) {
     for (var ship of data.ships) {
       if (dict.ship_type == ship.type) {
-        return new PurchaseShipCommand(production_sheet, ship)
+        return new PurchaseShipCommand(production_sheet, ship, dict.key)
       }
     }
     return;
@@ -262,10 +269,10 @@ export class PurchaseShipCommand {
 }
 
 export class LoseShipCommand {
-  constructor(production_sheet, ship) {
+  constructor(production_sheet, ship, key=Date.now()) {
     this._production_sheet = production_sheet;
     this._ship = ship;
-    this._key = Date.now();
+    this._key = key;
   }
 
   do() {
@@ -283,7 +290,8 @@ export class LoseShipCommand {
   toDict() {
     return {
       name: 'LoseShipCommand',
-      ship_type: this._ship.type
+      ship_type: this._ship.type,
+      key: this._key
     };
   }
 
@@ -291,10 +299,10 @@ export class LoseShipCommand {
     return this._key;
   }
 
-  static fromDict(production_sheet, dict) {
+  static fromDict(production_sheet, data, dict) {
     for (var ship of data.ships) {
       if (dict.ship_type == ship.type) {
-        return new LoseShipCommand(production_sheet, ship)
+        return new LoseShipCommand(production_sheet, ship, dict.key)
       }
     }
     return;
@@ -307,10 +315,12 @@ export class CommandFactory {
     var commands = {
       'AddColonyPointsCommand': AddColonyPointsCommand,
       'AddMineralPointsCommand': AddMineralPointsCommand,
-      'SubtratBidPointsCommand': SubtractBidPointsCommand,
+      'SubtractBidPointsCommand': SubtractBidPointsCommand,
       'SubtractMaintenancePointsCommand': SubtractMaintenancePointsCommand,
       'EndTurnCommand': EndTurnCommand,
-      'IncreaseTechCommand': IncreaseTechCommand
+      'IncreaseTechCommand': IncreaseTechCommand,
+      'PurchaseShipCommand': PurchaseShipCommand,
+      'LoseShipCommand': LoseShipCommand,
     };
 
     return commands[name].fromDict(production_sheet, data, dict);
