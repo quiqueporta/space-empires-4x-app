@@ -318,9 +318,9 @@ export class CommandFactory {
       'SubtractBidPointsCommand': SubtractBidPointsCommand,
       'SubtractMaintenancePointsCommand': SubtractMaintenancePointsCommand,
       'EndTurnCommand': EndTurnCommand,
-      'IncreaseTechCommand': IncreaseTechCommand,
       'PurchaseShipCommand': PurchaseShipCommand,
       'LoseShipCommand': LoseShipCommand,
+      'IncreaseTechCommand': IncreaseTechCommand
     };
 
     return commands[name].fromDict(production_sheet, data, dict);
