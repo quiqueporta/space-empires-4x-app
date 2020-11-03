@@ -1,22 +1,16 @@
 <template>
-  <div class="container-fluid">
-    <div class="row p-1">
-        <div class="col p-1 mt-5">
-            <button type="button" class="btn btn-warning btn-block" v-on:click="undo">Undo</button>
-        </div>
-    </div>
-    <div class="row p-1">
-        <div class="col p-1">
-            <ul>
-                <li v-for="command in reverseCommands"
-                    v-bind:key="command.key()"
-                    >
-                    {{ command.toString() }}
-                </li>
-            </ul>
-        </div>
-    </div>
-  </div>
+  <b-container fluid>
+    <b-row>
+      <b-col>
+        <b-button block variant="warning" v-on:click="undo">Undo</b-button>
+      </b-col>
+    </b-row>
+    <b-row
+        v-for="command in reverseCommands"
+        v-bind:key="command.key()">
+      <b-col>{{ command.toString() }}</b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
