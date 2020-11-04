@@ -201,7 +201,8 @@ export class IncreaseTechCommand {
   }
 
   toString () {
-    return this._tech.title + ' increased.';
+    var acquisition = this._wreck ? 'acquired from Space Wreck' : 'purchased';
+    return this._tech.title + ' ' + acquisition + '.';
   }
 
   toDict() {

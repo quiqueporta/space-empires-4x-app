@@ -98,7 +98,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 export default {
   name: "App",
   components: { CPTab, TechTab, ShipTab, HistoryTab },
-   data: function() {
+  data: function() {
     return this.loadData(this);
   },
   methods: {

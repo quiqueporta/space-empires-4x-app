@@ -1,9 +1,13 @@
 <template>
   <b-row>
-    <b-col cols=5>
-      <b-button block variant="primary" v-on:click="increaseTechnology">
-        {{ technology.title }} <b-badge variant="light">{{ technology.currentLevel }}</b-badge>
-      </b-button>
+    <b-col cols=2>
+      {{ technology.title }} <b-badge variant="light">{{ technology.currentLevel }}</b-badge>
+    </b-col>
+    <b-col cols=2>
+      <b-button variant="primary" v-on:click="increaseTechnology">Buy</b-button>
+    </b-col>
+    <b-col cols=2>
+      <b-button v-if="technology.wreck" variant="primary" v-on:click="increaseTechnologySpaceWreck">Space Wreck</b-button>
     </b-col>
     <b-col cols=7>
       <b-list-group horizontal>
@@ -24,6 +28,9 @@ export default {
   methods: {
     increaseTechnology: function() {
       this.$emit('increase-technology', {'technology': this.technology, 'wreck': false})
+    },
+    increaseTechnologySpaceWreck: function() {
+      this.$emit('increase-technology', {'technology': this.technology, 'wreck': true})
     }
   }
 }

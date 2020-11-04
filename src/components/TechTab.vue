@@ -1,26 +1,32 @@
 <template>
   <b-container fluid>
-    <b-row>
-      <b-col><strong>Technology</strong></b-col>
-      <b-col><strong>New Tech Level (CP Cost)</strong></b-col>
-    </b-row>
-    <TechRow
-      v-for="technology in normalTechs"
-      v-bind:key="technology.title"
-      v-bind:technology="technology"
-      v-on:increase-technology="increaseTechnologyCommand" />
-    <div class="w-100"><strong>Advanced</strong></div>
-    <TechRow
-      v-for="technology in advancedTechs"
-      v-bind:key="technology.title"
-      v-bind:technology="technology"
-      v-on:increase-technology="increaseTechnologyCommand" />
-    <div class="w-100"><strong>Space Wreck Technology</strong></div>
-    <SpaceWreckTechRow
-      v-for="technology in wreckTechs"
-      v-bind:key="wreckKey(technology)"
-      v-bind:technology="technology"
-      v-on:increase-technology="increaseTechnologyCommand" />
+    <b-table :items="allTechs" :fields="fields" thead-class="d-none" tbody-tr-class="tech-row">
+      <template #cell(tech)="data">
+        <div class="text-right">
+          <b-badge v-if="data.item.advanced" variant="danger">Adv.</b-badge>
+          {{ data.item.title }} <b-badge variant="success">{{ data.item.currentLevel }}</b-badge>
+        </div>
+      </template>
+
+      <template #cell(buy)="data">
+        <b-button variant="primary" size="sm" v-on:click="increaseTechnology(data.item, false)">Buy</b-button>
+      </template>
+
+      <template #cell(wreck)="data">
+        <b-button v-if="data.item.wreck" variant="primary" size="sm" v-on:click="increaseTechnology(data.item, true)">Wreck</b-button>
+      </template>
+
+      <template #cell(costs)="data">
+        <b-list-group horizontal>
+          <b-list-group-item 
+              v-for="(cost, level) in data.item.costs"
+              v-bind:variant="techVariant(data.item, level)"
+              v-bind:key="(cost, level)">
+            <strong>{{ level }}</strong> <small>({{ cost }})</small>
+          </b-list-group-item>
+        </b-list-group>
+      </template>
+    </b-table>
   </b-container>
 </template>
 
@@ -35,10 +41,7 @@ export default {
   components: { TechRow, SpaceWreckTechRow },
   props: [ 'techs', 'psheet' ],
   methods: {
-    increaseTechnologyCommand: function(tech_info) {
-      var technology = tech_info['technology'];
-      var wreck = tech_info['wreck'];
-
+    increaseTechnology: function(technology, wreck) {
       if (!wreck && !this.psheet.hasSubtractedMaintenancePoints()) {
         this.psheet._notifyWarning('You cannot purchase technology until after subtracting maintenance.');
         return;
@@ -54,20 +57,47 @@ export default {
 
      this.psheet._executeCommand(new IncreaseTechCommand(this.psheet, technology, wreck));
     },
-    wreckKey: function(tech) {
-      return tech.title + " Wreck";
+    techVariant: function(tech, level) {
+      if (tech.currentLevel >= level) {
+        return 'success';
+      } else if (tech.currentLevel == level-1) {
+        return '';
+      } else {
+        return 'dark';
+      }
     }
   },
   computed: {
+    fields: function () {
+      return ['tech', 'buy', 'wreck', { key: 'costs', tdClass: 'cost-col'}];
+    },
+    allTechs: function() {
+      return this.normalTechs.concat(this.advancedTechs);      
+    },
     normalTechs: function() {
+      console.log('Normal Techs');
+      console.log(this.techs.filter(tech => !tech.advanced));
       return this.techs.filter(tech => !tech.advanced);
     },
     advancedTechs: function() {
       return this.techs.filter(tech => tech.advanced);
-    },
-    wreckTechs: function() {
-      return this.techs.filter(tech => tech.wreck);
     }
   }
 }
 </script>
+
+<style scoped>
+.tech-row {
+  vertical-align: middle;
+}
+.list-group-item {
+  padding-right: 5px;
+  padding-left: 5px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  text-align: center;
+}
+.cost-col {
+  min-width: 317px !important;
+}
+</style>
