@@ -1,9 +1,9 @@
 <template>
-  <b-container fluid>
+  <b-container fluid class="tech-tab">
     <b-table :items="allTechs" :fields="fields" thead-class="d-none" tbody-tr-class="tech-row">
       <template #cell(tech)="data">
         <div class="text-right">
-          <b-badge v-if="data.item.advanced" variant="danger">Adv.</b-badge>
+          <b-badge v-if="data.item.advanced" variant="danger">A</b-badge>
           {{ data.item.title }} <b-badge variant="success">{{ data.item.currentLevel }}</b-badge>
         </div>
       </template>
@@ -19,7 +19,7 @@
       <template #cell(costs)="data">
         <b-list-group horizontal>
           <b-list-group-item 
-              v-for="(cost, level) in data.item.costs"
+              v-for="(cost, level) in techCosts(data.item)"
               v-bind:variant="techVariant(data.item, level)"
               v-bind:key="(cost, level)">
             <strong>{{ level }}</strong> <small>({{ cost }})</small>
@@ -27,6 +27,7 @@
         </b-list-group>
       </template>
     </b-table>
+    <b-badge variant="danger">A</b-badge> indicates an Advanced Technology.
   </b-container>
 </template>
 
@@ -55,7 +56,7 @@ export default {
         return;
       }
 
-     this.psheet._executeCommand(new IncreaseTechCommand(this.psheet, technology, wreck));
+     this.psheet._executeCommand(new IncreaseTechCommand(this.psheet, technology, technology.currentLevel+1, wreck));
     },
     techVariant: function(tech, level) {
       if (tech.currentLevel >= level) {
@@ -64,6 +65,17 @@ export default {
         return '';
       } else {
         return 'dark';
+      }
+    },
+    techCosts: function(tech) {
+      if (screen.width >= 780) {
+        return tech.costs;
+      } else {
+        var retObj = {};
+        if (!tech.onMaxLevel()) {
+          retObj[tech.currentLevel+1] = tech.costNextLevel();
+        }
+        return retObj;
       }
     }
   },
@@ -75,8 +87,6 @@ export default {
       return this.normalTechs.concat(this.advancedTechs);      
     },
     normalTechs: function() {
-      console.log('Normal Techs');
-      console.log(this.techs.filter(tech => !tech.advanced));
       return this.techs.filter(tech => !tech.advanced);
     },
     advancedTechs: function() {
@@ -87,9 +97,10 @@ export default {
 </script>
 
 <style scoped>
-.tech-row {
+.tech-tab >>> .tech-row td {
   vertical-align: middle;
 }
+
 .list-group-item {
   padding-right: 5px;
   padding-left: 5px;
@@ -97,7 +108,18 @@ export default {
   padding-bottom: 3px;
   text-align: center;
 }
-.cost-col {
+
+.tech-tab >>> .cost-col {
   min-width: 317px !important;
 }
+
+@media only screen and (max-width: 400px) {
+  .tech-tab >>> .table td {
+    padding: 0.25rem;
+  }
+  .tech-tab >>> .cost-col {
+    min-width: 60px !important;
+  }
+}
+
 </style>

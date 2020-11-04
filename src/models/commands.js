@@ -179,9 +179,10 @@ export class EndTurnCommand {
 }
 
 export class IncreaseTechCommand {
-  constructor(production_sheet, tech, wreck, key=Date.now()) {
+  constructor(production_sheet, tech, level, wreck, key=Date.now()) {
     this._production_sheet = production_sheet;
     this._tech = tech;
+    this._level = level;
     this._wreck = wreck;
     this._key = key;
   }
@@ -202,13 +203,14 @@ export class IncreaseTechCommand {
 
   toString () {
     var acquisition = this._wreck ? 'acquired from Space Wreck' : 'purchased';
-    return this._tech.title + ' ' + acquisition + '.';
+    return this._tech.title + ' level ' + this._level + ' ' + acquisition + '.';
   }
 
   toDict() {
     return {
       name: 'IncreaseTechCommand',
       tech: this._tech.title,
+      level: this._level,
       wreck: this._wreck,
       key: this._key
     }
@@ -221,7 +223,7 @@ export class IncreaseTechCommand {
   static fromDict(production_sheet, data, dict) {
     for (var tech of data.techs) {
       if (dict.tech == tech.title) {
-        return new IncreaseTechCommand(production_sheet, tech, dict.wreck, dict.key)
+        return new IncreaseTechCommand(production_sheet, tech, dict.level, dict.wreck, dict.key)
       }
     }
     return;
