@@ -10,7 +10,8 @@ import { CommandFactory, AddColonyPointsCommand, AddMineralPointsCommand,
          EndTurnCommand, IncreaseTechCommand, PurchaseShipCommand,
          LoseShipCommand } from './commands';
 
-import DATA from './assets/tech_ships.yaml';
+import TECH_DATA from './assets/techs.yaml';
+import SHIP_DATA from './assets/ships.yaml';
 
 var STORAGE_KEY = 'space-empires-4x-v3'
 
@@ -90,9 +91,8 @@ var vm = new Vue({
   },
   methods: {
     initialData: function () {
-      console.log(DATA);
-      var techs = DATA['tech'].map(tech => new TechnologyProgression(tech));
-      var ships = DATA['ship'].map(ship => new Ship(ship));
+      var techs = TECH_DATA['tech'].map(tech => new TechnologyProgression(tech));
+      var ships = SHIP_DATA['ship'].map(ship => new Ship(ship));
       return {
         turn: 1,
         commands: [],
