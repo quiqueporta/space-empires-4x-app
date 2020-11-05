@@ -1,21 +1,21 @@
 <template>
   <b-container fluid class="cp-tab">
     <b-form-row>
-      <b-col sm="2" cols="4" class="label">Colony Points</b-col>
+      <b-col sm="2" cols="3" class="label">Colony</b-col>
       <b-col sm="1" cols="3">
         <b-form-input v-model="psheet.colonyPoints" type="number" />
       </b-col>
       <b-col sm="1" cols="2">
         <b-button variant="primary" class="add-sub-button" v-on:click="addColonyPoints">+</b-button>
       </b-col>
-      <b-col sm="8" cols="3"></b-col>
+      <b-col sm="8" cols="4"></b-col>
     </b-form-row>
     <b-form-row>
-      <b-col sm="2" cols="4" class="label">Mineral Points</b-col>
-      <b-col sm="1" cols="2"><b-button variant="primary" class="add-sub-button" v-on:click="addFiveMineralPoints">+5</b-button></b-col>
-      <b-col sm="1" cols="2"><b-button variant="primary" class="add-sub-button" v-on:click="addTenMineralPoints">+10</b-button></b-col>
-      <b-col sm="1" cols="2"><b-button variant="primary" class="add-sub-button" v-on:click="addFifteenMineralPoints">+15</b-button></b-col>
-      <b-col sm="7" cols="2"></b-col>
+      <b-col sm="2" cols="3" class="label">Minerals</b-col>
+      <b-col sm="1" cols="3"><b-button variant="primary" class="add-sub-button" v-on:click="addFiveMineralPoints">+5</b-button></b-col>
+      <b-col sm="1" cols="3"><b-button variant="primary" class="add-sub-button" v-on:click="addTenMineralPoints">+10</b-button></b-col>
+      <b-col sm="1" cols="3"><b-button variant="primary" class="add-sub-button" v-on:click="addFifteenMineralPoints">+15</b-button></b-col>
+      <b-col sm="7" cols="0"></b-col>
     </b-form-row>
     <b-form-row>
       <b-col sm="2" cols="4" class="label">Maintenance</b-col>
@@ -24,12 +24,12 @@
       <b-col sm="8" cols="3"></b-col>
     </b-form-row>
     <b-form-row>
-      <b-col sm="2" cols="4" class="label">Bid Points</b-col>
+      <b-col sm="2" cols="3" class="label">Bid</b-col>
       <b-col sm="1" cols="3"><b-form-input v-model="psheet.bidPoints" type="number" /></b-col>
       <b-col sm="1" cols="2">
         <b-button variant="warning" class="add-sub-button" v-on:click="subtractBidPoints">-</b-button>
       </b-col>
-      <b-col sm="8" cols="3"></b-col>
+      <b-col sm="8" cols="4"></b-col>
     </b-form-row>
   </b-container>
 </template>

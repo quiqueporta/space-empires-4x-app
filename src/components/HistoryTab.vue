@@ -1,11 +1,12 @@
 <template>
-  <b-container fluid>
+  <b-container fluid class="command-tab">
     <b-row>
       <b-col>
         <b-button block variant="warning" v-on:click="undo">Undo</b-button>
       </b-col>
     </b-row>
     <b-row
+        class="command-row"
         v-for="command in reverseCommands"
         v-bind:key="command.key()">
       <b-col>{{ command.toString() }}</b-col>
@@ -38,3 +39,12 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.command-tab >>> .command-row {
+  padding-top: 5px;
+}
+.command-tab {
+  padding-bottom: 10px;
+}
+</style>

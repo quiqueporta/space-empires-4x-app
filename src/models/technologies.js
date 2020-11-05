@@ -5,6 +5,7 @@ export class TechnologyProgression {
       return;
     }
     this.title = tech_data['name'];
+    this.short = 'shortname' in tech_data ? tech_data['shortname'] : tech_data['name'];
     this.advanced = tech_data['advanced'];
     this.wreck = tech_data['shipwreck'];
     this._minLevel = tech_data['start'];
