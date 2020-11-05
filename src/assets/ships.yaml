@@ -1,0 +1,108 @@
+ship:
+  - type: CO
+    name: Colony Ship
+    cp: 8
+    hull: 1
+    size: 1
+    maintenance: false
+  - type: SY
+    name: Ship Yard
+    cp: 6
+    hull: 1
+    size: 1
+    maintenance: false
+  - type: Miner
+    name: Mining Ship
+    cp: 5
+    hull: 1
+    size: 1
+    maintenance: false
+  - type: Decoy
+    name: Decoy
+    cp: 1
+    hull: 0
+    size: 1
+    maintenance: false
+  - type: SC
+    name: Scout
+    cp: 6
+    hull: 1
+    size: 1
+  - type: DD
+    name: Destroyer
+    cp: 9
+    hull: 1
+    size: 2
+  - type: Base
+    name: Base
+    cp: 12
+    hull: 3
+    size: 2
+    maintenance: false
+  - type: CA
+    name: Cruiser
+    cp: 12
+    hull: 2
+    size: 3
+  - type: BC
+    name: Battlecruiser
+    cp: 15
+    hull: 2
+    size: 4
+  - type: BB
+    name: Battleship
+    cp: 20
+    hull: 3
+    size: 5
+  - type: DN
+    name: Dreadnaught
+    cp: 24
+    hull: 3
+    size: 6
+  - type: Mines
+    name: Mines
+    cp: 5
+    hull: 1
+    size: 1
+    maintenance: false
+    prereq:
+      - name: Mines
+        level: 1
+  - type: SW
+    name: Mine Sweeper
+    cp: 6
+    hull: 1
+    size: 1
+    prereq:
+      - name: Mine Sweep
+        level: 1
+  - type: MS Pipeline
+    name: MS Pipeline
+    cp: 3
+    hull: 1
+    size: 1
+    maintenance: false
+  - type: R
+    name: Raider
+    cp: 12
+    hull: 2
+    size: 1
+    prereq:
+      - name: Cloaking
+        level: 1
+  - type: CV
+    name: Carrier
+    cp: 12
+    hull: 1
+    size: 1
+    prereq:
+      - name: Fighter
+        level: 1
+  - type: F
+    name: Fighter
+    cp: 5
+    hull: 1
+    size: 1
+    prereq:
+      - name: Fighter
+        level: 1    
