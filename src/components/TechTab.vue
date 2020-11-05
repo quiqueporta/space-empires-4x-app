@@ -117,6 +117,10 @@ export default {
 }
 
 @media only screen and (max-width: 400px) {
+  .tech-tab {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
   .tech-tab >>> .table td {
     padding: 0.25rem;
   }

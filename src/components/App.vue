@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <b-container fluid>
+    <b-container fluid class="main-app">
       <b-row>
         <b-col>
           <h2>Turn {{ turn }} - CPs <span class="badge badge-info">{{ constructionPoints }}</span></h2>
@@ -52,7 +52,8 @@ import { TechnologyProgression } from '../models/technologies';
 import { CommandFactory, SubtractMaintenancePointsCommand,
          EndTurnCommand } from '../models/commands';
 
-import DATA from '../assets/tech_ships.yaml';
+import TECH_DATA from '../assets/techs.yaml';
+import SHIP_DATA from '../assets/ships.yaml';
 
 var STORAGE_KEY = 'space-empires-4x-v3';
 
@@ -103,8 +104,8 @@ export default {
   },
   methods: {
     initialData: function () {
-      var techs = DATA['tech'].map(tech => new TechnologyProgression(tech));
-      var ships = DATA['ship'].map(ship => new Ship(ship));
+      var techs = TECH_DATA['tech'].map(tech => new TechnologyProgression(tech));
+      var ships = SHIP_DATA['ship'].map(ship => new Ship(ship));
       return {
         turn: 1,
         commands: [],
@@ -260,4 +261,11 @@ export default {
 .pad-r {
   margin-right: 10px;
 }
+
+@media only screen and (max-width: 400px) {
+  .tabs {
+    width:100%
+  }
+}
 </style>
+
