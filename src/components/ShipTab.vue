@@ -13,15 +13,21 @@
       </template>
 
       <template #cell(buy)="data">
-        <b-button variant="primary" size="sm" v-on:click="purchaseShip(data.item)">Buy ({{ data.item.cost }})</b-button>
+        <b-button variant="primary" size="sm" v-on:click="purchaseShip(data.item)" v-bind:disabled="disableBuy(data.item)">Buy ({{ data.item.cost }})</b-button>
       </template>
 
       <template #cell(lose)="data">
-        <b-button variant="primary" size="sm" v-on:click="loseShip(data.item)">Lose</b-button>
+        <b-button variant="primary" size="sm" v-on:click="loseShip(data.item)" v-bind:disabled="disableLose(data.item)">Lose</b-button>
       </template>
 
       <template #cell(upgrade)="data">
-        <b-button v-if="data.item.upgradable()" variant="primary" size="sm" v-on:click="upgradeShip(data.item)">Upgrade ({{ data.item.hullSize }})</b-button>
+        <b-button v-if="data.item.upgradable()"
+                  variant="primary"
+                  size="sm"
+                  v-on:click="upgradeShip(data.item)"
+                  v-bind:disabled="disableUpgrade(data.item)">
+          Upgrade ({{ data.item.hullSize }})
+        </b-button>
       </template>
     </b-table>
   </b-container>
@@ -75,6 +81,15 @@ export default {
     },
     shipFilter: function(ship, _filter) {
       return ship.requirementsMet(this.techs);
+    },
+    disableBuy: function(ship) {
+      return !(this.psheet.hasSubtractedMaintenancePoints() && ship.canPurchase(this.psheet.constructionPoints))
+    },
+    disableLose: function(ship) {
+      return ship.currentCount <= 0;
+    },
+    disableUpgrade: function(ship) {
+      return !ship.canUpgrade(this.psheet.constructionPoints);
     }
   },
   computed: {

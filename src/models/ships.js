@@ -58,6 +58,10 @@ export class Ship {
     return this._upgrade;
   }
 
+  canUpgrade(constructionPoints) {
+    return this._upgrade && this.currentCount > 0 && constructionPoints > this.hullSize
+  }
+
   totalMaintenance() {
     if (this._maintenance === false) {
       return 0;
