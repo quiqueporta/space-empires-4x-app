@@ -19,7 +19,7 @@
     </b-form-row>
     <b-form-row>
       <b-col sm="2" cols="4" class="label">Maintenance</b-col>
-      <b-col sm="1" cols="3"><h3 class="maint-val"><b-badge variant="dark">{{ psheet.maintenance }}</b-badge></h3></b-col>
+      <b-col sm="1" cols="2"><h3 class="maint-val"><b-badge variant="dark">{{ psheet.maintenance }}</b-badge></h3></b-col>
       <b-col sm="1" cols="2"><b-button variant="warning" class="add-sub-button" v-on:click="subtractMaintenancePoints">-</b-button></b-col>
       <b-col sm="8" cols="3"></b-col>
     </b-form-row>

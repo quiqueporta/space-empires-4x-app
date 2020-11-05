@@ -52,7 +52,7 @@ export default {
         return;
       }
 
-     this.psheet._executeCommand(new IncreaseTechCommand(this.psheet, technology, technology.currentLevel+1, wreck));
+      this.psheet._executeCommand(new IncreaseTechCommand(this.psheet, technology, technology.currentLevel+1, wreck));
     },
     techVariant: function(tech, level) {
       if (tech.currentLevel >= level) {

@@ -312,6 +312,47 @@ export class LoseShipCommand {
   }
 }
 
+export class UpgradeShipCommand {
+  constructor(production_sheet, ship, key=Date.now()) {
+    this._production_sheet = production_sheet;
+    this._ship = ship;
+    this._key = key;
+  }
+
+  do() {
+    this._production_sheet.upgradeShip(this._ship);
+  }
+
+  undo() {
+    this._production_sheet.downgradeShip(this._ship);
+  }
+
+  toString() {
+    return this._ship.name + ' upgraded.';
+  }
+
+  toDict() {
+    return {
+      name: 'UpgradeShipCommand',
+      ship_type: this._ship.type,
+      key: this._key
+    };
+  }
+
+  key() {
+    return this._key;
+  }
+
+  static fromDict(production_sheet, data, dict) {
+    for (var ship of data.ships) {
+      if (dict.ship_type == ship.type) {
+        return new UpgradeShipCommand(production_sheet, ship, dict.key)
+      }
+    }
+    return;
+  }
+}
+
 
 export class CommandFactory {
   create(production_sheet, data, name, dict) {
@@ -323,7 +364,8 @@ export class CommandFactory {
       'EndTurnCommand': EndTurnCommand,
       'PurchaseShipCommand': PurchaseShipCommand,
       'LoseShipCommand': LoseShipCommand,
-      'IncreaseTechCommand': IncreaseTechCommand
+      'IncreaseTechCommand': IncreaseTechCommand,
+      'UpgradeShipCommand': UpgradeShipCommand,
     };
 
     return commands[name].fromDict(production_sheet, data, dict);

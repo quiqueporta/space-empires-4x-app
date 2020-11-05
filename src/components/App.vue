@@ -216,6 +216,12 @@ export default {
     regainShip: function(ship) {
       ship.increaseCount();
     },
+    upgradeShip: function(ship) {
+      this.decreaseConstructionPoints(ship.hullSize);
+    },
+    downgradeShip: function(ship) {
+      this.increaseConstructionPoints(ship.hullSize);
+    },
     _executeCommand: function(command) {
       command.do();
       this.commands.push(command);
