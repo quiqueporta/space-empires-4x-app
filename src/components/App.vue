@@ -110,7 +110,7 @@ export default {
         turn: 1,
         commands: [],
         constructionPoints: 0,
-        colonyPoints: 0,
+        colonyPoints: 20,
         mineralPoints: 0,
         bidPoints: 0,
         techs: techs,
@@ -189,15 +189,13 @@ export default {
     },
     hasSubtractedMaintenancePoints: function() {
       var result = false;
-      if (this.maintenance <= 0) {
-        return true;
-      }
+      var maintVal = this.maintenance;
+            
       this.commands.forEach(function (command) {
         if (command instanceof SubtractMaintenancePointsCommand) {
           result = true;
-        }
-        if (command instanceof EndTurnCommand) {
-          result = false;
+        } else if (command instanceof EndTurnCommand) {
+          result = maintVal <= 0;
         }
       });
       return result;

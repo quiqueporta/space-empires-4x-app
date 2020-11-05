@@ -21,7 +21,8 @@
       <b-col sm="2" cols="4" class="label">Maintenance</b-col>
       <b-col sm="1" cols="2"><h3 class="maint-val"><b-badge variant="dark">{{ psheet.maintenance }}</b-badge></h3></b-col>
       <b-col sm="1" cols="2"><b-button variant="warning" class="add-sub-button" v-on:click="subtractMaintenancePoints">-</b-button></b-col>
-      <b-col sm="8" cols="3"></b-col>
+      <b-col sm="2" cols="2"><h3><b-icon-check2-circle v-if="psheet.hasSubtractedMaintenancePoints()" variant="success"></b-icon-check2-circle></h3></b-col>
+      <b-col sm="6" cols="1"></b-col>
     </b-form-row>
     <b-form-row>
       <b-col sm="2" cols="3" class="label">Bid</b-col>
@@ -35,8 +36,14 @@
 </template>
 
 <script>
+import Vue from 'vue';
+
 import { AddColonyPointsCommand, AddMineralPointsCommand, SubtractBidPointsCommand,
          SubtractMaintenancePointsCommand } from '../models/commands';
+
+import { BIconCheck2Circle } from 'bootstrap-vue';
+
+Vue.component('BIconCheck2Circle', BIconCheck2Circle);
 
 export default {
   name: "CPTab",
@@ -82,11 +89,16 @@ export default {
       this.psheet.bidPoints = 0;
     },
     subtractMaintenancePoints: function () {
+      if (this.psheet.hasSubtractedMaintenancePoints()) {
+        this.psheet._notifyInfo('You have already subtracted maintenance points this turn (or did not need to)!');
+        return;
+      }
+
       if (this.psheet.maintenance > this.psheet.constructionPoints) {
         this.psheet._executeCommand(new SubtractMaintenancePointsCommand(this.psheet, this.psheet.constructionPoints));
-      } else {
-        this.psheet._executeCommand(new SubtractMaintenancePointsCommand(this.psheet, this.psheet.maintenance));
       }
+
+      this.psheet._executeCommand(new SubtractMaintenancePointsCommand(this.psheet, this.psheet.maintenance));
     }
   }
 };

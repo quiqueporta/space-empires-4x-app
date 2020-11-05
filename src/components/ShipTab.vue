@@ -12,12 +12,8 @@
         </div>
       </template>
 
-      <template #cell(cost)="data">
-        {{ data.item.cost }}
-      </template>
-
       <template #cell(buy)="data">
-        <b-button variant="primary" size="sm" v-on:click="purchaseShip(data.item)">Buy</b-button>
+        <b-button variant="primary" size="sm" v-on:click="purchaseShip(data.item)">Buy ({{ data.item.cost }})</b-button>
       </template>
 
       <template #cell(lose)="data">
@@ -25,7 +21,7 @@
       </template>
 
       <template #cell(upgrade)="data">
-        <b-button v-if="data.item.upgradable()" variant="primary" size="sm" v-on:click="upgradeShip(data.item)">Upgrade</b-button>
+        <b-button v-if="data.item.upgradable()" variant="primary" size="sm" v-on:click="upgradeShip(data.item)">Upgrade ({{ data.item.hullSize }})</b-button>
       </template>
     </b-table>
   </b-container>
@@ -83,7 +79,7 @@ export default {
   },
   computed: {
     fields: function() {
-      return ['ship', 'cost', 'buy', 'lose', 'upgrade'];
+      return ['ship', 'buy', 'lose', 'upgrade'];
     },
     allShips: function() {
       return this.ships;

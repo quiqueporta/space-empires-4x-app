@@ -59,27 +59,28 @@ export default {
         return 'success';
       } else if (tech.currentLevel == level-1) {
         return '';
-      } else {
-        return 'dark';
-      }
+      } 
+
+      return 'dark';
     },
     techCosts: function(tech) {
       if (screen.width >= 780) {
         return tech.costs;
-      } else {
-        var retObj = {};
-        if (!tech.onMaxLevel()) {
-          retObj[tech.currentLevel+1] = tech.costNextLevel();
-        }
-        return retObj;
+      } 
+      
+      var retObj = {};
+      if (!tech.onMaxLevel()) {
+        retObj[tech.currentLevel+1] = tech.costNextLevel();
       }
+
+      return retObj;
     },
     techTitle: function(tech) {
       if (screen.width <= 400) {
         return tech.short;
-      } else {
-        return tech.title;
       }
+
+      return tech.title;
     }
   },
   computed: {
