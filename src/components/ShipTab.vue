@@ -8,7 +8,7 @@
              tbody-tr-class="ship-row">
       <template #cell(ship)="data">
         <div class="ship-name text-right">
-          {{ shipLabel(data.item) }} <b-badge variant="success">{{ data.item.currentCount }}</b-badge>
+          {{ shipLabel(data.item) }} <b-badge :variant="shipBadgeVariant(data.item)">{{ data.item.currentCount }}</b-badge>
         </div>
       </template>
 
@@ -26,7 +26,7 @@
                   size="sm"
                   v-on:click="upgradeShip(data.item)"
                   v-bind:disabled="disableUpgrade(data.item)">
-          Upgrade ({{ data.item.hullSize }})
+          Upgr. ({{ data.item.hullSize }})
         </b-button>
       </template>
     </b-table>
@@ -81,6 +81,13 @@ export default {
     },
     shipFilter: function(ship, _filter) {
       return ship.requirementsMet(this.techs);
+    },
+    shipBadgeVariant: function(ship) {
+      if (ship.currentCount > 0) {
+        return 'success';
+      }
+
+      return 'secondary';
     },
     disableBuy: function(ship) {
       return !(this.psheet.hasSubtractedMaintenancePoints() && ship.canPurchase(this.psheet.constructionPoints))

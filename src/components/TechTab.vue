@@ -4,23 +4,34 @@
       <template #cell(tech)="data">
         <div class="tech-name text-right">
           <b-badge v-if="data.item.advanced" variant="danger">A</b-badge>
-          {{ techTitle(data.item) }} <b-badge variant="success">{{ data.item.currentLevel }}</b-badge>
+          {{ techTitle(data.item) }} <b-badge :variant="techBadgeVariant(data.item)">{{ data.item.currentLevel }}</b-badge>
         </div>
       </template>
 
       <template #cell(buy)="data">
-        <b-button variant="primary" size="sm" v-on:click="increaseTechnology(data.item, false)">Buy</b-button>
+        <b-button variant="primary"
+                  size="sm"
+                  v-on:click="increaseTechnology(data.item, false)"
+                  v-bind:disabled="disableBuy(data.item)">
+          Buy
+        </b-button>
       </template>
 
       <template #cell(wreck)="data">
-        <b-button v-if="data.item.wreck" variant="primary" size="sm" v-on:click="increaseTechnology(data.item, true)">Wreck</b-button>
+        <b-button v-if="data.item.wreck" 
+                  variant="primary"
+                  size="sm"
+                  v-on:click="increaseTechnology(data.item, true)"
+                  v-bind:disabled="disableWreck(data.item)">
+          Wreck
+        </b-button>
       </template>
 
       <template #cell(costs)="data">
         <b-list-group horizontal>
           <b-list-group-item 
               v-for="(cost, level) in techCosts(data.item)"
-              v-bind:variant="techVariant(data.item, level)"
+              v-bind:variant="techLevelVariant(data.item, level)"
               v-bind:key="(cost, level)">
             <strong>{{ level }}</strong> <small>({{ cost }})</small>
           </b-list-group-item>
@@ -54,7 +65,14 @@ export default {
 
       this.psheet._executeCommand(new IncreaseTechCommand(this.psheet, technology, technology.currentLevel+1, wreck));
     },
-    techVariant: function(tech, level) {
+    techBadgeVariant: function(tech) {
+      if (tech.currentLevel > 0) {
+        return 'success';
+      }
+
+      return 'secondary';
+    },
+    techLevelVariant: function(tech, level) {
       if (tech.currentLevel >= level) {
         return 'success';
       } else if (tech.currentLevel == level-1) {
@@ -81,6 +99,12 @@ export default {
       }
 
       return tech.title;
+    },
+    disableBuy: function(tech) {
+      return !(this.psheet.hasSubtractedMaintenancePoints() && tech.canIncrease(this.psheet.constructionPoints));
+    },
+    disableWreck: function(tech) {
+      return tech.onMaxLevel();
     }
   },
   computed: {
