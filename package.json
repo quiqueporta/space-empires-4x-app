@@ -10,7 +10,8 @@
     "build": "cross-env NODE_ENV=production webpack --progress",
     "start": "node server.js",
     "heroku-postbuild": "npm install --only=dev --no-shrinkwrap && npm run build",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run --config video=false"
   },
   "dependencies": {
     "bootstrap-vue": "^2.18.1",
