@@ -149,9 +149,10 @@ export class SubtractBidPointsCommand {
 }
 
 export class EndTurnCommand {
-  constructor(production_sheet, turn) {
+  constructor(production_sheet, turn, currentCP) {
     this._production_sheet = production_sheet;
     this._turn = turn;
+    this._currentCP = currentCP;
   }
 
   do() {
@@ -163,7 +164,7 @@ export class EndTurnCommand {
   }
 
   toString() {
-    return "End turn " + this._turn + " with " + this._production_sheet.constructionPoints + " CPs.";
+    return "End turn " + this._turn + " with " + this._currentCP + " CPs.";
   }
 
 

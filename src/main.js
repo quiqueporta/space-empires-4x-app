@@ -117,11 +117,11 @@ var vm = new Vue({
 
       var ship_data = data.ships.map(ship => Object.assign(new Ship(), JSON.parse(ship)));
       data.ships = ship_data;
-      
+
       var commandFactory = new CommandFactory();
-      
+
       data.commands = data.commands.map(function(command) { return commandFactory.create(production_sheet, data, command.name, command) });
-      
+
       return data;
     },
     saveData: function() {
@@ -221,7 +221,7 @@ var vm = new Vue({
         return;
       }
 
-      this._executeCommand(new EndTurnCommand(this, this.turn));
+      this._executeCommand(new EndTurnCommand(this, this.turn, this.constructionPoints));
     },
     increaseTurn() {
       this.turn += 1;
