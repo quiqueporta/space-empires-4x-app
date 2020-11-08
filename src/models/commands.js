@@ -34,6 +34,42 @@ export class AddColonyPointsCommand {
   }
 }
 
+export class AddMsPipelinePointsCommand {
+  constructor(production_sheet, points, key=Date.now()) {
+    this._production_sheet = production_sheet;
+    this._points = parseInt(points);
+    this._key = key;
+  }
+
+  do() {
+    this._production_sheet.increaseConstructionPoints(this._points);
+  }
+
+  undo(){
+    this._production_sheet.decreaseConstructionPoints(this._points);
+  }
+
+  toString() {
+    return "Added " + this._points + " MS Pipeline Points.";
+  }
+
+  toDict() {
+    return {
+      name: "AddMsPipelinePointsCommand",
+      points: this._points,
+      key: this._key
+    };
+  }
+
+  key() {
+    return this._key;
+  }
+
+  static fromDict(production_sheet, _data, dict) {
+    return new AddMsPipelinePointsCommand(production_sheet, dict.points);
+  }
+}
+
 export class AddMineralPointsCommand {
   constructor(production_sheet, points, key=Date.now()) {
     this._production_sheet = production_sheet;
@@ -358,6 +394,7 @@ export class CommandFactory {
   create(production_sheet, data, name, dict) {
     var commands = {
       'AddColonyPointsCommand': AddColonyPointsCommand,
+      'AddMsPipelinePointsCommand': AddMsPipelinePointsCommand,
       'AddMineralPointsCommand': AddMineralPointsCommand,
       'SubtractBidPointsCommand': SubtractBidPointsCommand,
       'SubtractMaintenancePointsCommand': SubtractMaintenancePointsCommand,
