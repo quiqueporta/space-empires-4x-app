@@ -5,7 +5,7 @@ import toastr from 'toastr'
 
 import { Ship } from './ships';
 import { TechnologyProgression } from './technologies';
-import { CommandFactory, AddColonyPointsCommand, AddMineralPointsCommand,
+import { CommandFactory, AddColonyPointsCommand, AddMsPipelinePointsCommand, AddMineralPointsCommand,
          SubtractBidPointsCommand, SubtractMaintenancePointsCommand,
          EndTurnCommand, IncreaseTechCommand, PurchaseShipCommand,
          LoseShipCommand } from './commands';
@@ -98,6 +98,7 @@ var vm = new Vue({
         commands: [],
         constructionPoints: 0,
         colonyPoints: 0,
+        msPipelinePoints: 0,
         mineralPoints: 0,
         bidPoints: 0,
         techs: techs,
@@ -131,6 +132,7 @@ var vm = new Vue({
         commands: this.commands.map(function(command) { return command.toDict();}),
         constructionPoints: this.constructionPoints,
         colonyPoints: this.colonyPoints,
+        msPipelinePoints: this.msPipelinePoints,
         mineralPoints: this.mineralPoints,
         bidPoints: this.bidPoints,
         techs: tech_data,
@@ -161,6 +163,14 @@ var vm = new Vue({
       }
 
       this._executeCommand(new AddColonyPointsCommand(this, this.colonyPoints));
+    },
+    addMsPipelinePoints: function() {
+      if (this.msPipelinePoints <= 0) {
+        this._notifyWarning('MS Pipeline Points must be more than 0');
+        return;
+      }
+
+      this._executeCommand(new AddMsPipelinePointsCommand(this, this.msPipelinePoints));
     },
     addMineralPoints: function(points) {
       if (points <= 0) {
