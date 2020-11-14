@@ -1,7 +1,8 @@
 export class AddColonyPointsCommand {
-  constructor(production_sheet, points) {
+  constructor(production_sheet, points, key=Date.now()) {
     this._production_sheet = production_sheet;
     this._points = parseInt(points);
+    this._key = key;
   }
 
   do() {
@@ -19,19 +20,25 @@ export class AddColonyPointsCommand {
   toDict() {
     return {
       name: "AddColonyPointsCommand",
-      points: this._points
+      points: this._points,
+      key: this._key
     };
   }
 
+  key() {
+    return this._key;
+  }
+
   static fromDict(production_sheet, _data, dict) {
-    return new AddColonyPointsCommand(production_sheet, dict.points);
+    return new AddColonyPointsCommand(production_sheet, dict.points, dict.key);
   }
 }
 
 export class AddMsPipelinePointsCommand {
-  constructor(production_sheet, points) {
+  constructor(production_sheet, points, key=Date.now()) {
     this._production_sheet = production_sheet;
     this._points = parseInt(points);
+    this._key = key;
   }
 
   do() {
@@ -49,8 +56,13 @@ export class AddMsPipelinePointsCommand {
   toDict() {
     return {
       name: "AddMsPipelinePointsCommand",
-      points: this._points
+      points: this._points,
+      key: this._key
     };
+  }
+
+  key() {
+    return this._key;
   }
 
   static fromDict(production_sheet, _data, dict) {
@@ -59,9 +71,10 @@ export class AddMsPipelinePointsCommand {
 }
 
 export class AddMineralPointsCommand {
-  constructor(production_sheet, points) {
+  constructor(production_sheet, points, key=Date.now()) {
     this._production_sheet = production_sheet;
     this._points = parseInt(points);
+    this._key = key;
   }
 
   do() {
@@ -79,19 +92,25 @@ export class AddMineralPointsCommand {
   toDict() {
     return {
         name: "AddMineralPointsCommand",
-        points: this._points
+        points: this._points,
+        key: this._key
     };
   }
 
+  key() {
+    return this._key;
+  }
+
   static fromDict(production_sheet, _data, dict) {
-    return new AddMineralPointsCommand(production_sheet, dict.points);
+    return new AddMineralPointsCommand(production_sheet, dict.points, dict.key);
   }
 }
 
 export class SubtractMaintenancePointsCommand {
-  constructor(production_sheet, points) {
+  constructor(production_sheet, points, key=Date.now()) {
     this._production_sheet = production_sheet;
     this._points = parseInt(points);
+    this._key = key;
   }
 
   do() {
@@ -109,19 +128,25 @@ export class SubtractMaintenancePointsCommand {
   toDict() {
     return {
         name: "SubtractMaintenancePointsCommand",
-        points: this._points
+        points: this._points,
+        key: this._key
     };
   }
 
+  key() {
+    return this._key;
+  }
+
   static fromDict(production_sheet, _data, dict) {
-    return new SubtractMaintenancePointsCommand(production_sheet, dict.points);
+    return new SubtractMaintenancePointsCommand(production_sheet, dict.points, dict.key);
   }
 }
 
 export class SubtractBidPointsCommand {
-  constructor(production_sheet, points) {
+  constructor(production_sheet, points, key=Date.now()) {
     this._production_sheet = production_sheet;
     this._points = parseInt(points);
+    this._key = key;
   }
 
   do() {
@@ -139,20 +164,26 @@ export class SubtractBidPointsCommand {
   toDict() {
     return {
         name: "SubtractBidPointsCommand",
-        points: this._points
+        points: this._points,
+        key: this._key
     };
   }
 
+  key() {
+    return this._key;
+  }
+
   static fromDict(production_sheet, _data, dict) {
-    return new SubtractBidPointsCommand(production_sheet, dict.points);
+    return new SubtractBidPointsCommand(production_sheet, dict.points, dict.key);
   }
 }
 
 export class EndTurnCommand {
-  constructor(production_sheet, turn, currentCP) {
+  constructor(production_sheet, turn, currentCP, key=Date.now()) {
     this._production_sheet = production_sheet;
     this._turn = turn;
     this._currentCP = currentCP;
+    this._key = key;
   }
 
   do() {
@@ -167,24 +198,31 @@ export class EndTurnCommand {
     return "End turn " + this._turn + " with " + this._currentCP + " CPs.";
   }
 
-
   toDict() {
     return {
         name: "EndTurnCommand",
-        turn: this._turn
+        turn: this._turn,
+        currentCP: this._currentCP,
+        key: this._key
     };
   }
 
+  key() {
+    return this._key;
+  }
+
   static fromDict(production_sheet, _data, dict) {
-    return new EndTurnCommand(production_sheet, dict.turn);
+    return new EndTurnCommand(production_sheet, dict.turn, dict.currentCP, dict.key);
   }
 }
 
 export class IncreaseTechCommand {
-  constructor(production_sheet, tech, wreck) {
+  constructor(production_sheet, tech, level, wreck, key=Date.now()) {
     this._production_sheet = production_sheet;
     this._tech = tech;
+    this._level = level;
     this._wreck = wreck;
+    this._key = key;
   }
 
   do () {
@@ -202,21 +240,28 @@ export class IncreaseTechCommand {
   }
 
   toString () {
-    return this._tech.title + ' increased.';
+    var acquisition = this._wreck ? 'acquired from Space Wreck' : 'purchased';
+    return this._tech.title + ' level ' + this._level + ' ' + acquisition + '.';
   }
 
   toDict() {
     return {
       name: 'IncreaseTechCommand',
       tech: this._tech.title,
-      wreck: this._wreck
+      level: this._level,
+      wreck: this._wreck,
+      key: this._key
     }
-  };
+  }
+
+  key() {
+    return this._key;
+  }
 
   static fromDict(production_sheet, data, dict) {
     for (var tech of data.techs) {
       if (dict.tech == tech.title) {
-        return new IncreaseTechCommand(production_sheet, tech, dict.wreck)
+        return new IncreaseTechCommand(production_sheet, tech, dict.level, dict.wreck, dict.key)
       }
     }
     return;
@@ -224,9 +269,10 @@ export class IncreaseTechCommand {
 }
 
 export class PurchaseShipCommand {
-  constructor(production_sheet, ship) {
+  constructor(production_sheet, ship, key=Date.now()) {
     this._production_sheet = production_sheet;
     this._ship = ship;
+    this._key = key;
   }
 
   do() {
@@ -244,14 +290,19 @@ export class PurchaseShipCommand {
   toDict() {
     return {
       name: "PurchaseShipCommand",
-      ship_type: this._ship.type
+      ship_type: this._ship.type,
+      key: this._key
     };
+  }
+
+  key() {
+    return this._key;
   }
 
   static fromDict(production_sheet, data, dict) {
     for (var ship of data.ships) {
       if (dict.ship_type == ship.type) {
-        return new PurchaseShipCommand(production_sheet, ship)
+        return new PurchaseShipCommand(production_sheet, ship, dict.key)
       }
     }
     return;
@@ -259,9 +310,10 @@ export class PurchaseShipCommand {
 }
 
 export class LoseShipCommand {
-  constructor(production_sheet, ship) {
+  constructor(production_sheet, ship, key=Date.now()) {
     this._production_sheet = production_sheet;
     this._ship = ship;
+    this._key = key;
   }
 
   do() {
@@ -279,14 +331,60 @@ export class LoseShipCommand {
   toDict() {
     return {
       name: 'LoseShipCommand',
-      ship_type: this._ship.type
+      ship_type: this._ship.type,
+      key: this._key
     };
+  }
+
+  key() {
+    return this._key;
   }
 
   static fromDict(production_sheet, data, dict) {
     for (var ship of data.ships) {
       if (dict.ship_type == ship.type) {
-        return new LoseShipCommand(production_sheet, ship)
+        return new LoseShipCommand(production_sheet, ship, dict.key)
+      }
+    }
+    return;
+  }
+}
+
+export class UpgradeShipCommand {
+  constructor(production_sheet, ship, key=Date.now()) {
+    this._production_sheet = production_sheet;
+    this._ship = ship;
+    this._key = key;
+  }
+
+  do() {
+    this._production_sheet.upgradeShip(this._ship);
+  }
+
+  undo() {
+    this._production_sheet.downgradeShip(this._ship);
+  }
+
+  toString() {
+    return this._ship.name + ' upgraded.';
+  }
+
+  toDict() {
+    return {
+      name: 'UpgradeShipCommand',
+      ship_type: this._ship.type,
+      key: this._key
+    };
+  }
+
+  key() {
+    return this._key;
+  }
+
+  static fromDict(production_sheet, data, dict) {
+    for (var ship of data.ships) {
+      if (dict.ship_type == ship.type) {
+        return new UpgradeShipCommand(production_sheet, ship, dict.key)
       }
     }
     return;
@@ -305,7 +403,8 @@ export class CommandFactory {
       'EndTurnCommand': EndTurnCommand,
       'PurchaseShipCommand': PurchaseShipCommand,
       'LoseShipCommand': LoseShipCommand,
-      'IncreaseTechCommand': IncreaseTechCommand
+      'IncreaseTechCommand': IncreaseTechCommand,
+      'UpgradeShipCommand': UpgradeShipCommand,
     };
 
     return commands[name].fromDict(production_sheet, data, dict);

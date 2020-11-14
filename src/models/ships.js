@@ -8,13 +8,11 @@ export class Ship {
     this.cost = ship_data['cp']
     this.hullSize = ship_data['hull']
     this.shipSize = ship_data['size']
-    this._maintenance = true;
+    this._maintenance = ('maintenance' in ship_data) ? ship_data['maintenance'] : true;
+    this._upgrade = ('upgrade' in ship_data) ? ship_data['upgrade'] : false;
     this._maxCount = 50
-    this.currentCount = 0;
+    this.currentCount = ('start' in ship_data) ? ship_data['start'] : 0;
 
-    if ('maintenance' in ship_data) {
-      this.maintenance = ship_data['maintenance'];
-    }
     this._prereq = { 'Ship Size': this.shipSize };
     
     if ('prereq' in ship_data) {
@@ -54,6 +52,14 @@ export class Ship {
     }
 
     return (this.cost <= constructionPoints);
+  }
+
+  upgradable() {
+    return this._upgrade;
+  }
+
+  canUpgrade(constructionPoints) {
+    return this._upgrade && this.currentCount > 0 && constructionPoints > this.hullSize
   }
 
   totalMaintenance() {

@@ -4,67 +4,83 @@ ship:
     cp: 8
     hull: 1
     size: 1
+    start: 3
     maintenance: false
+    upgrade: false
   - type: SY
     name: Ship Yard
     cp: 6
     hull: 1
     size: 1
+    start: 4
     maintenance: false
+    upgrade: false
   - type: Miner
     name: Mining Ship
     cp: 5
     hull: 1
     size: 1
+    start: 1
     maintenance: false
+    upgrade: false
   - type: Decoy
     name: Decoy
     cp: 1
     hull: 0
     size: 1
     maintenance: false
+    upgrade: false
   - type: SC
     name: Scout
     cp: 6
     hull: 1
     size: 1
+    start: 3
+    upgrade: true
   - type: DD
     name: Destroyer
     cp: 9
     hull: 1
     size: 2
+    upgrade: true
   - type: Base
     name: Base
     cp: 12
     hull: 3
     size: 2
     maintenance: false
+    upgrade: false
   - type: CA
     name: Cruiser
     cp: 12
     hull: 2
     size: 3
+    upgrade: true
   - type: BC
     name: Battlecruiser
     cp: 15
     hull: 2
     size: 4
+    upgrade: true
   - type: BB
     name: Battleship
     cp: 20
     hull: 3
     size: 5
+    upgrade: true
   - type: DN
     name: Dreadnaught
     cp: 24
     hull: 3
     size: 6
+    upgrade: true
   - type: Mines
     name: Mines
     cp: 5
     hull: 1
     size: 1
     maintenance: false
+    upgrade: true
     prereq:
       - name: Mines
         level: 1
@@ -73,6 +89,7 @@ ship:
     cp: 6
     hull: 1
     size: 1
+    upgrade: true
     prereq:
       - name: Mine Sweep
         level: 1
@@ -82,11 +99,13 @@ ship:
     hull: 1
     size: 1
     maintenance: false
+    upgrade: false
   - type: R
     name: Raider
     cp: 12
     hull: 2
     size: 1
+    upgrade: true
     prereq:
       - name: Cloaking
         level: 1
@@ -95,6 +114,7 @@ ship:
     cp: 12
     hull: 1
     size: 1
+    upgrade: true
     prereq:
       - name: Fighter
         level: 1
@@ -103,6 +123,7 @@ ship:
     cp: 5
     hull: 1
     size: 1
+    upgrade: true
     prereq:
       - name: Fighter
         level: 1    

@@ -45,6 +45,7 @@ tech:
     advanced: true
     shipwreck: false
   - name: Point Defense
+    shortname: Pt. Def.
     start: 0
     cost: [20, 20, 20]
     advanced: true
@@ -65,6 +66,7 @@ tech:
     advanced: true
     shipwreck: false
   - name: Mine Sweep
+    shortname: Mine Sw.
     start: 0
     cost: [10, 15]
     advanced: true
