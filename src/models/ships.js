@@ -9,10 +9,11 @@ export class Ship {
     this.hullSize = ship_data['hull']
     this.shipSize = ship_data['size']
     this._maintenance = ('maintenance' in ship_data) ? ship_data['maintenance'] : true;
-    this._upgrade = ('upgrade' in ship_data) ? ship_data['upgrade'] : false;
+    this._upgrade = ('upgradable' in ship_data) ? ship_data['upgradable'] : false;
+    this._autoUpgrade = ('autoupgrade' in ship_data) ? ship_data['autoupgrade'] : false;
     this._maxCount = 50
     this.currentCount = ('start' in ship_data) ? ship_data['start'] : 0;
-
+    
     this._prereq = { 'Ship Size': this.shipSize };
     
     if ('prereq' in ship_data) {
@@ -77,5 +78,13 @@ export class Ship {
       }
     }
     return true;
+  }
+}
+
+export class ShipGroup {
+  constructor (groupData) {
+    this.label = groupData['label'];
+    this.count = ('count' in groupData) ? groupData['count'] : 1;
+    this.techLevels = {};
   }
 }

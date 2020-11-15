@@ -125,11 +125,13 @@ export default {
         return this.initialData();
       };
       var data = spaceEmpiresStorage.fetch();
-      var tech_data = data.techs.map(tech => Object.assign(new TechnologyProgression(), JSON.parse(tech)));
-      data.techs = tech_data;
+      data.techs = data.techs.map(tech => Object.assign(new TechnologyProgression(), JSON.parse(tech)));
 
-      var ship_data = data.ships.map(ship => Object.assign(new Ship(), JSON.parse(ship)));
-      data.ships = ship_data;
+      data.ships = data.ships.map(ship => {
+        var ship_obj = JSON.parse(ship);
+        ship_obj.fakestuff = ship_obj.fakestuff.map(fake => Object.assign(new TempShipThing(), fake));
+        return Object.assign(new Ship(), ship_obj)
+      });
       
       var commandFactory = new CommandFactory();
       
