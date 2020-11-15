@@ -1,5 +1,5 @@
 export class Ship {
-  constructor(ship_data) {
+  constructor(ship_data, tech_data) {
     if (ship_data === undefined) {
       return;
     }
@@ -13,6 +13,32 @@ export class Ship {
     this._autoUpgrade = ('autoupgrade' in ship_data) ? ship_data['autoupgrade'] : false;
     this._maxCount = 50
     this.currentCount = ('start' in ship_data) ? ship_data['start'] : 0;
+    this.groups = {};
+    
+    if (ship_data['groups'] !== false) {
+      var group_techs = {};
+      if ('techs' in ship_data) {
+        for (var tech of ship_data['techs']) {
+          for (var techObj of tech_data) {
+            if (techObj.title === tech['tech']) {
+              group_techs[tech['tech']] = {
+                'title': tech['tech'],
+                'level': techObj.minLevel,
+                'limit': ('limit' in tech) ? tech['limit'] : true
+              }
+            }
+          }
+        }
+      }
+
+      for (var group of ship_data['groups']) {
+        var group_data = {
+          'label': group,
+          'count': this.currentCount
+        };
+        this.groups[group] = new ShipGroup(group_data, group_techs);
+      }
+    }
     
     this._prereq = { 'Ship Size': this.shipSize };
     
@@ -82,9 +108,13 @@ export class Ship {
 }
 
 export class ShipGroup {
-  constructor (groupData) {
-    this.label = groupData['label'];
-    this.count = ('count' in groupData) ? groupData['count'] : 1;
-    this.techLevels = {};
+  constructor (group_data, group_techs) {
+    if (group_data  === undefined) {
+      return;
+    }
+    
+    this.label = group_data['label'];
+    this.count = ('count' in group_data) ? group_data['count'] : 1;
+    this.techLevels = Object.assign({}, group_techs);
   }
 }

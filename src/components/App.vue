@@ -47,7 +47,7 @@ import TechTab from "./TechTab.vue";
 import ShipTab from "./ShipTab.vue";
 import HistoryTab from "./HistoryTab.vue";
 
-import { Ship } from '../models/ships';
+import { Ship, ShipGroup } from '../models/ships';
 import { TechnologyProgression } from '../models/technologies';
 import { CommandFactory, SubtractMaintenancePointsCommand,
          EndTurnCommand } from '../models/commands';
@@ -105,7 +105,7 @@ export default {
   methods: {
     initialData: function () {
       var techs = TECH_DATA['tech'].map(tech => new TechnologyProgression(tech));
-      var ships = SHIP_DATA['ship'].map(ship => new Ship(ship));
+      var ships = SHIP_DATA['ship'].map(ship => new Ship(ship, techs));
       return {
         turn: 1,
         commands: [],
@@ -129,7 +129,11 @@ export default {
 
       data.ships = data.ships.map(ship => {
         var ship_obj = JSON.parse(ship);
-        ship_obj.fakestuff = ship_obj.fakestuff.map(fake => Object.assign(new TempShipThing(), fake));
+        var groups = {};
+        for (var group in ship_obj.groups) {
+          groups[group] = Object.assign(new ShipGroup(), ship_obj.groups[group]);
+        }
+        ship_obj.groups = groups;
         return Object.assign(new Ship(), ship_obj)
       });
       

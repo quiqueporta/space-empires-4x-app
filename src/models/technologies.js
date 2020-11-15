@@ -8,13 +8,13 @@ export class TechnologyProgression {
     this.short = ('shortname' in tech_data) ? tech_data['shortname'] : tech_data['name'];
     this.advanced = tech_data['advanced'];
     this.wreck = tech_data['shipwreck'];
-    this._minLevel = tech_data['start'];
+    this.minLevel = tech_data['start'];
     this._maxLevel = tech_data['start'] + tech_data['cost'].length;
     this.costs = {};
     for (var i = 0; i < tech_data['cost'].length; i++) {
-      this.costs[i + 1 + this._minLevel] = tech_data['cost'][i]
+      this.costs[i + 1 + this.minLevel] = tech_data['cost'][i]
     }
-    this.currentLevel = this._minLevel;
+    this.currentLevel = this.minLevel;
   }
 
   cleanTitle() {
@@ -30,7 +30,7 @@ export class TechnologyProgression {
   }
 
   decreaseLevel() {
-    if (this.currentLevel <= this._minLevel) {
+    if (this.currentLevel <= this.minLevel) {
       return;
     }
 
