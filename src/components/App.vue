@@ -173,7 +173,7 @@ export default {
         return;
       }
 
-      this._executeCommand(new EndTurnCommand(this, this.turn));
+      this._executeCommand(new EndTurnCommand(this, this.turn, this.constructionPoints));
     },
     increaseTurn() {
       this.turn += 1;
