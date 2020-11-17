@@ -1,3 +1,5 @@
+var _ = require('lodash');
+
 export class Ship {
   constructor(ship_data, tech_data) {
     if (ship_data === undefined) {
@@ -13,30 +15,25 @@ export class Ship {
     this._autoUpgrade = ('autoupgrade' in ship_data) ? ship_data['autoupgrade'] : false;
     this._maxCount = 50
     this.currentCount = ('start' in ship_data) ? ship_data['start'] : 0;
-    this.groups = {};
+    this._groups = {};
+    this._techs = ship_data['techs'];
     
     if (ship_data['groups'] !== false) {
-      var group_techs = {};
+      var groupTechs = {};
       if ('techs' in ship_data) {
-        for (var tech of ship_data['techs']) {
-          for (var techObj of tech_data) {
-            if (techObj.title === tech['tech']) {
-              group_techs[tech['tech']] = {
-                'title': tech['tech'],
-                'level': techObj.minLevel,
-                'limit': ('limit' in tech) ? tech['limit'] : true
-              }
-            }
-          }
-        }
+        groupTechs = this._techInfo(tech_data);
       }
 
       for (var group of ship_data['groups']) {
-        var group_data = {
+        var groupData = {
           'label': group,
-          'count': this.currentCount
+          'count': 0
         };
-        this.groups[group] = new ShipGroup(group_data, group_techs);
+        this._groups[group] = new ShipGroup(groupData, groupTechs);
+      }
+
+      if ('start' in ship_data) {
+        this.addGroup(ship_data['start']);
       }
     }
     
@@ -55,6 +52,33 @@ export class Ship {
     } 
     
     return this.type;
+  }
+
+  grouped() {
+    return !_.isEmpty(this._groups);
+  }
+
+  groups() {
+    var activeGroups = [];
+    for (var [g, group] of Object.entries(this._groups)) {
+      if (group.count > 0) {
+        activeGroups.push(group);
+      }
+    }
+
+    return activeGroups;
+  }
+
+  addGroup(count, tech) {
+    if (!count) { count = 1 }
+
+    for (var [g, group] of Object.entries(this._groups)) {
+      if (group.count === 0) {
+        group.count = count;
+        // add techs?
+        return;
+      }
+    }
   }
 
   increaseCount() {
@@ -105,6 +129,24 @@ export class Ship {
     }
     return true;
   }
+
+  _techInfo(tech_data) {
+    var groupTechs = {};
+    
+    for (var tech of this._techs) {
+      for (var techObj of tech_data) {
+        if (techObj.title === tech['tech']) {
+          groupTechs[tech['tech']] = {
+            'title': tech['tech'],
+            'level': techObj.minLevel,
+            'limit': ('limit' in tech) ? tech['limit'] : true
+          }
+        }
+      }
+    }
+
+    return groupTechs;
+  }
 }
 
 export class ShipGroup {
@@ -114,7 +156,13 @@ export class ShipGroup {
     }
     
     this.label = group_data['label'];
-    this.count = ('count' in group_data) ? group_data['count'] : 1;
+    this.count = ('count' in group_data) ? group_data['count'] : 0;
     this.techLevels = Object.assign({}, group_techs);
+  }
+
+  techString() {
+    if (!this.techLevels) { return '' }
+    console.log(this.techLevels);
+    return _.map(this.techLevels, tech => tech.title.split(' ').map(i => i[0]).join('') + ':' + tech.level).join(' | ');
   }
 }

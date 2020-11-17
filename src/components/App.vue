@@ -26,6 +26,11 @@
                       v-bind:ships="ships"
                       v-bind:techs="techs" />
           </b-tab>
+          <b-tab title="Ships2">
+            <ShipTab2 v-bind:psheet="this"
+                       v-bind:ships="ships"
+                       v-bind:techs="techs" />
+          </b-tab>
           <b-tab title="History">
             <HistoryTab v-bind:psheet="this" />
           </b-tab>
@@ -45,6 +50,7 @@ import { BootstrapVue } from 'bootstrap-vue';
 import CPTab from "./CPTab.vue";
 import TechTab from "./TechTab.vue";
 import ShipTab from "./ShipTab.vue";
+import ShipTab2 from "./ShipTab2.vue";
 import HistoryTab from "./HistoryTab.vue";
 
 import { Ship, ShipGroup } from '../models/ships';
@@ -98,7 +104,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 export default {
   name: "App",
-  components: { CPTab, TechTab, ShipTab, HistoryTab },
+  components: { CPTab, TechTab, ShipTab, ShipTab2, HistoryTab },
   data: function() {
     return this.loadData(this);
   },
