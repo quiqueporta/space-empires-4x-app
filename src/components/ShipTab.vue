@@ -1,43 +1,33 @@
 <template>
   <b-container fluid class="ship-tab">
-    <b-table :items="allShips"
-             :fields="fields" 
-             :filter-function="shipFilter"
-             :filter="'x'"
-             thead-class="d-none"
-             tbody-tr-class="ship-row">
-      <template #cell(ship)="data">
-        <div class="ship-name text-right">
-          {{ shipLabel(data.item) }} <b-badge :variant="shipBadgeVariant(data.item)">{{ data.item.currentCount }}</b-badge>
-        </div>
-      </template>
-
-      <template #cell(buy)="data">
-        <b-button variant="primary" size="sm" v-on:click="purchaseShip(data.item)" v-bind:disabled="disableBuy(data.item)">Buy ({{ data.item.cost }})</b-button>
-      </template>
-
-      <template #cell(lose)="data">
-        <b-button variant="primary" size="sm" v-on:click="loseShip(data.item)" v-bind:disabled="disableLose(data.item)">Lose</b-button>
-      </template>
-
-      <template #cell(upgrade)="data">
-        <b-button v-if="data.item.upgradable()"
-                  variant="primary"
-                  size="sm"
-                  v-on:click="upgradeShip(data.item)"
-                  v-bind:disabled="disableUpgrade(data.item)">
-          Upgr. ({{ data.item.hullSize }})
-        </b-button>
-      </template>
-    </b-table>
+    <b-row>
+      <b-col class="section-header"><strong>Non-Grouped Ships</strong></b-col>
+    </b-row>
+    <ShipRow
+        v-for="ship in nonGroupedShips"
+        v-bind:key="ship.type"
+        v-bind:ship="ship"
+        v-bind:techs="techs"
+        v-bind:psheet="psheet"></ShipRow>
+    <b-row>
+      <b-col class="section-header"><strong>Grouped Ships</strong></b-col>
+    </b-row>
+    <ShipRow
+        v-for="ship in availableShips"
+        v-bind:key="ship.type"
+        v-bind:ship="ship"
+        v-bind:techs="techs"
+        v-bind:psheet="psheet"></ShipRow>
   </b-container>
 </template>
 
 <script>
 import { PurchaseShipCommand, LoseShipCommand, UpgradeShipCommand } from "../models/commands";
+import ShipRow from "./ShipRow.vue";
 
 export default {
   name: "ShipTab",
+  components: { ShipRow },
   props: [ 'ships', 'techs', 'psheet' ],
   methods: {
     purchaseShip: function(ship) {
@@ -103,6 +93,12 @@ export default {
     fields: function() {
       return ['ship', 'buy', 'lose', 'upgrade'];
     },
+    nonGroupedShips: function() {
+      return this.ships.filter(ship => !ship.grouped());
+    },
+    availableShips: function() {
+      return this.ships.filter(ship => ship.grouped() && ship.requirementsMet(this.techs));
+    },
     allShips: function() {
       return this.ships;
     }
@@ -113,6 +109,11 @@ export default {
 <style scoped>
 .ship-tab >>> .ship-row td {
   vertical-align: middle;
+}
+
+.section-header {
+  font-weight: bold;
+  background-color: lightskyblue;
 }
 
 @media only screen and (max-width: 400px) {

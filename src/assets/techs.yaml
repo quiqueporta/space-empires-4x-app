@@ -36,7 +36,7 @@ tech:
     cost: [15]
     advanced: false
     shipwreck: true
-  - name: SY
+  - name: Ship Yard
     start: 1
     cost: [20, 25]
     advanced: false

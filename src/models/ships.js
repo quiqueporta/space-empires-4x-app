@@ -69,16 +69,28 @@ export class Ship {
     return activeGroups;
   }
 
+  mergableGroups(fromGroup) {
+    return this.groups().filter(otherGroup => fromGroup.canMergeInto(otherGroup));
+  }
+
+  hasAvailableGroup() {
+    return this.groups().length < _.keys(this._groups).length
+  }
+
   addGroup(count, tech_data) {
     if (!count) { count = 1 }
 
     for (var [g, group] of Object.entries(this._groups)) {
       if (group.count === 0) {
-        group.count = count;
-        if (tech_data) { group.upgrade(tech_data, this.hullSize); }
+        this.setGroupData(group, count, tech_data);
         return g;
       }
     }
+  }
+
+  setGroupData(group, count, tech_data) {
+    group.count = count;
+    if (tech_data) { group.upgrade(tech_data, this.hullSize); }
   }
 
   increaseCount(groupLabel, tech_data) {
@@ -127,7 +139,7 @@ export class Ship {
     }
 
     // purchasing the first ship for a new group only allowed if there's an available group
-    return this.groups().length < _.keys(this._groups).length
+    return this.hasAvailableGroup()
   }
 
   canLose(groupLabel) {
@@ -172,6 +184,28 @@ export class Ship {
 
   downgrade(oldTechs, groupLabel) {
     this._groups[groupLabel].techLevels = _.cloneDeep(oldTechs);
+  }
+
+  splitGroup(groupLabel, count, newGroupLabel=null) {
+    var newGroup;
+    if (newGroupLabel) {
+      newGroup = newGroupLabel;
+      this.setGroupData(this._groups[newGroup], count);
+    } else {
+      newGroup = this.addGroup(count);
+    }
+    this._groups[groupLabel].count -= count;
+    this._groups[newGroup].techLevels = _.cloneDeep(this._groups[groupLabel].techLevels);
+
+    return newGroup;
+  }
+
+  mergeGroups(fromGroup, toGroup) {
+    var numMerged = this._groups[fromGroup].count
+    this._groups[toGroup].count += numMerged;
+    this._groups[fromGroup].count = 0;
+
+    return numMerged;
   }
 
   totalMaintenance() {
@@ -247,6 +281,28 @@ export class ShipGroup {
 
     // If it gets here, all techs are at max
     return false;
+  }
+
+  canMergeInto(otherGroup) {
+    if (this.label === otherGroup.label) {
+      return false;
+    }
+
+    if (otherGroup.count === 0 || this.count + otherGroup.count > 6) {
+      return false;
+    }
+
+    if (!_.isEqual(_.keys(this.techLevels).sort(), _.keys(otherGroup.techLevels).sort())) {
+      return false;
+    }
+
+    for (var tech of _.keys(this.techLevels)) {
+      if (!_.isEqual(this.techLevels[tech], otherGroup.techLevels[tech])) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   upgrade(tech_data, hullSize) {

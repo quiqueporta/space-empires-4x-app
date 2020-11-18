@@ -382,7 +382,7 @@ export class UpgradeShipCommand {
   }
 
   toString() {
-    return this._ship.name + ' group ' + this._group + ' upgraded.';
+    return this._ship.name + ' ' + this._group + ' upgraded.';
   }
 
   toDict() {
@@ -403,9 +403,105 @@ export class UpgradeShipCommand {
   static fromDict(production_sheet, data, dict) {
     for (var ship of data.ships) {
       if (dict.ship_type == ship.type) {
-        var cmd = new UpgradeShipCommand(production_sheet, ship, dict.key);
+        var cmd = new UpgradeShipCommand(production_sheet, ship, dict.ship_group, dict.key);
         cmd._oldTechs = dict.oldTechs;
         cmd._newTechs = dict.newTechs;
+        return cmd;
+      }
+    }
+    return;
+  }
+}
+
+export class SplitGroupCommand {
+  constructor(production_sheet, ship, group, count, key=Date.now()) {
+    this._production_sheet = production_sheet;
+    this._ship = ship;
+    this._group = group;
+    this._count = count;
+    this._key = key;
+  }
+
+  do() {
+    this._newGroup = this._production_sheet.splitGroup(this._ship, this._group, this._count);
+  }
+
+  undo() {
+    this._production_sheet.mergeGroups(this._ship, this._newGroup, this._group);
+  }
+
+  toString() {
+    return this._count + ' ships in ' + this._ship.name + ' ' + this._group + ' split to ' + this._newGroup + '.';
+  }
+
+  toDict() {
+    return {
+      name: 'SplitGroupCommand',
+      ship_type: this._ship.type,
+      ship_group: this._group,
+      ship_newGroup: this._newGroup,
+      count: this._count,
+      key: this._key
+    };
+  }
+
+  key() {
+    return this._key;
+  }
+
+  static fromDict(production_sheet, data, dict) {
+    for (var ship of data.ships) {
+      if (dict.ship_type === ship.type) {
+        var cmd = new SplitGroupCommand(production_sheet, ship, dict.ship_group, dict.count, dict.key);
+        cmd._newGroup = dict.ship_newGroup;
+        return cmd;
+      }
+    }
+    return;
+  }
+}
+
+export class MergeGroupsCommand {
+  constructor(production_sheet, ship, groupFrom, groupTo, key=Date.now()) {
+    this._production_sheet = production_sheet;
+    this._ship = ship;
+    this._groupFrom = groupFrom;
+    this._groupTo = groupTo;
+    this._key = key;
+  }
+
+  do() {
+    this._count = this._production_sheet.mergeGroups(this._ship, this._groupFrom, this._groupTo);
+  }
+
+  undo() {
+    this._production_sheet.splitGroup(this._ship, this._groupTo, this._count, this._groupFrom);
+  }
+
+  toString() {
+    return this._count + ' ships in ' + this._ship.name + ' ' + this._groupFrom + ' merged into ' + this._groupTo + '.';
+  }
+
+  toDict() {
+    return {
+      name: 'MergeGroupsCommand',
+      ship_type: this._ship.type,
+      ship_groupFrom: this._groupFrom,
+      ship_groupTo: this._groupTo,
+      count: this._count,
+      key: this._key
+    };
+  }
+
+  key() {
+    return this._key;
+  }
+
+  static fromDict(production_sheet, data, dict) {
+    for (var ship of data.ships) {
+      if (dict.ship_type === ship.type) {
+        var cmd = new MergeGroupsCommand(production_sheet, ship, dict.ship_groupFrom, dict.ship_groupTo, dict.key);
+        cmd._count = dict.count;
         return cmd;
       }
     }
@@ -427,6 +523,8 @@ export class CommandFactory {
       'LoseShipCommand': LoseShipCommand,
       'IncreaseTechCommand': IncreaseTechCommand,
       'UpgradeShipCommand': UpgradeShipCommand,
+      'SplitGroupCommand': SplitGroupCommand,
+      'MergeGroupsCommand': MergeGroupsCommand
     };
 
     return commands[name].fromDict(production_sheet, data, dict);

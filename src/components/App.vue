@@ -21,8 +21,8 @@
             <TechTab v-bind:psheet="this"
                       v-bind:techs="techs" />
           </b-tab>
-          <b-tab title="Ships2">
-            <ShipTab2 v-bind:psheet="this"
+          <b-tab title="Ships">
+            <ShipTab v-bind:psheet="this"
                        v-bind:ships="ships"
                        v-bind:techs="techs" />
           </b-tab>
@@ -44,7 +44,7 @@ import { BootstrapVue } from 'bootstrap-vue';
 
 import CPTab from "./CPTab.vue";
 import TechTab from "./TechTab.vue";
-import ShipTab2 from "./ShipTab2.vue";
+import ShipTab from "./ShipTab.vue";
 import HistoryTab from "./HistoryTab.vue";
 
 import { Ship, ShipGroup } from '../models/ships';
@@ -98,7 +98,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 export default {
   name: "App",
-  components: { CPTab, TechTab, ShipTab2, HistoryTab },
+  components: { CPTab, TechTab, ShipTab, HistoryTab },
   data: function() {
     return this.loadData(this);
   },
@@ -229,7 +229,7 @@ export default {
     },
     downgradeGroup: function(ship, group, techs) {
       this.increaseConstructionPoints(ship.upgradeCost(group));
-      ship.downgrade(group, techs);
+      ship.downgrade(techs, group);
     },
     autoUpgradeShips: function() {
       for (var ship of this.ships) {
@@ -237,6 +237,12 @@ export default {
           ship.upgradeAll(this.techs);
         }
       }
+    },
+    splitGroup: function(ship, groupLabel, count, newGroupLabel) {
+      return ship.splitGroup(groupLabel, count, newGroupLabel);
+    },
+    mergeGroups: function(ship, fromGroup, toGroup) {
+      return ship.mergeGroups(fromGroup, toGroup);
     },
     _executeCommand: function(command) {
       command.do();

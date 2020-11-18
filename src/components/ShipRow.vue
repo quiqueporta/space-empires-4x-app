@@ -19,11 +19,24 @@
           <b-button block variant="danger" size="sm" v-on:click="loseShip(ship, group.label)" v-bind:disabled="disableLose(ship, group.label)">Lose</b-button>
         </b-col>
         <b-col cols="1">
-          <b-dropdown right size="sm">
-            <b-dropdown-item>Split 1</b-dropdown-item>
-            <b-dropdown-item>Split 2</b-dropdown-item>
-            <b-dropdown-divider></b-dropdown-divider>
-            <b-dropdown-item>Merge with X</b-dropdown-item>
+          <b-dropdown right boundary="viewport" size="sm">
+            <b-dropdown-item v-if="hasNoCommands(ship, group)">Cannot split or merge</b-dropdown-item>
+            <template v-if="ship.hasAvailableGroup()">
+              <b-dropdown-item
+                  v-for="i in group.count-1"
+                  v-bind:key="splitKey(group, i)"
+                  v-on:click="splitGroup(ship, group, i)"
+                  >
+                Split out {{ i }}
+              </b-dropdown-item>
+            </template>
+            <b-dropdown-divider v-if="canSplitAndMerge(ship, group)"></b-dropdown-divider>
+            <b-dropdown-item 
+                v-for="otherGroup in ship.mergableGroups(group)"
+                v-bind:key="mergeKey(group, otherGroup)"
+                v-on:click="mergeGroups(ship, group, otherGroup)">
+              Merge into {{ otherGroup.label }}
+            </b-dropdown-item>
           </b-dropdown>
         </b-col>
       </b-row>
@@ -56,7 +69,7 @@
 
 
 <script>
-import { PurchaseShipCommand, LoseShipCommand, UpgradeShipCommand } from "../models/commands";
+import { PurchaseShipCommand, LoseShipCommand, UpgradeShipCommand, SplitGroupCommand, MergeGroupsCommand } from "../models/commands";
 import { BIconCaretDownSquare } from 'bootstrap-vue';
 
 export default {
@@ -100,6 +113,17 @@ export default {
 
       this.psheet._executeCommand(new UpgradeShipCommand(this.psheet, ship, group));
     },
+    splitGroup: function(ship, group, count) {
+      if (!ship.hasAvailableGroup() || group.count <= 1) {
+        this.psheet._notifyWarning("You cannot split that group.");
+        return;
+      }
+
+      this.psheet._executeCommand(new SplitGroupCommand(this.psheet, ship, group.label, count)); 
+    },
+    mergeGroups: function(ship, fromGroup, toGroup) {
+      this.psheet._executeCommand(new MergeGroupsCommand(this.psheet, ship, fromGroup.label, toGroup.label));
+    },
     shipBadgeVariant: function(ship) {
       if (ship.currentCount > 0) {
         return 'success';
@@ -115,6 +139,18 @@ export default {
     },
     disableUpgrade: function(ship, groupName) {
       return !ship.canUpgrade(this.psheet.constructionPoints, this.techs, groupName);
+    },
+    splitKey: function(group, number) {
+      return group.label + '-s-' + number;
+    },
+    mergeKey: function(fromGroup, toGroup) {
+      return fromGroup.label + '-m-' + toGroup.label;
+    },
+    canSplitAndMerge: function(ship, group) {
+      return ship.hasAvailableGroup() && group.count > 1 && ship.mergableGroups(group).length > 0;
+    },
+    hasNoCommands: function(ship, group) {
+      return ship.mergableGroups(group).length === 0 && (!ship.hasAvailableGroup() || group.count <= 1);
     }
   }
 }

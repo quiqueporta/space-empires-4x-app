@@ -24,6 +24,7 @@ ship:
       - tech: Defense
         limit: false
       - tech: Tactics
+      - tech: Ship Yard
   - type: Miner
     name: Mining Ship
     cp: 5
