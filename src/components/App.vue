@@ -21,11 +21,6 @@
             <TechTab v-bind:psheet="this"
                       v-bind:techs="techs" />
           </b-tab>
-          <b-tab title="Ships">
-            <ShipTab v-bind:psheet="this"
-                      v-bind:ships="ships"
-                      v-bind:techs="techs" />
-          </b-tab>
           <b-tab title="Ships2">
             <ShipTab2 v-bind:psheet="this"
                        v-bind:ships="ships"
@@ -49,7 +44,6 @@ import { BootstrapVue } from 'bootstrap-vue';
 
 import CPTab from "./CPTab.vue";
 import TechTab from "./TechTab.vue";
-import ShipTab from "./ShipTab.vue";
 import ShipTab2 from "./ShipTab2.vue";
 import HistoryTab from "./HistoryTab.vue";
 
@@ -104,7 +98,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 export default {
   name: "App",
-  components: { CPTab, TechTab, ShipTab, ShipTab2, HistoryTab },
+  components: { CPTab, TechTab, ShipTab2, HistoryTab },
   data: function() {
     return this.loadData(this);
   },
@@ -136,10 +130,10 @@ export default {
       data.ships = data.ships.map(ship => {
         var ship_obj = JSON.parse(ship);
         var groups = {};
-        for (var group in ship_obj.groups) {
-          groups[group] = Object.assign(new ShipGroup(), ship_obj.groups[group]);
+        for (var group in ship_obj._groups) {
+          groups[group] = Object.assign(new ShipGroup(), ship_obj._groups[group]);
         }
-        ship_obj.groups = groups;
+        ship_obj._groups = groups;
         return Object.assign(new Ship(), ship_obj)
       });
       
@@ -214,25 +208,35 @@ export default {
       });
       return result;
     },
-    purchaseShip: function(ship) {
-      ship.increaseCount();
+    purchaseShip: function(ship, group) {
+      group = ship.increaseCount(group, this.techs);
       this.decreaseConstructionPoints(ship.cost);
+      return group;
     },
-    sellShip: function(ship) {
-      ship.decreaseCount();
+    sellShip: function(ship, group) {
+      ship.decreaseCount(group);
       this.increaseConstructionPoints(ship.cost);
     },
-    loseShip: function(ship) {
-      ship.decreaseCount();
+    loseShip: function(ship, group) {
+      ship.decreaseCount(group);
     },
-    regainShip: function(ship) {
-      ship.increaseCount();
+    regainShip: function(ship, group) {
+      ship.increaseCount(group);
     },
-    upgradeShip: function(ship) {
-      this.decreaseConstructionPoints(ship.hullSize);
+    upgradeGroup: function(ship, group) {
+      this.decreaseConstructionPoints(ship.upgradeCost(group));
+      return ship.upgrade(this.techs, group);
     },
-    downgradeShip: function(ship) {
-      this.increaseConstructionPoints(ship.hullSize);
+    downgradeGroup: function(ship, group, techs) {
+      this.increaseConstructionPoints(ship.upgradeCost(group));
+      ship.downgrade(group, techs);
+    },
+    autoUpgradeShips: function() {
+      for (var ship of this.ships) {
+        if (ship.autoUpgrade) {
+          ship.upgradeAll(this.techs);
+        }
+      }
     },
     _executeCommand: function(command) {
       command.do();

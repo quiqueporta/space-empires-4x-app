@@ -12,7 +12,7 @@ export class Ship {
     this.shipSize = ship_data['size']
     this._maintenance = ('maintenance' in ship_data) ? ship_data['maintenance'] : true;
     this._upgrade = ('upgradable' in ship_data) ? ship_data['upgradable'] : false;
-    this._autoUpgrade = ('autoupgrade' in ship_data) ? ship_data['autoupgrade'] : false;
+    this.autoUpgrade = ('autoupgrade' in ship_data) ? ship_data['autoupgrade'] : false;
     this._maxCount = 50
     this.currentCount = ('start' in ship_data) ? ship_data['start'] : 0;
     this._groups = {};
@@ -33,7 +33,7 @@ export class Ship {
       }
 
       if ('start' in ship_data) {
-        this.addGroup(ship_data['start']);
+        this.addGroup(ship_data['start'], tech_data);
       }
     }
     
@@ -69,56 +69,126 @@ export class Ship {
     return activeGroups;
   }
 
-  addGroup(count, tech) {
+  addGroup(count, tech_data) {
     if (!count) { count = 1 }
 
     for (var [g, group] of Object.entries(this._groups)) {
       if (group.count === 0) {
         group.count = count;
-        // add techs?
-        return;
+        if (tech_data) { group.upgrade(tech_data, this.hullSize); }
+        return g;
       }
     }
   }
 
-  increaseCount() {
-    if (this.currentCount >= this._maxCount) {
+  increaseCount(groupLabel, tech_data) {
+    if (!this.grouped()) {
+      if (this.currentCount < this._maxCount) {
+        this.currentCount += 1;
+      }
+      return groupLabel;
+    }
+
+    if (groupLabel) {
+      if (this._groups[groupLabel].count < 6) {
+        this._groups[groupLabel].count += 1;
+      }
+      return groupLabel;
+    }
+
+    return this.addGroup(1, tech_data);
+  }
+
+  decreaseCount(groupLabel) {
+    if (!this.grouped()) {
+      if (this.currentCount > 0) {
+        this.currentCount -= 1;
+      }
       return;
     }
 
-    this.currentCount += 1;
-  }
-
-  decreaseCount() {
-    if (this.currentCount <= 0) {
-      return;
+    if (this._groups[groupLabel].count > 0) {
+      this._groups[groupLabel].count -= 1;
     }
-
-    this.currentCount -= 1;
   }
 
-  canPurchase(constructionPoints) {
-    if (this.currentCount >= this._maxCount) {
+  canPurchase(constructionPoints, groupLabel) {
+    if (this.cost > constructionPoints) {
       return false;
     }
 
-    return (this.cost <= constructionPoints);
+    if (!this.grouped()) {
+      return this.currentCount < this._maxCount;
+    }
+
+    // purchasing a ship for an existing group 
+    if (groupLabel) {
+      return this._groups[groupLabel].count < 6;
+    }
+
+    // purchasing the first ship for a new group only allowed if there's an available group
+    return this.groups().length < _.keys(this._groups).length
   }
 
-  upgradable() {
+  canLose(groupLabel) {
+    if (!this.grouped()) {
+      return this.currentCount > 0;
+    }
+
+    // purchasing a ship for an existing group 
+    return this._groups[groupLabel].count > 0;
+  }
+
+  upgradable(tech_data, groupLabel) {
+    if (this.grouped() && groupLabel) {
+      return this._upgrade && this._groups[groupLabel].canUpgrade(tech_data, this.hullSize);
+    }
+
     return this._upgrade;
   }
 
-  canUpgrade(constructionPoints) {
-    return this._upgrade && this.currentCount > 0 && constructionPoints > this.hullSize
+  canUpgrade(constructionPoints, tech_data, groupLabel) {
+    return this.upgradable(tech_data, groupLabel) && constructionPoints > this.upgradeCost(groupLabel);
+  }
+
+  upgradeCost(groupLabel) {
+    if (groupLabel) {
+      return this.hullSize * this._groups[groupLabel].count;
+    }
+
+    return this.hullSize;
+  }
+
+  upgradeAll(tech_data) {
+    for (var [_, group] of Object.entries(this._groups)) {
+      this.upgrade(tech_data, group.label);
+    }
+  }
+
+  upgrade(tech_data, groupLabel) {
+    this._groups[groupLabel].upgrade(tech_data, this.hullSize);
+    return this.currentTechs(groupLabel);
+  }
+
+  downgrade(oldTechs, groupLabel) {
+    this._groups[groupLabel].techLevels = _.cloneDeep(oldTechs);
   }
 
   totalMaintenance() {
     if (this._maintenance === false) {
       return 0;
     }
+
+    var total = 0;
+    if (this.grouped()) {
+      for (var group of this.groups()) {
+        total += group.count;
+      }
+    } else {
+      total = this.currentCount;
+    }
     
-    return this.currentCount * this.hullSize;
+    return total * this.hullSize;
   }
 
   requirementsMet(techs) {
@@ -128,6 +198,10 @@ export class Ship {
       }
     }
     return true;
+  }
+
+  currentTechs(groupLabel) {
+    return _.cloneDeep(this._groups[groupLabel].techLevels);
   }
 
   _techInfo(tech_data) {
@@ -157,12 +231,36 @@ export class ShipGroup {
     
     this.label = group_data['label'];
     this.count = ('count' in group_data) ? group_data['count'] : 0;
-    this.techLevels = Object.assign({}, group_techs);
+    this.techLevels = _.cloneDeep(group_techs);
+  }
+
+  canUpgrade(tech_data, hullSize) {
+    for (var techObj of tech_data) {
+      if (techObj.title in this.techLevels) {
+        var thisTech = this.techLevels[techObj.title];
+        var max = (techObj.hullLimit && thisTech['limit']) ? hullSize : 99;
+        if (thisTech['level'] < Math.min(max, techObj.currentLevel)) {
+          return true;
+        }
+      }
+    }
+
+    // If it gets here, all techs are at max
+    return false;
+  }
+
+  upgrade(tech_data, hullSize) {
+    for (var techObj of tech_data) {
+      if (techObj.title in this.techLevels) {
+        var thisTech = this.techLevels[techObj.title];
+        var max = (techObj.hullLimit && thisTech['limit']) ? hullSize : 99;
+        thisTech['level'] = Math.min(max, techObj.currentLevel);
+      }
+    }
   }
 
   techString() {
     if (!this.techLevels) { return '' }
-    console.log(this.techLevels);
     return _.map(this.techLevels, tech => tech.title.split(' ').map(i => i[0]).join('') + ':' + tech.level).join(' | ');
   }
 }

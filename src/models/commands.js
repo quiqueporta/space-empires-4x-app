@@ -230,6 +230,7 @@ export class IncreaseTechCommand {
     if (!this._wreck) {
       this._production_sheet.decreaseConstructionPoints(this._tech.costCurrentLevel());
     }
+    this._production_sheet.autoUpgradeShips();
   }
 
   undo () {
@@ -237,6 +238,7 @@ export class IncreaseTechCommand {
     if (!this._wreck) {
       this._production_sheet.increaseConstructionPoints(this._tech.costNextLevel());
     }
+    this._production_sheet.autoUpgradeShips();
   }
 
   toString () {
@@ -269,28 +271,34 @@ export class IncreaseTechCommand {
 }
 
 export class PurchaseShipCommand {
-  constructor(production_sheet, ship, key=Date.now()) {
+  constructor(production_sheet, ship, group, key=Date.now()) {
     this._production_sheet = production_sheet;
     this._ship = ship;
+    this._group = group;
     this._key = key;
   }
 
   do() {
-    this._production_sheet.purchaseShip(this._ship);
+    this._group = this._production_sheet.purchaseShip(this._ship, this._group);
   }
 
   undo() {
-    this._production_sheet.sellShip(this._ship);
+    this._production_sheet.sellShip(this._ship, this._group);
   }
 
   toString() {
-    return this._ship.name + " purchased.";
+    var groupStr = "";
+    if (this._group) {
+      groupStr = ' and added to ' + this._group;
+    }
+    return this._ship.name + " purchased" + groupStr + ".";
   }
 
   toDict() {
     return {
       name: "PurchaseShipCommand",
       ship_type: this._ship.type,
+      ship_group: this._group,
       key: this._key
     };
   }
@@ -302,7 +310,7 @@ export class PurchaseShipCommand {
   static fromDict(production_sheet, data, dict) {
     for (var ship of data.ships) {
       if (dict.ship_type == ship.type) {
-        return new PurchaseShipCommand(production_sheet, ship, dict.key)
+        return new PurchaseShipCommand(production_sheet, ship, dict.ship_group, dict.key)
       }
     }
     return;
@@ -310,28 +318,34 @@ export class PurchaseShipCommand {
 }
 
 export class LoseShipCommand {
-  constructor(production_sheet, ship, key=Date.now()) {
+  constructor(production_sheet, ship, group, key=Date.now()) {
     this._production_sheet = production_sheet;
     this._ship = ship;
+    this._group = group;
     this._key = key;
   }
 
   do() {
-    this._production_sheet.loseShip(this._ship);
+    this._production_sheet.loseShip(this._ship, this._group);
   }
 
   undo() {
-    this._production_sheet.regainShip(this._ship);
+    this._production_sheet.regainShip(this._ship, this._group);
   }
 
   toString() {
-    return this._ship.name + ' lost.';
+    var groupStr = "";
+    if (this._group) {
+      groupStr = ' from ' + this._group;
+    }
+    return this._ship.name + ' lost' + groupStr + '.';
   }
 
   toDict() {
     return {
       name: 'LoseShipCommand',
       ship_type: this._ship.type,
+      ship_group: this._group,
       key: this._key
     };
   }
@@ -343,7 +357,7 @@ export class LoseShipCommand {
   static fromDict(production_sheet, data, dict) {
     for (var ship of data.ships) {
       if (dict.ship_type == ship.type) {
-        return new LoseShipCommand(production_sheet, ship, dict.key)
+        return new LoseShipCommand(production_sheet, ship, dict.group, dict.key)
       }
     }
     return;
@@ -351,28 +365,33 @@ export class LoseShipCommand {
 }
 
 export class UpgradeShipCommand {
-  constructor(production_sheet, ship, key=Date.now()) {
+  constructor(production_sheet, ship, group, key=Date.now()) {
     this._production_sheet = production_sheet;
     this._ship = ship;
+    this._group = group;
     this._key = key;
   }
 
   do() {
-    this._production_sheet.upgradeShip(this._ship);
+    this._oldTechs = this._ship.currentTechs(this._group);
+    this._newTechs = this._production_sheet.upgradeGroup(this._ship, this._group);
   }
 
   undo() {
-    this._production_sheet.downgradeShip(this._ship);
+    this._production_sheet.downgradeGroup(this._ship, this._group, this._oldTechs);
   }
 
   toString() {
-    return this._ship.name + ' upgraded.';
+    return this._ship.name + ' group ' + this._group + ' upgraded.';
   }
 
   toDict() {
     return {
       name: 'UpgradeShipCommand',
       ship_type: this._ship.type,
+      ship_group: this._group,
+      oldTechs: this._oldTechs,
+      newTechs: this._newTechs,
       key: this._key
     };
   }
@@ -384,7 +403,10 @@ export class UpgradeShipCommand {
   static fromDict(production_sheet, data, dict) {
     for (var ship of data.ships) {
       if (dict.ship_type == ship.type) {
-        return new UpgradeShipCommand(production_sheet, ship, dict.key)
+        var cmd = new UpgradeShipCommand(production_sheet, ship, dict.key);
+        cmd._oldTechs = dict.oldTechs;
+        cmd._newTechs = dict.newTechs;
+        return cmd;
       }
     }
     return;

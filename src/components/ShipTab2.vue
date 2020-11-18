@@ -1,7 +1,7 @@
 <template>
   <b-container fluid class="ship-tab">
     <b-row>
-      <b-col>Non-Grouped Ships</b-col>
+      <b-col class="section-header"><strong>Non-Grouped Ships</strong></b-col>
     </b-row>
     <ShipRow
         v-for="ship in nonGroupedShips"
@@ -10,7 +10,7 @@
         v-bind:techs="techs"
         v-bind:psheet="psheet"></ShipRow>
     <b-row>
-      <b-col>Grouped Ships</b-col>
+      <b-col class="section-header"><strong>Grouped Ships</strong></b-col>
     </b-row>
     <ShipRow
         v-for="ship in availableShips"
@@ -109,6 +109,11 @@ export default {
 <style scoped>
 .ship-tab >>> .ship-row td {
   vertical-align: middle;
+}
+
+.section-header {
+  font-weight: bold;
+  background-color: lightskyblue;
 }
 
 @media only screen and (max-width: 400px) {

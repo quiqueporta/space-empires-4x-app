@@ -1,29 +1,44 @@
 <template >
-  <div v-if="ship.grouped('BOB')">
-    <b-row>
+  <div v-if="ship.grouped()" class="ship-group-div">
+    <b-row class="ship-header-row">
       <b-col cols="5" class="ship-name">{{ ship.name }}</b-col>
       <b-col cols="3">
-        <b-button block variant="primary" size="sm" v-on:click="purchaseShip(ship)" v-bind:disabled="disableBuy(ship)">Buy ({{ ship.cost }})</b-button>
+        <b-button block variant="primary" size="sm" v-on:click="purchaseShip(ship)" v-bind:disabled="disableBuy(ship)">New ({{ ship.cost }})</b-button>
       </b-col>
       <b-col cols="4"></b-col>
     </b-row>
     <div
         v-for="group in ship.groups()"
         v-bind:key="group.label">
-      <b-row>
+      <b-row class="ship-group-row">
         <b-col cols="5" class="ship-name">{{group.label}} <b-badge variant="primary">{{group.count}}</b-badge></b-col>
         <b-col cols="3">
-          <b-button block variant="primary" size="sm" v-on:click="purchaseShip(ship)" v-bind:disabled="disableBuy(ship)">Buy ({{ ship.cost }})</b-button>
+          <b-button block variant="primary" size="sm" v-on:click="purchaseShip(ship, group.label)" v-bind:disabled="disableBuy(ship, group.label)">Buy ({{ ship.cost }})</b-button>
         </b-col>
         <b-col cols="3">
-          <b-button block variant="danger" size="sm" v-on:click="loseShip(ship)" v-bind:disabled="disableLose(ship)">Lose</b-button>
+          <b-button block variant="danger" size="sm" v-on:click="loseShip(ship, group.label)" v-bind:disabled="disableLose(ship, group.label)">Lose</b-button>
         </b-col>
         <b-col cols="1">
-          <b-icon-caret-down-square></b-icon-caret-down-square>
+          <b-dropdown right size="sm">
+            <b-dropdown-item>Split 1</b-dropdown-item>
+            <b-dropdown-item>Split 2</b-dropdown-item>
+            <b-dropdown-divider></b-dropdown-divider>
+            <b-dropdown-item>Merge with X</b-dropdown-item>
+          </b-dropdown>
         </b-col>
       </b-row>
-      <b-row>
-        <b-col>{{ group.techString() }}</b-col>
+      <b-row class="ship-group-tech-row">
+        <b-col cols="8" class="ship-group-tech">{{ group.techString() }}</b-col>
+        <b-col cols="4">
+          <b-button
+              variant="primary" 
+              size="sm"
+              v-if="ship.upgradable() && !ship.autoUpgrade"
+              v-on:click="upgradeGroup(ship, group.label)"
+              v-bind:disabled="disableUpgrade(ship, group.label)">
+            Upgrade ({{ ship.upgradeCost(group.label) }})
+          </b-button>
+        </b-col>
       </b-row>
     </div>
   </div>
@@ -49,7 +64,7 @@ export default {
   components: { BIconCaretDownSquare },
   props: [ 'ship', 'techs', 'psheet' ],
   methods: {
-    purchaseShip: function(ship) {
+    purchaseShip: function(ship, group) {
       if (!this.psheet.hasSubtractedMaintenancePoints()) {
         this.psheet._notifyWarning('You cannot purchase ships until after subtracting maintenance.');
         return;
@@ -67,15 +82,23 @@ export default {
         return;
       };
 
-      this.psheet._executeCommand(new PurchaseShipCommand(this.psheet, ship));
+      this.psheet._executeCommand(new PurchaseShipCommand(this.psheet, ship, group));
     },
-    loseShip: function(ship) {
-      if (ship.currentCount <= 0) {
+    loseShip: function(ship, group) {
+      if (!ship.canLose(group)) {
         this.psheet._notifyWarning("You don't have any more " + ship.name + "s to lose.");
         return;
       }
 
-      this.psheet._executeCommand(new LoseShipCommand(this.psheet, ship));
+      this.psheet._executeCommand(new LoseShipCommand(this.psheet, ship, group));
+    },
+    upgradeGroup: function(ship, group) {
+      if (!ship.canUpgrade(this.psheet.constructionPoints, this.techs, this.group)) {
+        this.psheet._notifyWarning("You cannot upgrade that group");
+        return;
+      }
+
+      this.psheet._executeCommand(new UpgradeShipCommand(this.psheet, ship, group));
     },
     shipBadgeVariant: function(ship) {
       if (ship.currentCount > 0) {
@@ -84,12 +107,15 @@ export default {
 
       return 'secondary';
     },
-    disableBuy: function(ship) {
-      return !(this.psheet.hasSubtractedMaintenancePoints() && ship.canPurchase(this.psheet.constructionPoints))
+    disableBuy: function(ship, groupName) {
+      return !(this.psheet.hasSubtractedMaintenancePoints() && ship.canPurchase(this.psheet.constructionPoints, groupName))
     },
-    disableLose: function(ship) {
-      return ship.currentCount <= 0;
+    disableLose: function(ship, groupName) {
+      return !ship.canLose(groupName);
     },
+    disableUpgrade: function(ship, groupName) {
+      return !ship.canUpgrade(this.psheet.constructionPoints, this.techs, groupName);
+    }
   }
 }
 </script>
@@ -103,6 +129,24 @@ export default {
 div.row {
   padding-top: 3px;
   padding-bottom: 3px;
+}
+
+.ship-group-div {
+  border-bottom: 2px solid grey;
+}
+
+.ship-header-row .ship-name {
+  text-align: center;
+  font-weight: bold;
+}
+
+.ship-group-row {
+  border-top: 1px dashed lightgrey;
+}
+
+.ship-group-tech {
+  text-align: center;
+  font-weight: bold;
 }
 
 @media only screen and (max-width: 400px) {

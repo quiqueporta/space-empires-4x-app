@@ -9,11 +9,13 @@ tech:
     cost: [20, 30,25]
     advanced: false
     shipwreck: true
+    hull_limit: true
   - name: Defense
     start: 0
     cost: [20, 30,25]
     advanced: false
     shipwreck: true
+    hull_limit: true
   - name: Tactics
     start: 0
     cost: [15, 15, 15]
