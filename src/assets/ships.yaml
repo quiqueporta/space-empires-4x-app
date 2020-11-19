@@ -215,3 +215,4 @@ ship:
       - tech: Attack
       - tech: Defense
       - tech: Tactics
+      - tech: Fighter
