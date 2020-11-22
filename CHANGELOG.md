@@ -3,6 +3,11 @@
 - Refactored to allow for "ship groups", so that the app can be used to
   essentially track everything on the paper sheet (both sides).
 
+## 2.1.0
+
+- Added icons to be used as favicon, etc.
+- Added tags to allow app to be added to mobile home screens
+
 ## 2.0.0
 
 - Refactored code to use bootstrap-vue and component-ized tabs, etc.
