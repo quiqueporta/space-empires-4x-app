@@ -11,6 +11,13 @@
       <b-col sm="7" cols="4"></b-col>
     </b-form-row>
     <b-form-row>
+      <b-col sm="2" cols="3" class="label">Minerals</b-col>
+      <b-col sm="2" cols="3"><b-button variant="primary" class="add-sub-button" v-on:click="addFiveMineralPoints">+5</b-button></b-col>
+      <b-col sm="2" cols="3"><b-button variant="primary" class="add-sub-button" v-on:click="addTenMineralPoints">+10</b-button></b-col>
+      <b-col sm="2" cols="3"><b-button variant="primary" class="add-sub-button" v-on:click="addFifteenMineralPoints">+15</b-button></b-col>
+      <b-col sm="4" cols="0"></b-col>
+    </b-form-row>
+    <b-form-row>
       <b-col sm="2" cols="3" class="label smaller">MS Pipeline</b-col>
       <b-col sm="2" cols="3">
         <b-form-input v-model="psheet.msPipelinePoints" type="number" />
@@ -19,13 +26,6 @@
         <b-button variant="primary" class="add-sub-button" v-on:click="addMsPipelinePoints">+</b-button>
       </b-col>
       <b-col sm="7" cols="4"></b-col>
-    </b-form-row>
-    <b-form-row>
-      <b-col sm="2" cols="3" class="label">Minerals</b-col>
-      <b-col sm="2" cols="3"><b-button variant="primary" class="add-sub-button" v-on:click="addFiveMineralPoints">+5</b-button></b-col>
-      <b-col sm="2" cols="3"><b-button variant="primary" class="add-sub-button" v-on:click="addTenMineralPoints">+10</b-button></b-col>
-      <b-col sm="2" cols="3"><b-button variant="primary" class="add-sub-button" v-on:click="addFifteenMineralPoints">+15</b-button></b-col>
-      <b-col sm="4" cols="0"></b-col>
     </b-form-row>
     <b-form-row>
       <b-col sm="2" cols="4" class="label">Maintenance</b-col>

@@ -1,3 +1,8 @@
+## 3.0.0
+
+- Refactored to allow for "ship groups", so that the app can be used to
+  essentially track everything on the paper sheet (both sides).
+
 ## 2.1.0
 
 - Added icons to be used as favicon, etc.
