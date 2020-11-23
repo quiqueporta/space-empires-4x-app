@@ -27,45 +27,65 @@
     <meta name="msapplication-TileImage" content="icons/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
     <title>Space Empires 4x Production Sheet</title>
+
+    <style>
+        .spinner {
+            margin: 100px auto;
+            width: 40px;
+            height: 40px;
+            position: relative;
+            text-align: center;
+            
+            -webkit-animation: sk-rotate 2.0s infinite linear;
+            animation: sk-rotate 2.0s infinite linear;
+        }
+
+        .dot1, .dot2 {
+            width: 60%;
+            height: 60%;
+            display: inline-block;
+            position: absolute;
+            top: 0;
+            background-color: #a02a2a;
+            border-radius: 100%;
+            
+            -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
+            animation: sk-bounce 2.0s infinite ease-in-out;
+        }
+
+        .dot2 {
+            top: auto;
+            bottom: 0;
+            -webkit-animation-delay: -1.0s;
+            animation-delay: -1.0s;
+        }
+
+        @-webkit-keyframes sk-rotate { 100% { -webkit-transform: rotate(360deg) }}
+        @keyframes sk-rotate { 100% { transform: rotate(360deg); -webkit-transform: rotate(360deg) }}
+
+        @-webkit-keyframes sk-bounce {
+            0%, 100% { -webkit-transform: scale(0.0) }
+            50% { -webkit-transform: scale(1.0) }
+        }
+
+        @keyframes sk-bounce {
+            0%, 100% { 
+                transform: scale(0.0);
+                -webkit-transform: scale(0.0);
+            } 50% { 
+                transform: scale(1.0);
+                -webkit-transform: scale(1.0);
+            }
+        }
+    </style>
   </head>
   <body>
-    <div id="app"></div>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col">
-                <small>
-                    Originally created by Quique Porta (<a href="https://twitter.com/quiqueportac">@quiqueportac</a>).
-                </small>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <small>
-                    Original source code on <a href="https://github.com/quiqueporta/space-empires-4x-app">Github</a>.
-                </small>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <small>
-                    Modified by Scott Lewis.
-                </small>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <small>
-                    Scott's modified source code on <a href="https://github.com/sigmazero13/space-empires-4x-app">Github</a>.
-                </small>
-            </div>
-        </div>
-        <div class="row p-1">
-            <div class="col">
-                <small>Please, give <a href="mailto:quiqueporta@gmail.com">Quique</a> or <a href="mailto:sigmazero13@gmail.com">Scott</a> feedback.</small>
-            </div>
+    <div id="app">
+        <div class="spinner">
+            <div class="dot1"></div>
+            <div class="dot2"></div>
         </div>
     </div>
-
     <script src="/dist/build.js"></script>
   </body>
 </html>
