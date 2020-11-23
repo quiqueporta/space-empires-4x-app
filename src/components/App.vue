@@ -1,9 +1,12 @@
 <template>
   <div id="app">
     <b-container fluid class="main-app">
-      <b-row>
-        <b-col>
+      <b-row align-v="center">
+        <b-col cols="9">
           <h2>Turn {{ turn }} - CPs <span class="badge badge-info">{{ constructionPoints }}</span></h2>
+        </b-col>
+        <b-col class="right" cols="3">
+          <b-button v-b-modal.about-modal><b-icon-question-circle-fill aria-label="Help"></b-icon-question-circle-fill></b-button>
         </b-col>
       </b-row>
       <b-row>
@@ -32,6 +35,16 @@
         </b-tabs>
       </b-row>
     </b-container>
+    <b-modal id="about-modal" title="About this App" ok-only>
+      <p>This app was originally created by Quique Porta (<a href="https://twitter.com/quiqueportac">@quiqueportac</a>).</p>
+      <p>See <a href="http://http://space-empires-4x-app.herokuapp.com/">the original app</a>.</p>
+      <p>Source code can be found on <a href="https://github.com/quiqueporta/space-empires-4x-app">Github</a>.</p>
+      <p>Email Quique at <a href="mailto:quiqueporta@gmail.com">quiqueporta@gmail.com</a>.</p>
+      <hr />
+      <p>App forked and extended by Scott Lewis.</p>
+      <p>Forked source code can also be found on <a href="https://github.com/sigmazero13/space-empires-4x-app">Github</a>.</p>
+      <p>Email Scott at <a href="mailto:sigmazero13@gmail.com">sigmazero13@gmail.com</a>.</p>
+    </b-modal>
   </div>  
 </template>
 
@@ -41,6 +54,7 @@ import VuejsDialog from 'vuejs-dialog';
 import VueAnalytics from 'vue-analytics';
 
 import { BootstrapVue } from 'bootstrap-vue';
+import { BIconQuestionCircleFill } from 'bootstrap-vue';
 
 import CPTab from "./CPTab.vue";
 import TechTab from "./TechTab.vue";
@@ -98,7 +112,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 export default {
   name: "App",
-  components: { CPTab, TechTab, ShipTab, HistoryTab },
+  components: { CPTab, TechTab, ShipTab, HistoryTab, BIconQuestionCircleFill },
   data: function() {
     return this.loadData(this);
   },
