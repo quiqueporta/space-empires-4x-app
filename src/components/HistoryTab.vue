@@ -1,8 +1,8 @@
 <template>
-  <b-container fluid class="command-tab">
+  <b-container fluid class="command-tab" data-test=history>
     <b-row>
       <b-col>
-        <b-button block variant="warning" v-on:click="undo">Undo</b-button>
+        <b-button block variant="warning" v-on:click="undo" data-test="undo">Undo</b-button>
       </b-col>
     </b-row>
     <b-row

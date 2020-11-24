@@ -3,7 +3,7 @@
     <b-container fluid class="main-app">
       <b-row>
         <b-col>
-          <h2>Turn {{ turn }} - CPs <span class="badge badge-info">{{ constructionPoints }}</span></h2>
+          <h2>Turn {{ turn }} - CPs <span class="badge badge-info" data-test="currentColonyPoints">{{ constructionPoints }}</span></h2>
         </b-col>
       </b-row>
       <b-row>
@@ -14,25 +14,25 @@
       </b-row>
       <b-row>
         <b-tabs content-class="mt-3">
-          <b-tab title="CPs" active>
+          <b-tab title="CPs" active id="cps-tab">
             <CPTab v-bind:psheet="this" />
           </b-tab>
-          <b-tab title="Tech">
+          <b-tab title="Tech" id="tech-tab">
             <TechTab v-bind:psheet="this"
                       v-bind:techs="techs" />
           </b-tab>
-          <b-tab title="Ships">
+          <b-tab title="Ships" id="ships-tab">
             <ShipTab v-bind:psheet="this"
                       v-bind:ships="ships"
                       v-bind:techs="techs" />
           </b-tab>
-          <b-tab title="History">
+          <b-tab title="History" id="history-tab">
             <HistoryTab v-bind:psheet="this" />
           </b-tab>
         </b-tabs>
       </b-row>
     </b-container>
-  </div>  
+  </div>
 </template>
 
 <script>
@@ -130,11 +130,11 @@ export default {
 
       var ship_data = data.ships.map(ship => Object.assign(new Ship(), JSON.parse(ship)));
       data.ships = ship_data;
-      
+
       var commandFactory = new CommandFactory();
-      
+
       data.commands = data.commands.map(function(command) { return commandFactory.create(production_sheet, data, command.name, command) });
-      
+
       return data;
     },
     saveData: function() {
@@ -192,7 +192,7 @@ export default {
     hasSubtractedMaintenancePoints: function() {
       var result = false;
       var maintVal = this.maintenance;
-            
+
       this.commands.forEach(function (command) {
         if (command instanceof SubtractMaintenancePointsCommand) {
           result = true;

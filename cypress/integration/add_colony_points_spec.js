@@ -1,42 +1,48 @@
+import CPs from '../support/pageObjects/CPs';
+import History from '../support/pageObjects/History';
+
 describe('Add colony points', () => {
   it('increases the current colony points', () => {
-    cy.visit('http://localhost:8080/');
+    const cps = new CPs();
+    cps.visit();
 
-    cy.get('[data-test=colonyPoints]').clear().type('5')
-    cy.get('[data-test=addColonyPointsButton]').click()
+    cps.addCPs('5');
 
-    cy.get('[data-test=currentColonyPoints]')
-      .should('have.text', '5')
+    cps.getCurrentCPs()
+      .should('have.text', '5');
   })
   it('remembers the last increased value', () => {
-    cy.visit('http://localhost:8080/');
+    const cps = new CPs();
+    cps.visit();
 
-    cy.get('[data-test=colonyPoints]').clear().type('5')
-    cy.get('[data-test=addColonyPointsButton]').click()
+    cps.addCPs('15');
 
-    cy.get('[data-test=colonyPoints]')
-      .should('have.value', '5')
+    cps.getCurrentCPsInput()
+      .should('have.value', '15');
   })
   it('registers the command on the history tab', () => {
-    cy.visit('http://localhost:8080/');
+    const cps = new CPs();
+    const history = new History();
+    cps.visit();
 
-    cy.get('[data-test=colonyPoints]').clear().type('5')
-    cy.get('[data-test=addColonyPointsButton]').click()
+    cps.addCPs('5');
 
-    cy.get('[data-test=history]').should('contain', 'Added 5 Colony Points.')
+    history.visit();
+    history.getHistory().should('contain', 'Added 5 Colony Points.')
   })
   it('discounts the added colony points when command is undo', () => {
-    cy.visit('http://localhost:8080/');
+    const cps = new CPs();
+    const history = new History();
+    cps.visit();
+    cps.addCPs('5');
 
-    cy.get('[data-test=colonyPoints]').clear().type('5')
-    cy.get('[data-test=addColonyPointsButton]').click()
+    history.visit();
+    history.undo()
 
-    cy.get('[data-test=historyTab]').click()
-    cy.get('[data-test=undo]').click()
-
-    cy.get('[data-test=currentColonyPoints]')
+    cps.getCurrentCPs()
       .should('have.text', '0')
-    cy.get('[data-test=history]')
+    history.visit();
+    history.getHistory()
       .should('not.contain', 'Added 5 Colony Points.')
   })
 })

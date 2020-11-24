@@ -3,10 +3,10 @@
     <b-form-row>
       <b-col sm="2" cols="3" class="label">Colony</b-col>
       <b-col sm="2" cols="3">
-        <b-form-input v-model="psheet.colonyPoints" type="number" />
+        <b-form-input v-model="psheet.colonyPoints" type="number" data-test="colonyPoints"/>
       </b-col>
       <b-col sm="1" cols="2">
-        <b-button variant="primary" class="add-sub-button" v-on:click="addColonyPoints">+</b-button>
+        <b-button variant="primary" class="add-sub-button" v-on:click="addColonyPoints" data-test="addColonyPointsButton">+</b-button>
       </b-col>
       <b-col sm="7" cols="4"></b-col>
     </b-form-row>
