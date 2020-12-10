@@ -160,7 +160,7 @@ export class Ship {
   }
 
   canUpgrade(constructionPoints, tech_data, groupLabel) {
-    return this.upgradable(tech_data, groupLabel) && constructionPoints > this.upgradeCost(groupLabel);
+    return this.upgradable(tech_data, groupLabel) && constructionPoints >= this.upgradeCost(groupLabel);
   }
 
   upgradeCost(groupLabel) {
