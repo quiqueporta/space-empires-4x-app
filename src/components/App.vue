@@ -64,7 +64,10 @@ import HistoryTab from "./HistoryTab.vue";
 import { Ship, ShipGroup } from '../models/ships';
 import { TechnologyProgression } from '../models/technologies';
 import { CommandFactory, SubtractMaintenancePointsCommand,
-         EndTurnCommand } from '../models/commands';
+         EndTurnCommand, 
+         AddColonyPointsCommand,
+         AddMsPipelinePointsCommand,
+         SubtractBidPointsCommand} from '../models/commands';
 
 import TECH_DATA from '../assets/techs.yaml';
 import SHIP_DATA from '../assets/ships.yaml';
@@ -209,6 +212,30 @@ export default {
     decreaseConstructionPoints: function(points) {
       this.constructionPoints -= points;
     },
+    hasAddedColonyPoints: function() {
+      var result = false;
+
+      this.commands.forEach(function (command) {
+        if (command instanceof AddColonyPointsCommand) {
+          result = true;
+        } else if (command instanceof EndTurnCommand) {
+          result = false;
+        }
+      });
+      return result;
+    },
+    hasAddedMsPipelinePoints: function() {
+      var result = false;
+
+      this.commands.forEach(function (command) {
+        if (command instanceof AddMsPipelinePointsCommand) {
+          result = true;
+        } else if (command instanceof EndTurnCommand) {
+          result = false;
+        }
+      });
+      return result;
+    },
     hasSubtractedMaintenancePoints: function() {
       var result = false;
       var maintVal = this.maintenance;
@@ -218,6 +245,18 @@ export default {
           result = true;
         } else if (command instanceof EndTurnCommand) {
           result = maintVal <= 0;
+        }
+      });
+      return result;
+    },
+    hasSubtractedBidPoints: function () {
+      var result = false;
+
+      this.commands.forEach(function (command) {
+        if (command instanceof SubtractBidPointsCommand) {
+          result = true;
+        } else if (command instanceof EndTurnCommand) {
+          result = false;
         }
       });
       return result;
