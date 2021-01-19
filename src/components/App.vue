@@ -64,9 +64,7 @@ import HistoryTab from "./HistoryTab.vue";
 import { Ship, ShipGroup } from '../models/ships';
 import { TechnologyProgression } from '../models/technologies';
 import { CommandFactory, SubtractMaintenancePointsCommand,
-         EndTurnCommand, 
-         AddColonyPointsCommand,
-         AddMsPipelinePointsCommand,
+         EndTurnCommand, AddColonyPointsCommand, AddMsPipelinePointsCommand,
          SubtractBidPointsCommand} from '../models/commands';
 
 import TECH_DATA from '../assets/techs.yaml';
