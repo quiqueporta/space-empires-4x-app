@@ -211,50 +211,26 @@ export default {
       this.constructionPoints -= points;
     },
     hasAddedColonyPoints: function() {
-      var result = false;
-
-      this.commands.forEach(function (command) {
-        if (command instanceof AddColonyPointsCommand) {
-          result = true;
-        } else if (command instanceof EndTurnCommand) {
-          result = false;
-        }
-      });
-      return result;
+      return this.hasAppliedPointOption(AddColonyPointsCommand, false);
     },
     hasAddedMsPipelinePoints: function() {
-      var result = false;
-
-      this.commands.forEach(function (command) {
-        if (command instanceof AddMsPipelinePointsCommand) {
-          result = true;
-        } else if (command instanceof EndTurnCommand) {
-          result = false;
-        }
-      });
-      return result;
+      return this.hasAppliedPointOption(AddMsPipelinePointsCommand, false);
     },
     hasSubtractedMaintenancePoints: function() {
-      var result = false;
       var maintVal = this.maintenance;
-            
-      this.commands.forEach(function (command) {
-        if (command instanceof SubtractMaintenancePointsCommand) {
-          result = true;
-        } else if (command instanceof EndTurnCommand) {
-          result = maintVal <= 0;
-        }
-      });
-      return result;
+      return this.hasAppliedPointOption(SubtractMaintenancePointsCommand, maintVal <= 0);
     },
     hasSubtractedBidPoints: function () {
-      var result = false;
+      return this.hasAppliedPointOption(SubtractBidPointsCommand, false);
+    },
+    hasAppliedPointOption: function(commandToCheck, defaultResult) {
+      var result = defaultResult;
 
       this.commands.forEach(function (command) {
-        if (command instanceof SubtractBidPointsCommand) {
+        if (command instanceof commandToCheck) {
           result = true;
         } else if (command instanceof EndTurnCommand) {
-          result = false;
+          result = defaultResult;
         }
       });
       return result;
