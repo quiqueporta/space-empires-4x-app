@@ -1,3 +1,8 @@
+## 3.1.0
+
+- Added checkmarks to show that colony points, MS Pipeline points, and
+  bid points have been applied this turn.
+
 ## 3.0.0
 
 - Refactored to allow for "ship groups", so that the app can be used to

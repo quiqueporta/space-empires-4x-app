@@ -8,7 +8,8 @@
       <b-col sm="1" cols="2">
         <b-button variant="primary" class="add-sub-button" v-on:click="addColonyPoints">+</b-button>
       </b-col>
-      <b-col sm="7" cols="4"></b-col>
+      <b-col sm="2" cols="2"><h3><b-icon-check2-circle v-if="psheet.hasAddedColonyPoints()" variant="success"></b-icon-check2-circle></h3></b-col>
+      <b-col sm="5" cols="2"></b-col>
     </b-form-row>
     <b-form-row>
       <b-col sm="2" cols="3" class="label">Minerals</b-col>
@@ -25,7 +26,8 @@
       <b-col sm="1" cols="2">
         <b-button variant="primary" class="add-sub-button" v-on:click="addMsPipelinePoints">+</b-button>
       </b-col>
-      <b-col sm="7" cols="4"></b-col>
+      <b-col sm="2" cols="2"><h3><b-icon-check2-circle v-if="psheet.hasAddedMsPipelinePoints()" variant="success"></b-icon-check2-circle></h3></b-col>
+      <b-col sm="5" cols="2"></b-col>
     </b-form-row>
     <b-form-row>
       <b-col sm="2" cols="4" class="label">Maintenance</b-col>
@@ -40,7 +42,8 @@
       <b-col sm="1" cols="2">
         <b-button variant="warning" class="add-sub-button" v-on:click="subtractBidPoints">-</b-button>
       </b-col>
-      <b-col sm="7" cols="4"></b-col>
+      <b-col sm="2" cols="2"><h3><b-icon-check2-circle v-if="psheet.hasSubtractedBidPoints()" variant="success"></b-icon-check2-circle></h3></b-col>
+      <b-col sm="5" cols="2"></b-col>
     </b-form-row>
   </b-container>
 </template>
@@ -60,6 +63,11 @@ export default {
   props: [ 'psheet' ],
   methods: {
     addColonyPoints: function () {
+      if (this.psheet.hasAddedColonyPoints()) {
+        this.psheet._notifyInfo('You have already added colony points this turn!');
+        return;
+      }
+
       if (this.psheet.colonyPoints <= 0) {
         this.psheet._notifyWarning('Colony Points must be more than 0');
         return;
@@ -68,6 +76,11 @@ export default {
       this.psheet._executeCommand(new AddColonyPointsCommand(this.psheet, this.psheet.colonyPoints));
     },
     addMsPipelinePoints: function () {
+      if (this.psheet.hasAddedMsPipelinePoints()) {
+        this.psheet._notifyInfo('You have already added MS Pipeline points this turn!');
+        return;
+      }
+
       if (this.psheet.msPipelinePoints <= 0) {
         this.psheet._notifyWarning('MS Pipeline Points must be more than 0');
         return;
@@ -93,6 +106,11 @@ export default {
       this.addMineralPoints(15);
     },
     subtractBidPoints: function () {
+      if (this.psheet.hasSubtractedBidPoints()) {
+        this.psheet._notifyInfo('You have already subtracted bid points this turn (or did not need to)!');
+        return;
+      }
+
       if (this.psheet.bidPoints > this.psheet.constructionPoints) {
         this.psheet._notifyWarning('You do not have enough CP for that bid.');
         return;
