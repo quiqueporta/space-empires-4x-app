@@ -3,7 +3,7 @@
     <b-form-row>
       <b-col sm="2" cols="3" class="label">Colony</b-col>
       <b-col sm="2" cols="3">
-        <b-form-input v-model="psheet.colonyPoints" type="number" />
+        <b-form-input v-model="psheet.colonyPoints" type="number" @focus.native="$event.target.select()" />
       </b-col>
       <b-col sm="1" cols="2">
         <b-button variant="primary" class="add-sub-button" v-on:click="addColonyPoints">+</b-button>
@@ -21,7 +21,7 @@
     <b-form-row>
       <b-col sm="2" cols="3" class="label smaller">MS Pipeline</b-col>
       <b-col sm="2" cols="3">
-        <b-form-input v-model="psheet.msPipelinePoints" type="number" />
+        <b-form-input v-model="psheet.msPipelinePoints" type="number" @focus.native="$event.target.select()" />
       </b-col>
       <b-col sm="1" cols="2">
         <b-button variant="primary" class="add-sub-button" v-on:click="addMsPipelinePoints">+</b-button>
@@ -38,7 +38,7 @@
     </b-form-row>
     <b-form-row>
       <b-col sm="2" cols="3" class="label">Bid</b-col>
-      <b-col sm="2" cols="3"><b-form-input v-model="psheet.bidPoints" type="number" /></b-col>
+      <b-col sm="2" cols="3"><b-form-input v-model="psheet.bidPoints" type="number" @focus.native="$event.target.select()" /></b-col>
       <b-col sm="1" cols="2">
         <b-button variant="warning" class="add-sub-button" v-on:click="subtractBidPoints">-</b-button>
       </b-col>
