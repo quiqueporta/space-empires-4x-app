@@ -3,73 +3,73 @@ tech:
     start: 1
     cost: [10, 15, 20, 20, 20]
     advanced: false
-    shipwreck: true
+    spacewreck: true
   - name: Attack
     start: 0
     cost: [20, 30,25]
     advanced: false
-    shipwreck: true
+    spacewreck: true
     hull_limit: true
   - name: Defense
     start: 0
     cost: [20, 30,25]
     advanced: false
-    shipwreck: true
+    spacewreck: true
     hull_limit: true
   - name: Tactics
     start: 0
     cost: [15, 15, 15]
     advanced: false
-    shipwreck: true
+    spacewreck: true
   - name: Move
     start: 1
     cost: [20, 25, 25, 25, 20, 20]
     advanced: false
-    shipwreck: true
+    spacewreck: true
   - name: Terraform
     start: 0
     cost: [20]
     advanced: false
-    shipwreck: true
+    spacewreck: false
   - name: Exploration
     start: 0
     cost: [15]
     advanced: false
-    shipwreck: true
+    spacewreck: false
   - name: Ship Yard
     start: 1
     cost: [20, 25]
     advanced: false
-    shipwreck: true
+    spacewreck: true
   - name: Fighter
     start: 0
     cost: [25, 25, 25]
     advanced: true
-    shipwreck: false
+    spacewreck: false
   - name: Point Defense
     shortname: Pt. Def.
     start: 0
     cost: [20, 20, 20]
     advanced: true
-    shipwreck: false
+    spacewreck: false
   - name: Cloaking
     start: 0
     cost: [30, 30]
     advanced: true
-    shipwreck: false
+    spacewreck: false
   - name: Scanner
     start: 0
     cost: [20, 20]
     advanced: true
-    shipwreck: false
+    spacewreck: false
   - name: Mines
     start: 0
     cost: [30]
     advanced: true
-    shipwreck: false
+    spacewreck: false
   - name: Mine Sweep
     shortname: Mine Sw.
     start: 0
     cost: [10, 15]
     advanced: true
-    shipwreck: false
+    spacewreck: false

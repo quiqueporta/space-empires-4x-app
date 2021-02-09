@@ -265,6 +265,15 @@ export default {
         }
       }
     },
+    findTechByTitle: function(title) {
+      for (var tech of this.techs) {
+        if (title == tech.title) {
+          return tech;
+        }
+      }
+
+      return;
+    },
     splitGroup: function(ship, groupLabel, count, newGroupLabel) {
       return ship.splitGroup(groupLabel, count, newGroupLabel);
     },

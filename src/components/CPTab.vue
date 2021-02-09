@@ -19,6 +19,12 @@
       <b-col sm="4" cols="0"></b-col>
     </b-form-row>
     <b-form-row>
+      <b-col sm="2" cols="4" class="label">Space Wreck</b-col>
+      <b-col sm="0" cols="2"></b-col>
+      <b-col sm="4" cols="6"><b-button variant="primary" v-on:click="randomSpaceWreckTech">Random</b-button></b-col>
+      <b-col sm="6" cols="0"></b-col>
+    </b-form-row>
+    <b-form-row>
       <b-col sm="2" cols="3" class="label smaller">MS Pipeline</b-col>
       <b-col sm="2" cols="3">
         <b-form-input v-model="psheet.msPipelinePoints" type="number" @focus.native="$event.target.select()" />
@@ -52,7 +58,8 @@
 import Vue from 'vue';
 
 import { AddColonyPointsCommand, AddMsPipelinePointsCommand, AddMineralPointsCommand,
-         SubtractBidPointsCommand, SubtractMaintenancePointsCommand } from '../models/commands';
+         SubtractBidPointsCommand, SubtractMaintenancePointsCommand, IncreaseTechCommand
+         } from '../models/commands';
 
 import { BIconCheck2Circle } from 'bootstrap-vue';
 
@@ -104,6 +111,25 @@ export default {
     },
     addFifteenMineralPoints: function () {
       this.addMineralPoints(15);
+    },
+    randomSpaceWreckTech: function () {
+      var swTable = {
+        0: 'Ship Yard',
+        1: 'Ship Size', 2: 'Ship Size',
+        3: 'Attack',    4: 'Attack',
+        5: 'Defense',   6: 'Defense',
+        7: 'Tactics',
+        8: 'Move',      9: 'Move'
+      }
+      var randomTech = swTable[Math.floor(Math.random() * 10)];
+      var tech = this.psheet.findTechByTitle(randomTech);
+
+      if (tech.onMaxLevel()) {
+        this.psheet._notifyInfo('Space Wreck provided ' + randomTech +', but you are already at maximum.');
+        return;
+      }
+
+      this.psheet._executeCommand(new IncreaseTechCommand(this.psheet, tech, tech.currentLevel+1, true));
     },
     subtractBidPoints: function () {
       if (this.psheet.hasSubtractedBidPoints()) {
@@ -161,6 +187,6 @@ export default {
 }
 
 .cp-tab >>> .smaller {
-  font-size: .9rem;
+  font-size: .85rem;
 }
 </style>
