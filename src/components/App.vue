@@ -44,6 +44,7 @@
       <p>App forked and extended by Scott Lewis.</p>
       <p>Forked source code can also be found on <a href="https://github.com/sigmazero13/space-empires-4x-app">Github</a>.</p>
       <p>Email Scott at <a href="mailto:sigmazero13@gmail.com">sigmazero13@gmail.com</a>.</p>
+      <p>v3.2.0</p>
     </b-modal>
   </div>  
 </template>
