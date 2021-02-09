@@ -1,3 +1,9 @@
+## 3.2.0
+
+- Select Colony, MS Pipeline, and Bid points on focus (making it easier
+  for mobile users to update the values)
+- Space wreck Randomizer added to CP tab.
+
 ## 3.1.0
 
 - Added checkmarks to show that colony points, MS Pipeline points, and
