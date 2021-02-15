@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack serve",
     "build": "cross-env NODE_ENV=production webpack --progress",
+    "build:dev": "cross-env NODE_ENV=development webpack --progress",
     "start": "node server.js",
     "heroku-postbuild": "npm install --only=dev --no-shrinkwrap && npm run build"
   },

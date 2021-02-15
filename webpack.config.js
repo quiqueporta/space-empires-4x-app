@@ -2,7 +2,7 @@ var path = require('path');
 var webpack = require('webpack');
 
 const yaml= require('yamljs');
-const VuewLoaderPlugin = require('vue-loader/lib/plugin')
+const VuewLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = {
   mode: 'development',
@@ -59,7 +59,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new VuewLoaderPlugin()
+    new VuewLoaderPlugin(),
   ],
   resolve: {
     alias: {
