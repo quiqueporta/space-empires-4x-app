@@ -2,7 +2,8 @@ var path = require('path');
 var webpack = require('webpack');
 
 const yaml= require('yamljs');
-const VuewLoaderPlugin = require('vue-loader/lib/plugin')
+const VuewLoaderPlugin = require('vue-loader/lib/plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = {
   mode: 'development',
@@ -59,7 +60,23 @@ module.exports = {
     ]
   },
   plugins: [
-    new VuewLoaderPlugin()
+    new VuewLoaderPlugin(),
+    new WorkboxPlugin.GenerateSW({
+      exclude: [
+        '**/*.{html,json,js,css}',
+      ],
+      runtimeCaching: [{
+        urlPattern: /\.(?:html|json|js|css)$/,
+
+        // Apply a cache-first strategy.
+        handler: 'CacheFirst',
+
+        options: {
+          // Use a custom cache name.
+          cacheName: 'files',
+        },
+      }],
+    }),
   ],
   resolve: {
     alias: {
