@@ -62,12 +62,14 @@ import TechTab from "./TechTab.vue";
 import ShipTab from "./ShipTab.vue";
 import HistoryTab from "./HistoryTab.vue";
 
+import { SheetLoader } from '../utils/sheet_loader';
 import { Ship, ShipGroup } from '../models/ships';
 import { TechnologyProgression } from '../models/technologies';
 import { CommandFactory, SubtractMaintenancePointsCommand,
          EndTurnCommand, AddColonyPointsCommand, AddMsPipelinePointsCommand,
          SubtractBidPointsCommand} from '../models/commands';
 
+import SHEET_DATA from '../assets/sheets.yaml';
 import TECH_DATA from '../assets/techs.yaml';
 import SHIP_DATA from '../assets/ships.yaml';
 
@@ -120,8 +122,10 @@ export default {
   },
   methods: {
     initialData: function () {
-      var techs = TECH_DATA['tech'].map(tech => new TechnologyProgression(tech));
-      var ships = SHIP_DATA['ship'].map(ship => new Ship(ship, techs));
+      const sheet_loader = new SheetLoader(SHEET_DATA['base']);
+      const techs = TECH_DATA['tech'].map(tech => new TechnologyProgression(tech));
+      const ships = sheet_loader.loadShips(SHIP_DATA['ship'], techs);
+      // var ships = SHIP_DATA['ship'].map(ship => new Ship(ship, techs));
       return {
         turn: 1,
         commands: [],

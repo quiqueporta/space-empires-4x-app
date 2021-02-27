@@ -1,7 +1,7 @@
 var _ = require('lodash');
 
 export class Ship {
-  constructor(ship_data, tech_data) {
+  constructor(ship_data, tech_data, ship_sheet_info) {
     if (ship_data === undefined) {
       return;
     }
@@ -10,21 +10,30 @@ export class Ship {
     this.cost = ship_data['cp']
     this.hullSize = ship_data['hull']
     this.shipSize = ship_data['size']
-    this._maintenance = ('maintenance' in ship_data) ? ship_data['maintenance'] : true;
-    this._upgrade = ('upgradable' in ship_data) ? ship_data['upgradable'] : false;
-    this.autoUpgrade = ('autoupgrade' in ship_data) ? ship_data['autoupgrade'] : false;
-    this._maxCount = 50
-    this.currentCount = ('start' in ship_data) ? ship_data['start'] : 0;
+    // this._maintenance = ('maintenance' in ship_data) ? ship_data['maintenance'] : true;
+    this._maintenance = _.get(ship_data, 'maintenance', true);
+    // this._upgrade = ('upgradable' in ship_data) ? ship_data['upgradable'] : false;
+    this._upgrade = _.get(ship_data, 'upgradable', false);
+    // this.autoUpgrade = ('autoupgrade' in ship_data) ? ship_data['autoupgrade'] : false;
+    this.autoUpgrade = _.get(ship_data, 'autoupgrade', false);
+    // this._maxCount = 50;
+    this._maxCount = _.get(ship_sheet_info, 'max', 50);
+    // this.currentCount = ('start' in ship_data) ? ship_data['start'] : 0;
+    this.currentCount = _.get(ship_data, 'start', 0);
     this._groups = {};
     this._techs = ship_data['techs'];
     
-    if (ship_data['groups'] !== false) {
+    // if (ship_data['groups'] !== false) {
+    if (_.get(ship_sheet_info, 'grouped', true)) {
       var groupTechs = {};
       if ('techs' in ship_data) {
         groupTechs = this._techInfo(tech_data);
       }
 
-      for (var group of ship_data['groups']) {
+      // for (var group of ship_data['groups']) {
+      
+      for (var i = 1; i <= this._maxCount; i++) {
+        const group = this.type + '-' + i;
         var groupData = {
           'label': group,
           'count': 0
