@@ -36,3 +36,5 @@ base:
       max: 3
     - type: Mines
       max: 4
+    - type: Decoy
+      max: 2

@@ -5,19 +5,17 @@ ship:
     hull: 1
     size: 1
     start: 3
-    maintenance: false
+    maintenance: 0
     upgradable: false
-    groups: false
   - type: SY
     name: Ship Yard
     cp: 6
     hull: 1
     size: 1
     start: 4
-    maintenance: false
+    maintenance: 0
     upgradable: true
     autoupgrade: true
-    groups: [SY-1, SY-2, SY-3, SY-4]
     techs:
       - tech: Attack
         limit: false
@@ -31,19 +29,17 @@ ship:
     hull: 1
     size: 1
     start: 1
-    maintenance: false
+    maintenance: 0
     upgradable: false
-    groups: false
     max: 4
   - type: Decoy
     name: Decoy
     cp: 1
     hull: 0
     size: 1
-    maintenance: false
+    maintenance: 0
     upgradable: true
     autoupgrade: true
-    groups: [Decoy-1, Decoy-2]
     techs:
       - tech: Move
   - type: SC
@@ -53,7 +49,6 @@ ship:
     size: 1
     start: 3
     upgradable: true
-    groups: [SC-1, SC-2, SC-3, SC-4, SC-5]
     techs:
       - tech: Attack
       - tech: Defense
@@ -66,7 +61,6 @@ ship:
     hull: 1
     size: 2
     upgradable: true
-    groups: [DD-1, DD-2, DD-3, DD-4]
     techs:
       - tech: Attack
       - tech: Defense
@@ -78,10 +72,9 @@ ship:
     cp: 12
     hull: 3
     size: 2
-    maintenance: false
+    maintenance: 0
     upgradable: true
     autoupgrade: true
-    groups: [Base-1, Base-2, Base-3]
     techs:
       - tech: Attack
         limit: false
@@ -94,7 +87,6 @@ ship:
     hull: 2
     size: 3
     upgradable: true
-    groups: [CA-1, CA-2, CA-3, CA-4]
     techs: 
       - tech: Attack
       - tech: Defense
@@ -107,7 +99,6 @@ ship:
     hull: 2
     size: 4
     upgradable: true
-    groups: [BC-1, BC-2, BC-3, BC-4]
     techs: 
       - tech: Attack
       - tech: Defense
@@ -119,7 +110,6 @@ ship:
     hull: 3
     size: 5
     upgradable: true
-    groups: [BB-1, BB-2, BB-3, BB-4]
     techs: 
       - tech: Attack
       - tech: Defense
@@ -131,7 +121,6 @@ ship:
     hull: 3
     size: 6
     upgradable: true
-    groups: [DN-1, DN-2]
     techs: 
       - tech: Attack
       - tech: Defense
@@ -142,9 +131,8 @@ ship:
     cp: 5
     hull: 1
     size: 1
-    maintenance: false
+    maintenance: 0
     upgradable: true
-    groups: [Mine-1, Mine-2, Mine-3, Mine-4]
     prereq:
       - name: Mines
         level: 1
@@ -154,7 +142,6 @@ ship:
     hull: 1
     size: 1
     upgradable: true
-    groups: [SW-1, SW-2, SW-3]
     prereq:
       - name: Mine Sweep
         level: 1
@@ -168,16 +155,14 @@ ship:
     cp: 3
     hull: 1
     size: 1
-    maintenance: false
+    maintenance: 0
     upgradable: false
-    groups: false
   - type: R
     name: Raider
     cp: 12
     hull: 2
     size: 1
     upgradable: true
-    groups: [R-1, R-2, R-3, R-4]
     prereq:
       - name: Cloaking
         level: 1
@@ -192,7 +177,6 @@ ship:
     hull: 1
     size: 1
     upgradable: true
-    groups: [CV-1, CV-2, CV-3, CV-4]
     prereq:
       - name: Fighter
         level: 1
@@ -207,7 +191,6 @@ ship:
     hull: 1
     size: 1
     upgradable: true
-    groups: [F-1, F-2, F-3, F-4, F-5, F-6, F-7, F-8]
     prereq:
       - name: Fighter
         level: 1    
