@@ -122,10 +122,10 @@ export default {
   },
   methods: {
     initialData: function () {
-      const sheet_loader = new SheetLoader(SHEET_DATA['base']);
-      const techs = TECH_DATA['tech'].map(tech => new TechnologyProgression(tech));
+      const sheet_loader = new SheetLoader(SHEET_DATA['ce_norc']);
+      // const techs = TECH_DATA['tech'].map(tech => new TechnologyProgression(tech));
+      const techs = sheet_loader.loadTechs(TECH_DATA['tech']);
       const ships = sheet_loader.loadShips(SHIP_DATA['ship'], techs);
-      // var ships = SHIP_DATA['ship'].map(ship => new Ship(ship, techs));
       return {
         turn: 1,
         commands: [],

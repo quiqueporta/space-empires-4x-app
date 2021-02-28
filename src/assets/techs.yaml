@@ -1,18 +1,18 @@
 tech:
   - name: Ship Size
     start: 1
-    cost: [10, 15, 20, 20, 20]
+    cost: [10, 15, 20, 20, 20, 30]
     advanced: false
     spacewreck: true
   - name: Attack
     start: 0
-    cost: [20, 30,25]
+    cost: [20, 30, 25]
     advanced: false
     spacewreck: true
     hull_limit: true
   - name: Defense
     start: 0
-    cost: [20, 30,25]
+    cost: [20, 30, 25]
     advanced: false
     spacewreck: true
     hull_limit: true
@@ -28,12 +28,12 @@ tech:
     spacewreck: true
   - name: Terraform
     start: 0
-    cost: [20]
+    cost: [20, 25]
     advanced: false
     spacewreck: false
   - name: Exploration
     start: 0
-    cost: [15]
+    cost: [15, 15]
     advanced: false
     spacewreck: false
   - name: Ship Yard
@@ -70,6 +70,32 @@ tech:
   - name: Mine Sweep
     shortname: Mine Sw.
     start: 0
+    cost: [10, 15, 20]
+    advanced: true
+    spacewreck: false
+  - name: Ground
+    start: 1
     cost: [10, 15]
+    advanced: true
+    spacewreck: false
+  - name: Military Academy
+    shortname: Mil. Acad.
+    start: 0
+    cost: [10, 20]
+    advanced: true
+    spacewreck: false
+  - name: Boarding
+    start: 0
+    cost: [20, 25]
+    advanced: true
+    spacewreck: false
+  - name: Security
+    start: 0
+    cost: [15, 15]
+    advanced: true
+    spacewreck: false
+  - name: Fast BC
+    start: 0
+    cost: [10]
     advanced: true
     spacewreck: false

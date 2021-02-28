@@ -126,6 +126,31 @@ ship:
       - tech: Defense
       - tech: Tactics
       - tech: Move
+  - type: TN
+    name: Titan
+    cp: 32
+    hull: 5
+    size: 7
+    upgradable: true
+    techs:
+      - tech: Attack
+      - tech: Defense
+      - tech: Tactics
+      - tech: Move
+      - tech: Fighter
+  - type: Flag
+    name: Flagship
+    cp: 0
+    hull: 3
+    size: 1
+    upgradable: true
+    techs:
+      - tech: Attack
+      - tech: Defense
+      - tech: Tactics
+      - tech: Move
+      - tech: Exploration
+      - tech: Fighter
   - type: Mines
     name: Mines
     cp: 5
@@ -150,6 +175,31 @@ ship:
       - tech: Defense
       - tech: Tactics
       - tech: Move
+  - type: BD
+    name: Boarding Ship
+    cp: 12
+    hull: 2
+    size: 1
+    upgradable: true
+    prereq:
+      - name: Boarding
+        level: 1
+    techs:
+      - tech: Defense
+      - tech: Tactics
+      - tech: Move
+  - type: T
+    name: Transport
+    cp: 6
+    hull: 1
+    size: 1
+    upgradable: true
+    techs:
+      - tech: Attack
+      - tech: Defense
+      - tech: Tactics
+      - tech: Move
+      - tech: Ground
   - type: MS Pipeline
     name: MS Pipeline
     cp: 3

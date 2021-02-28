@@ -1,10 +1,18 @@
 var _ = require('lodash');
 
 import { Ship } from '../models/ships';
+import { TechnologyProgression } from '../models/technologies';
 
 export class SheetLoader {
   constructor(sheet_info) {
     this.sheet_info = sheet_info;
+  }
+
+  loadTechs(tech_manifest) {
+    return this.sheet_info['techs'].map(function(tech_on_sheet) {
+      var tech_info = _.find(tech_manifest, {name: tech_on_sheet['name']});
+      return new TechnologyProgression(tech_info);
+    });
   }
 
   loadShips(ship_manifest, tech_manifest) {
