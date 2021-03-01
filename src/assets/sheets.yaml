@@ -1,0 +1,40 @@
+base:
+  ships:
+    # Non-Grouped Ships
+    - type: CO
+      grouped: false
+    - type: Miner
+      grouped: false
+      max: 4
+    - type: MS Pipeline
+      grouped: false
+
+    # Grouped Ships
+    - type: SC
+      max: 5
+    - type: DD
+      max: 4
+    - type: CA
+      max: 4
+    - type: BC
+      max: 4
+    - type: BB
+      max: 4
+    - type: DN
+      max: 2
+    - type: Base
+      max: 3
+    - type: SY
+      max: 4
+    - type: F
+      max: 8
+    - type: CV
+      max: 4
+    - type: R
+      max: 4
+    - type: SW
+      max: 3
+    - type: Mines
+      max: 4
+    - type: Decoy
+      max: 2
