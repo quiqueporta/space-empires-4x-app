@@ -87,7 +87,7 @@ tech:
   - name: Boarding
     start: 0
     cost: [20, 25]
-    advanced: true
+    advanced: false
     spacewreck: false
   - name: Security
     start: 0

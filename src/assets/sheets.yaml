@@ -1,13 +1,16 @@
 base:
+  name: Base Game
   ships:
     # Non-Grouped Ships
     - type: CO
       grouped: false
+      max: 15
     - type: Miner
       grouped: false
-      max: 4
+      max: 2
     - type: MS Pipeline
       grouped: false
+      max: 20
 
     # Grouped Ships
     - type: SC
@@ -23,7 +26,7 @@ base:
     - type: DN
       max: 2
     - type: Base
-      max: 3
+      max: 2
     - type: SY
       max: 4
     - type: F
@@ -35,7 +38,7 @@ base:
     - type: SW
       max: 3
     - type: Mines
-      max: 4
+      max: 5
     - type: Decoy
       max: 2
 
@@ -56,15 +59,18 @@ base:
     - name: Mine Sweep
 
 ce_norc:
+  name: C.E. No RC
   ships:
     # Non-Grouped Ships
     - type: CO
       grouped: false
+      max: 16
     - type: Miner
       grouped: false
       max: 4
     - type: MS Pipeline
       grouped: false
+      max: 24
 
     # Grouped Ships
     - type: Flag
@@ -86,9 +92,9 @@ ce_norc:
     # - type: UN
     #   max: 6
     - type: Base
-      max: 3
-    - type: SY
       max: 4
+    - type: SY
+      max: 6
     - type: F
       max: 10
     - type: CV
@@ -98,23 +104,24 @@ ce_norc:
     - type: SW
       max: 5
     - type: Mines
-      max: 4
+      max: 7
     - type: BD
       max: 6
     - type: T
       max: 6
     - type: Decoy
-      max: 2 
+      max: 4 
 
   # Ground Units
     # - type: Inf
-    #   max: 2
+    #   max: 8
     # - type: HI
-    #   max: 2
+    #   max: 8
+    # - type: Mar
+    #   max: 6 
     # - type: Grav
-    #   max: 2
-    # - type: Marine
-    #   max: 2 
+    #   max: 6
+    
 
   techs:
     - name: Ship Size
