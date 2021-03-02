@@ -13,6 +13,13 @@
         <b-col>
           <button v-confirm="{ok: clearAll, cancel: doNothing, message: 'Are you sure?'}" class="btn btn-danger">Clear All</button>
           <button type="button" class="btn btn-dark" v-on:click="endTurn">End Turn</button>
+          <b-dropdown id="sheet-picker" v-bind:text="sheetName">
+            <b-dropdown-item v-for="sheet in sheets"
+                             v-bind:key="sheet['id']"
+                             v-confirm="{ok: dialog => switchSheet(dialog, sheet), cancel: doNothing, message: 'Switch sheets?  This will reset all data!'}">
+              {{sheet['name']}}
+            </b-dropdown-item>
+          </b-dropdown>
         </b-col>
       </b-row>
       <b-row>
@@ -74,6 +81,7 @@ import TECH_DATA from '../assets/techs.yaml';
 import SHIP_DATA from '../assets/ships.yaml';
 
 var STORAGE_KEY = 'space-empires-4x-v3';
+var SHEET_TYPE_KEY = 'space-empires-4x-v3-sheet';
 
 var seen = [];
 
@@ -122,11 +130,16 @@ export default {
   },
   methods: {
     initialData: function () {
-      const sheet_loader = new SheetLoader(SHEET_DATA['ce_norc']);
-      // const techs = TECH_DATA['tech'].map(tech => new TechnologyProgression(tech));
+      var sheetType = localStorage.getItem(SHEET_TYPE_KEY);
+      if (sheetType === null) {
+        sheetType = 'base'
+      }
+
+      const sheet_loader = new SheetLoader(SHEET_DATA[sheetType]);
       const techs = sheet_loader.loadTechs(TECH_DATA['tech']);
       const ships = sheet_loader.loadShips(SHIP_DATA['ship'], techs);
       return {
+        sheetType: sheetType,
         turn: 1,
         commands: [],
         constructionPoints: 0,
@@ -144,6 +157,8 @@ export default {
       if (isEmpty) {
         return this.initialData();
       };
+
+      var sheetType = localStorage.getItem(SHEET_TYPE_KEY);
       var data = spaceEmpiresStorage.fetch();
       data.techs = data.techs.map(tech => Object.assign(new TechnologyProgression(), JSON.parse(tech)));
 
@@ -161,6 +176,7 @@ export default {
       
       data.commands = data.commands.map(function(command) { return commandFactory.create(production_sheet, data, command.name, command) });
       
+      data.sheetType = sheetType;
       return data;
     },
     saveData: function() {
@@ -183,6 +199,10 @@ export default {
       spaceEmpiresStorage.clear();
       this._notifyInfo('Data cleaned.');
       location.reload();
+    },
+    switchSheet: function(_dialog, newSheet) {
+      localStorage.setItem(SHEET_TYPE_KEY, newSheet['id']);
+      this.clearAll();
     },
     doNothing: function() {
     },
@@ -317,6 +337,14 @@ export default {
         result += ship.totalMaintenance();
       }
       return result;
+    },
+    sheets() {
+      return ['base', 'ce_norc'].map(function (id) {
+        return {'id': id, 'name': SHEET_DATA[id]['name']};
+      });
+    },
+    sheetName() {
+      return SHEET_DATA[this.sheetType]['name'];
     }
   }
 }
