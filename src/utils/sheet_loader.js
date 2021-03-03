@@ -11,7 +11,7 @@ export class SheetLoader {
   loadTechs(tech_manifest) {
     return this.sheet_info['techs'].map(function(tech_on_sheet) {
       var tech_info = _.find(tech_manifest, {name: tech_on_sheet['name']});
-      return new TechnologyProgression(tech_info);
+      return new TechnologyProgression(tech_info, tech_on_sheet);
     });
   }
 

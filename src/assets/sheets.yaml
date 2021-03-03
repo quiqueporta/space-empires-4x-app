@@ -44,19 +44,23 @@ base:
 
   techs:
     - name: Ship Size
+      max: 6
     - name: Attack
     - name: Defense
     - name: Tactics
     - name: Move
     - name: Ship Yard
     - name: Terraform
+      max: 1
     - name: Exploration
+      max: 1
     - name: Fighter
     - name: Point Defense
     - name: Cloaking
     - name: Scanner
     - name: Mines
     - name: Mine Sweep
+      max: 2
 
 ce_norc:
   name: C.E. No RC
