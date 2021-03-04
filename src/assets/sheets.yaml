@@ -117,14 +117,15 @@ ce_norc:
       max: 4 
 
   # Ground Units
-    # - type: Inf
-    #   max: 8
-    # - type: HI
-    #   max: 8
-    # - type: Mar
-    #   max: 6 
-    # - type: Grav
-    #   max: 6
+    - type: Inf
+      max: 8
+    - type: Mar
+      max: 6 
+    - type: Grav
+      max: 6
+    - type: HI
+      max: 8
+    
     
 
   techs:

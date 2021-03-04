@@ -153,6 +153,7 @@ ship:
     upgradable: true
     react: 4
     start: 1
+    maintenance: 0
     techs:
       - tech: Attack
       - tech: Defense
@@ -263,3 +264,51 @@ ship:
       - tech: Defense
       - tech: Tactics
       - tech: Fighter
+  - type: Inf
+    name: Infantry
+    cp: 2
+    hull: 1
+    size: 1
+    maintenance: 0
+    ground: true
+    free_ground: true
+    upgradable: false
+    prereq:
+      - name: Ground
+        level: 1
+  - type: Mar
+    name: Space Marine
+    cp: 3
+    hull: 2
+    size: 1
+    maintenance: 0
+    ground: true
+    free_ground: true
+    upgradable: false
+    prereq:
+      - name: Ground
+        level: 2
+  - type: HI
+    name: Heavy Infantry
+    cp: 3
+    hull: 2
+    size: 1
+    maintenance: 0
+    ground: true
+    free_ground: true
+    upgradable: false
+    prereq:
+      - name: Ground
+        level: 2
+  - type: Grav
+    name: Grav Armor
+    cp: 4
+    hull: 2
+    size: 1
+    maintenance: 0
+    ground: true
+    free_ground: false
+    upgradable: false
+    prereq:
+      - name: Ground
+        level: 3

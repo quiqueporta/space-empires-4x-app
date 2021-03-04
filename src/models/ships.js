@@ -10,6 +10,8 @@ export class Ship {
     this.cost = ship_data['cp']
     this.hullSize = ship_data['hull']
     this.shipSize = ship_data['size']
+    this.ground = _.get(ship_data, 'ground', false);
+    this.free_ground = _.get(ship_data, 'free_ground', false);
     this._react = _.get(ship_data, 'react', 0);
     this._maintenance = _.get(ship_data, 'maintenance', this.hullSize);
     this._upgrade = _.get(ship_data, 'upgradable', false);
