@@ -1,3 +1,7 @@
+## 3.3.0
+
+- Adding Close Encounters sheet (no RC) and units
+
 ## 3.2.0
 
 - Select Colony, MS Pipeline, and Bid points on focus (making it easier

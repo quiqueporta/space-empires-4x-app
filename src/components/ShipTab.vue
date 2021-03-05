@@ -18,6 +18,17 @@
         v-bind:ship="ship"
         v-bind:techs="techs"
         v-bind:psheet="psheet"></ShipRow>
+    <template v-if="groundUnits.length > 0">
+      <b-row>
+        <b-col class="section-header"><strong>Ground Units</strong></b-col>
+      </b-row>
+      <ShipRow
+          v-for="ship in groundUnits"
+          v-bind:key="ship.type"
+          v-bind:ship="ship"
+          v-bind:techs="techs"
+          v-bind:psheet="psheet"></ShipRow>
+    </template>
   </b-container>
 </template>
 
@@ -94,10 +105,14 @@ export default {
       return ['ship', 'buy', 'lose', 'upgrade'];
     },
     nonGroupedShips: function() {
-      return this.ships.filter(ship => !ship.grouped());
+      return this.ships.filter(ship => !ship.grouped() && !ship.ground);
     },
     availableShips: function() {
-      return this.ships.filter(ship => ship.grouped() && ship.requirementsMet(this.techs));
+      return this.ships.filter(ship => ship.grouped() && ship.requirementsMet(this.techs) && !ship.ground);
+    },
+    groundUnits: function() {
+      return this.ships.filter(ship => ship.requirementsMet(this.techs) && ship.ground);
+
     },
     allShips: function() {
       return this.ships;

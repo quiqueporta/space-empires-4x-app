@@ -49,6 +49,7 @@ ship:
     size: 1
     start: 3
     upgradable: true
+    react: 3
     techs:
       - tech: Attack
       - tech: Defense
@@ -61,6 +62,7 @@ ship:
     hull: 1
     size: 2
     upgradable: true
+    react: 3
     techs:
       - tech: Attack
       - tech: Defense
@@ -87,6 +89,7 @@ ship:
     hull: 2
     size: 3
     upgradable: true
+    react: 3
     techs: 
       - tech: Attack
       - tech: Defense
@@ -99,17 +102,20 @@ ship:
     hull: 2
     size: 4
     upgradable: true
+    react: 4
     techs: 
       - tech: Attack
       - tech: Defense
       - tech: Tactics
       - tech: Move
+      - tech: Fast BC
   - type: BB
     name: Battleship
     cp: 20
     hull: 3
     size: 5
     upgradable: true
+    react: 5
     techs: 
       - tech: Attack
       - tech: Defense
@@ -121,11 +127,40 @@ ship:
     hull: 3
     size: 6
     upgradable: true
+    react: 6
     techs: 
       - tech: Attack
       - tech: Defense
       - tech: Tactics
       - tech: Move
+  - type: TN
+    name: Titan
+    cp: 32
+    hull: 5
+    size: 7
+    upgradable: true
+    techs:
+      - tech: Attack
+      - tech: Defense
+      - tech: Tactics
+      - tech: Move
+      - tech: Fighter
+  - type: Flag
+    name: Flagship
+    cp: 0
+    hull: 3
+    size: 1
+    upgradable: true
+    react: 4
+    start: 1
+    maintenance: 0
+    techs:
+      - tech: Attack
+      - tech: Defense
+      - tech: Tactics
+      - tech: Move
+      - tech: Exploration
+      - tech: Fighter
   - type: Mines
     name: Mines
     cp: 5
@@ -142,6 +177,7 @@ ship:
     hull: 1
     size: 1
     upgradable: true
+    react: 6
     prereq:
       - name: Mine Sweep
         level: 1
@@ -150,6 +186,33 @@ ship:
       - tech: Defense
       - tech: Tactics
       - tech: Move
+  - type: BD
+    name: Boarding Ship
+    cp: 12
+    hull: 2
+    size: 1
+    upgradable: true
+    react: 4
+    prereq:
+      - name: Boarding
+        level: 1
+    techs:
+      - tech: Defense
+      - tech: Tactics
+      - tech: Move
+  - type: T
+    name: Transport
+    cp: 6
+    hull: 1
+    size: 1
+    upgradable: true
+    react: 5
+    techs:
+      - tech: Attack
+      - tech: Defense
+      - tech: Tactics
+      - tech: Move
+      - tech: Ground
   - type: MS Pipeline
     name: MS Pipeline
     cp: 3
@@ -163,6 +226,7 @@ ship:
     hull: 2
     size: 1
     upgradable: true
+    react: 3
     prereq:
       - name: Cloaking
         level: 1
@@ -177,6 +241,7 @@ ship:
     hull: 1
     size: 1
     upgradable: true
+    react: 5
     prereq:
       - name: Fighter
         level: 1
@@ -199,3 +264,51 @@ ship:
       - tech: Defense
       - tech: Tactics
       - tech: Fighter
+  - type: Inf
+    name: Infantry
+    cp: 2
+    hull: 1
+    size: 1
+    maintenance: 0
+    ground: true
+    free_ground: true
+    upgradable: false
+    prereq:
+      - name: Ground
+        level: 1
+  - type: Mar
+    name: Space Marine
+    cp: 3
+    hull: 2
+    size: 1
+    maintenance: 0
+    ground: true
+    free_ground: true
+    upgradable: false
+    prereq:
+      - name: Ground
+        level: 2
+  - type: HI
+    name: Heavy Infantry
+    cp: 3
+    hull: 2
+    size: 1
+    maintenance: 0
+    ground: true
+    free_ground: true
+    upgradable: false
+    prereq:
+      - name: Ground
+        level: 2
+  - type: Grav
+    name: Grav Armor
+    cp: 4
+    hull: 2
+    size: 1
+    maintenance: 0
+    ground: true
+    free_ground: false
+    upgradable: false
+    prereq:
+      - name: Ground
+        level: 3

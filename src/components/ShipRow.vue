@@ -11,7 +11,12 @@
         v-for="group in ship.groups()"
         v-bind:key="group.label">
       <b-row class="ship-group-row">
-        <b-col cols="5" class="ship-name">{{group.label}} <b-badge variant="primary">{{group.count}}</b-badge></b-col>
+        <b-col cols="5" class="ship-name">
+          <b-badge variant="danger" v-if="allowReact(group)">R</b-badge>
+          <b-badge variant="warning" v-if="canReact(group)">R</b-badge>
+          {{group.label}}
+          <b-badge variant="primary">{{group.count}}</b-badge>
+        </b-col>
         <b-col cols="3">
           <b-button block variant="primary" size="sm" v-on:click="purchaseShip(ship, group.label)" v-bind:disabled="disableBuy(ship, group.label)">Buy ({{ ship.cost }})</b-button>
         </b-col>
@@ -151,6 +156,12 @@ export default {
     },
     hasNoCommands: function(ship, group) {
       return ship.mergableGroups(group).length === 0 && (!ship.hasAvailableGroup() || group.count <= 1);
+    },
+    canReact: function(group) {
+      return this.psheet.findTechByTitle('Exploration').currentLevel >= 2 && group.canReact();
+    },
+    allowReact: function(group) {
+      return group.allowReact();
     }
   }
 }

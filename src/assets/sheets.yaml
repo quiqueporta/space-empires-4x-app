@@ -1,13 +1,16 @@
 base:
+  name: Base Game
   ships:
     # Non-Grouped Ships
     - type: CO
       grouped: false
+      max: 15
     - type: Miner
       grouped: false
-      max: 4
+      max: 2
     - type: MS Pipeline
       grouped: false
+      max: 20
 
     # Grouped Ships
     - type: SC
@@ -23,7 +26,7 @@ base:
     - type: DN
       max: 2
     - type: Base
-      max: 3
+      max: 2
     - type: SY
       max: 4
     - type: F
@@ -35,6 +38,113 @@ base:
     - type: SW
       max: 3
     - type: Mines
-      max: 4
+      max: 5
     - type: Decoy
       max: 2
+
+  techs:
+    - name: Ship Size
+      max: 6
+    - name: Attack
+    - name: Defense
+    - name: Tactics
+    - name: Move
+    - name: Ship Yard
+    - name: Terraform
+      max: 1
+    - name: Exploration
+      max: 1
+    - name: Fighter
+    - name: Point Defense
+    - name: Cloaking
+    - name: Scanner
+    - name: Mines
+    - name: Mine Sweep
+      max: 2
+
+ce_norc:
+  name: C.E. No RC
+  ships:
+    # Non-Grouped Ships
+    - type: CO
+      grouped: false
+      max: 16
+    - type: Miner
+      grouped: false
+      max: 4
+    - type: MS Pipeline
+      grouped: false
+      max: 24
+
+    # Grouped Ships
+    - type: Flag
+      max: 1
+    - type: SC
+      max: 6
+    - type: DD
+      max: 6
+    - type: CA
+      max: 6
+    - type: BC
+      max: 6
+    - type: BB
+      max: 6
+    - type: DN
+      max: 5
+    - type: TN
+      max: 5
+    # - type: UN
+    #   max: 6
+    - type: Base
+      max: 4
+    - type: SY
+      max: 6
+    - type: F
+      max: 10
+    - type: CV
+      max: 6
+    - type: R
+      max: 6
+    - type: SW
+      max: 5
+    - type: Mines
+      max: 7
+    - type: BD
+      max: 6
+    - type: T
+      max: 6
+    - type: Decoy
+      max: 4 
+
+  # Ground Units
+    - type: Inf
+      max: 8
+    - type: Mar
+      max: 6 
+    - type: Grav
+      max: 6
+    - type: HI
+      max: 8
+    
+    
+
+  techs:
+    - name: Ship Size
+    - name: Attack
+    - name: Defense
+    - name: Tactics
+    - name: Move
+    - name: Ship Yard
+    - name: Ground
+    - name: Fighter
+    - name: Point Defense
+    - name: Terraform
+    - name: Cloaking
+    - name: Scanner
+    - name: Mines
+    - name: Mine Sweep
+    - name: Military Academy
+    - name: Boarding
+    - name: Security
+    - name: Exploration
+    - name: Fast BC

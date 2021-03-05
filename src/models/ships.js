@@ -10,6 +10,9 @@ export class Ship {
     this.cost = ship_data['cp']
     this.hullSize = ship_data['hull']
     this.shipSize = ship_data['size']
+    this.ground = _.get(ship_data, 'ground', false);
+    this.free_ground = _.get(ship_data, 'free_ground', false);
+    this._react = _.get(ship_data, 'react', 0);
     this._maintenance = _.get(ship_data, 'maintenance', this.hullSize);
     this._upgrade = _.get(ship_data, 'upgradable', false);
     this.autoUpgrade = _.get(ship_data, 'autoupgrade', false);
@@ -30,7 +33,7 @@ export class Ship {
           'label': group,
           'count': 0
         };
-        this._groups[group] = new ShipGroup(groupData, groupTechs);
+        this._groups[group] = new ShipGroup(groupData, groupTechs, this._react);
       }
 
       if ('start' in ship_data) {
@@ -235,6 +238,8 @@ export class Ship {
     return _.cloneDeep(this._groups[groupLabel].techLevels);
   }
 
+  
+
   _techInfo(tech_data) {
     var groupTechs = {};
     
@@ -255,7 +260,7 @@ export class Ship {
 }
 
 export class ShipGroup {
-  constructor (group_data, group_techs) {
+  constructor (group_data, group_techs, react) {
     if (group_data  === undefined) {
       return;
     }
@@ -263,6 +268,7 @@ export class ShipGroup {
     this.label = group_data['label'];
     this.count = ('count' in group_data) ? group_data['count'] : 0;
     this.techLevels = _.cloneDeep(group_techs);
+    this.react = react;
   }
 
   canUpgrade(tech_data, hullSize) {
@@ -315,5 +321,13 @@ export class ShipGroup {
   techString() {
     if (!this.techLevels) { return '' }
     return _.map(this.techLevels, tech => tech.title.split(' ').map(i => i[0]).join('') + ':' + tech.level).join(' | ');
+  }
+
+  canReact() {
+    return this.react > 0 && this.techLevels['Move']['level'] >= this.react;
+  }
+
+  allowReact() {
+    return _.get(this['techLevels'], 'Exploration.level', 0) >= 2;
   }
 }
