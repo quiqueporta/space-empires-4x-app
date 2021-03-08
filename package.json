@@ -1,12 +1,12 @@
 {
   "name": "space_empires_4x",
   "description": "A Space Empires Production Sheet",
-  "version": "3.2.0",
+  "version": "3.3.1",
   "author": "Quique Porta <quiqueporta@gmail.com>, Scott Lewis <sigmazero13@gmail.com>",
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack serve",
+    "dev": "cross-env NODE_ENV=development webpack serve --host '0.0.0.0'",
     "build": "cross-env NODE_ENV=production webpack --progress",
     "build:dev": "cross-env NODE_ENV=development webpack --progress",
     "start": "node server.js",

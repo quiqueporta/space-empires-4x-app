@@ -1,3 +1,7 @@
+## 3.3.1
+
+- Bug fix where the drop-down menu for merging/splitting units was glitching
+
 ## 3.3.0
 
 - Adding Close Encounters sheet (no RC) and units

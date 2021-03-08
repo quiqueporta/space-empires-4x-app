@@ -24,24 +24,25 @@
           <b-button block variant="danger" size="sm" v-on:click="loseShip(ship, group.label)" v-bind:disabled="disableLose(ship, group.label)">Lose</b-button>
         </b-col>
         <b-col cols="1">
-          <b-dropdown right boundary="viewport" size="sm">
+          <b-dropdown class="split-merge" right dropup boundary="scrollParent" size="sm" menu-class="split-merge-menu">
+            <b-dropdown-header>{{group.label}}</b-dropdown-header>
             <b-dropdown-item v-if="hasNoCommands(ship, group)">Cannot split or merge</b-dropdown-item>
             <template v-if="ship.hasAvailableGroup()">
-              <b-dropdown-item
+              <b-dropdown-item-button
                   v-for="i in group.count-1"
                   v-bind:key="splitKey(group, i)"
                   v-on:click="splitGroup(ship, group, i)"
                   >
                 Split out {{ i }}
-              </b-dropdown-item>
+              </b-dropdown-item-button>
             </template>
             <b-dropdown-divider v-if="canSplitAndMerge(ship, group)"></b-dropdown-divider>
-            <b-dropdown-item 
+            <b-dropdown-item-button
                 v-for="otherGroup in ship.mergableGroups(group)"
                 v-bind:key="mergeKey(group, otherGroup)"
                 v-on:click="mergeGroups(ship, group, otherGroup)">
               Merge into {{ otherGroup.label }}
-            </b-dropdown-item>
+            </b-dropdown-item-button>
           </b-dropdown>
         </b-col>
       </b-row>
@@ -194,6 +195,10 @@ div.row {
 .ship-group-tech {
   text-align: center;
   font-weight: bold;
+}
+
+/deep/ .split-merge > .split-merge-menu {
+  background-color: #D4F6FF;
 }
 
 @media only screen and (max-width: 400px) {
