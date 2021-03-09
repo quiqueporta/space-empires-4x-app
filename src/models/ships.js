@@ -33,7 +33,7 @@ export class Ship {
           'label': group,
           'count': 0
         };
-        this._groups[group] = new ShipGroup(groupData, groupTechs, this._react);
+        this._groups[group] = new ShipGroup(groupData, groupTechs, this.hullSize, this._react);
       }
 
       if ('start' in ship_data) {
@@ -157,7 +157,7 @@ export class Ship {
 
   upgradable(tech_data, groupLabel) {
     if (this.grouped() && groupLabel) {
-      return this._upgrade && this._groups[groupLabel].canUpgrade(tech_data, this.hullSize);
+      return this._upgrade && this._groups[groupLabel].canUpgrade(tech_data);
     }
 
     return this._upgrade;
@@ -260,7 +260,7 @@ export class Ship {
 }
 
 export class ShipGroup {
-  constructor (group_data, group_techs, react) {
+  constructor (group_data, group_techs, hullSize, react) {
     if (group_data  === undefined) {
       return;
     }
@@ -268,15 +268,14 @@ export class ShipGroup {
     this.label = group_data['label'];
     this.count = ('count' in group_data) ? group_data['count'] : 0;
     this.techLevels = _.cloneDeep(group_techs);
+    this.hullSize = hullSize;
     this.react = react;
   }
 
-  canUpgrade(tech_data, hullSize) {
+  canUpgrade(tech_data) {
     for (var techObj of tech_data) {
       if (techObj.title in this.techLevels) {
-        var thisTech = this.techLevels[techObj.title];
-        var max = (techObj.hullLimit && thisTech['limit']) ? hullSize : 99;
-        if (thisTech['level'] < Math.min(max, techObj.currentLevel)) {
+        if (this.canUpgradeTech(techObj)) {
           return true;
         }
       }
@@ -284,6 +283,12 @@ export class ShipGroup {
 
     // If it gets here, all techs are at max
     return false;
+  }
+
+  canUpgradeTech(techObj) {
+    var thisTech = this.techLevels[techObj.title];
+    var max = (techObj.hullLimit && thisTech['limit']) ? this.hullSize : 99;
+    return (thisTech['level'] < Math.min(max, techObj.currentLevel)) 
   }
 
   canMergeInto(otherGroup) {
@@ -318,9 +323,31 @@ export class ShipGroup {
     }
   }
 
-  techString() {
+  findTech(tech_data, title) {
+    for (var techObj of tech_data) {
+      if (techObj.title === title) {
+        return techObj;
+      }
+    }
+
+    return null;
+  }
+
+  techUpgradeInfo(tech_data) {
     if (!this.techLevels) { return '' }
-    return _.map(this.techLevels, tech => tech.title.split(' ').map(i => i[0]).join('') + ':' + tech.level).join(' | ');
+    return _.map(this.techLevels, 
+      tech => ({
+        'tech': tech.title.split(' ').map(i => i[0]).join(''),
+        'level': tech.level,
+        'canUpgrade': this.canUpgradeTech(this.findTech(tech_data, tech.title))
+      })
+    );
+
+
+      // tech => '<span color="' + '">' + tech.title.split(' ').map(
+      //   i => i[0]
+      // ).join('') + ':' + tech.level + '</span>'
+    // ).join(' | ');
   }
 
   canReact() {
