@@ -1,50 +1,54 @@
 <template >
   <div v-if="ship.grouped()" class="ship-group-div">
     <b-row class="ship-header-row">
-      <b-col cols="5" class="ship-name">{{ ship.name }}</b-col>
-      <b-col cols="3">
+      <b-col cols="6" class="ship-name">{{ ship.name }}</b-col>
+      <b-col cols="4">
         <b-button block variant="primary" size="sm" v-on:click="purchaseShip(ship)" v-bind:disabled="disableBuy(ship)">New ({{ ship.cost }})</b-button>
       </b-col>
-      <b-col cols="4"></b-col>
+      <b-col cols="2"></b-col>
     </b-row>
     <div
         v-for="group in ship.groups()"
         v-bind:key="group.label">
       <b-row class="ship-group-row">
+        <b-col cols="1">
+          <div class="split-merge">
+            <b-dropdown class="split-merge" size="sm" menu-class="split-merge-menu">
+              <b-dropdown-header>{{group.label}}</b-dropdown-header>
+              <b-dropdown-text v-if="hasNoCommands(ship, group)">Cannot split or merge</b-dropdown-text>
+              <template v-if="ship.hasAvailableGroup()">
+                <b-dropdown-item-button
+                    v-for="i in group.count-1"
+                    v-bind:key="splitKey(group, i)"
+                    v-on:click="splitGroup(ship, group, i)"
+                    >
+                  Split out {{ i }}
+                </b-dropdown-item-button>
+              </template>
+              <b-dropdown-divider v-if="canSplitAndMerge(ship, group)"></b-dropdown-divider>
+              <b-dropdown-item-button
+                  v-for="otherGroup in ship.mergableGroups(group)"
+                  v-bind:key="mergeKey(group, otherGroup)"
+                  v-on:click="mergeGroups(ship, group, otherGroup)">
+                Merge into {{ otherGroup.label }}
+              </b-dropdown-item-button>
+            </b-dropdown>
+          </div>
+        </b-col>
+
         <b-col cols="5" class="ship-name">
           <b-badge variant="danger" v-if="allowReact(group)">R</b-badge>
           <b-badge variant="warning" v-if="canReact(group)">R</b-badge>
           {{group.label}}
           <b-badge variant="primary">{{group.count}}</b-badge>
         </b-col>
-        <b-col cols="3">
+        <b-col cols="4">
           <b-button block variant="primary" size="sm" v-on:click="purchaseShip(ship, group.label)" v-bind:disabled="disableBuy(ship, group.label)">Buy ({{ ship.cost }})</b-button>
         </b-col>
-        <b-col cols="3">
+        <b-col cols="2">
           <b-button block variant="danger" size="sm" v-on:click="loseShip(ship, group.label)" v-bind:disabled="disableLose(ship, group.label)">Lose</b-button>
         </b-col>
-        <b-col cols="1">
-          <b-dropdown class="split-merge" right dropup boundary="scrollParent" size="sm" menu-class="split-merge-menu">
-            <b-dropdown-header>{{group.label}}</b-dropdown-header>
-            <b-dropdown-item v-if="hasNoCommands(ship, group)">Cannot split or merge</b-dropdown-item>
-            <template v-if="ship.hasAvailableGroup()">
-              <b-dropdown-item-button
-                  v-for="i in group.count-1"
-                  v-bind:key="splitKey(group, i)"
-                  v-on:click="splitGroup(ship, group, i)"
-                  >
-                Split out {{ i }}
-              </b-dropdown-item-button>
-            </template>
-            <b-dropdown-divider v-if="canSplitAndMerge(ship, group)"></b-dropdown-divider>
-            <b-dropdown-item-button
-                v-for="otherGroup in ship.mergableGroups(group)"
-                v-bind:key="mergeKey(group, otherGroup)"
-                v-on:click="mergeGroups(ship, group, otherGroup)">
-              Merge into {{ otherGroup.label }}
-            </b-dropdown-item-button>
-          </b-dropdown>
-        </b-col>
+        
       </b-row>
       <b-row class="ship-group-tech-row">
         <b-col cols="8" class="ship-group-tech">{{ group.techString() }}</b-col>
@@ -62,14 +66,13 @@
     </div>
   </div>
   <b-row v-else align-v="center" align-h="center">
-    <b-col cols="5" class="ship-name">{{ ship.name }} <b-badge :variant="shipBadgeVariant(ship)">{{ ship.currentCount }}</b-badge></b-col>
-    <b-col cols="3">
+    <b-col cols="6" class="ship-name">{{ ship.name }} <b-badge :variant="shipBadgeVariant(ship)">{{ ship.currentCount }}</b-badge></b-col>
+    <b-col cols="4">
       <b-button block variant="primary" size="sm" v-on:click="purchaseShip(ship)" v-bind:disabled="disableBuy(ship)">Buy ({{ ship.cost }})</b-button>
     </b-col>
-    <b-col cols="3">
+    <b-col cols="2">
       <b-button block variant="danger" size="sm" v-on:click="loseShip(ship)" v-bind:disabled="disableLose(ship)">Lose</b-button>
     </b-col>
-    <b-col cols="1"></b-col>
   </b-row>
 </template>
 
@@ -197,8 +200,13 @@ div.row {
   font-weight: bold;
 }
 
+.split-merge {
+  position: inherit;
+}
+
 /deep/ .split-merge > .split-merge-menu {
   background-color: #D4F6FF;
+  width: 200px;
 }
 
 @media only screen and (max-width: 400px) {
