@@ -43,25 +43,31 @@
           <b-badge variant="primary">{{group.count}}</b-badge>
         </b-col>
         <b-col cols="4">
-          <b-button block variant="primary" size="sm" v-on:click="purchaseShip(ship, group.label)" v-bind:disabled="disableBuy(ship, group.label)">Buy ({{ ship.cost }})</b-button>
-        </b-col>
-        <b-col cols="2">
-          <b-button block variant="danger" size="sm" v-on:click="loseShip(ship, group.label)" v-bind:disabled="disableLose(ship, group.label)">Lose</b-button>
-        </b-col>
-        
-      </b-row>
-      <b-row class="ship-group-tech-row">
-        <b-col cols="8" class="ship-group-tech">{{ group.techString() }}</b-col>
-        <b-col cols="4">
           <b-button
+              block
               variant="primary" 
               size="sm"
-              v-if="ship.upgradable() && !ship.autoUpgrade"
+              v-if="upgradable(ship, group.label)"
               v-on:click="upgradeGroup(ship, group.label)"
               v-bind:disabled="disableUpgrade(ship, group.label)">
             Upgrade ({{ ship.upgradeCost(group.label) }})
           </b-button>
+          <b-button 
+              block
+              variant="primary"
+              size="sm"
+              v-else
+              v-on:click="purchaseShip(ship, group.label)"
+              v-bind:disabled="disableBuy(ship, group.label)">
+            Buy ({{ ship.cost }})
+          </b-button>
         </b-col>
+        <b-col cols="2">
+          <b-button block variant="danger" size="sm" v-on:click="loseShip(ship, group.label)" v-bind:disabled="disableLose(ship, group.label)">Lose</b-button>
+        </b-col>
+      </b-row>
+      <b-row class="ship-group-tech-row">
+        <b-col cols="12" class="ship-group-tech"><span v-html="techInfoBar(group)"></span></b-col>
       </b-row>
     </div>
   </div>
@@ -149,6 +155,12 @@ export default {
     disableUpgrade: function(ship, groupName) {
       return !ship.canUpgrade(this.psheet.constructionPoints, this.techs, groupName);
     },
+    upgradable: function(ship, groupName) {
+      return ship.upgradable(this.techs, groupName);
+    },
+    techInfoBar: function(group) {
+      return group.techUpgradeInfo(this.techs).map(tech => tech['tech'] + ':' + tech['level']).join(' | ');
+    },
     splitKey: function(group, number) {
       return group.label + '-s-' + number;
     },
@@ -206,7 +218,7 @@ div.row {
 
 /deep/ .split-merge > .split-merge-menu {
   background-color: #D4F6FF;
-  width: 200px;
+  width: 250px;
 }
 
 @media only screen and (max-width: 400px) {

@@ -133,6 +133,7 @@ export default {
       var sheetType = localStorage.getItem(SHEET_TYPE_KEY);
       if (sheetType === null) {
         sheetType = 'base'
+        localStorage.setItem(SHEET_TYPE_KEY, 'base');
       }
 
       const sheet_loader = new SheetLoader(SHEET_DATA[sheetType]);
