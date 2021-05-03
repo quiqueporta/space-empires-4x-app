@@ -47,8 +47,9 @@
               block
               variant="primary" 
               size="sm"
-              v-if="canUpgrade(ship, group.label)"
-              v-on:click="upgradeGroup(ship, group.label)">
+              v-if="upgradable(ship, group.label)"
+              v-on:click="upgradeGroup(ship, group.label)"
+              v-bind:disabled="disableUpgrade(ship, group.label)">
             Upgrade ({{ ship.upgradeCost(group.label) }})
           </b-button>
           <b-button 
@@ -151,8 +152,11 @@ export default {
     disableLose: function(ship, groupName) {
       return !ship.canLose(groupName);
     },
-    canUpgrade: function(ship, groupName) {
-      return ship.canUpgrade(this.psheet.constructionPoints, this.techs, groupName);
+    disableUpgrade: function(ship, groupName) {
+      return !ship.canUpgrade(this.psheet.constructionPoints, this.techs, groupName);
+    },
+    upgradable: function(ship, groupName) {
+      return ship.upgradable(this.techs, groupName);
     },
     techInfoBar: function(group) {
       return group.techUpgradeInfo(this.techs).map(tech => tech['tech'] + ':' + tech['level']).join(' | ');
