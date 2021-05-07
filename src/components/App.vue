@@ -32,7 +32,7 @@
         </b-tabs>
       </b-row>
     </b-container>
-  </div>  
+  </div>
 </template>
 
 <script>
@@ -55,7 +55,7 @@ import { CommandFactory, SubtractMaintenancePointsCommand,
 import TECH_DATA from '../assets/techs.yaml';
 import SHIP_DATA from '../assets/ships.yaml';
 
-var STORAGE_KEY = 'space-empires-4x-v3';
+var STORAGE_KEY = 'space-empires-4x-v4';
 
 var seen = [];
 
@@ -130,11 +130,11 @@ export default {
 
       var ship_data = data.ships.map(ship => Object.assign(new Ship(), JSON.parse(ship)));
       data.ships = ship_data;
-      
+
       var commandFactory = new CommandFactory();
-      
+
       data.commands = data.commands.map(function(command) { return commandFactory.create(production_sheet, data, command.name, command) });
-      
+
       return data;
     },
     saveData: function() {
@@ -192,7 +192,7 @@ export default {
     hasSubtractedMaintenancePoints: function() {
       var result = false;
       var maintVal = this.maintenance;
-            
+
       this.commands.forEach(function (command) {
         if (command instanceof SubtractMaintenancePointsCommand) {
           result = true;
