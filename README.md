@@ -8,9 +8,9 @@ https://boardgamegeek.com/boardgame/84419/space-empires-4x
 
 ## Online App
 
-> This app is deployed here. Try it and give feedback! ;)
+> This app is deployed here. Try it and give me feedback! ;)
 
-https://space-empires-4x-app.herokuapp.com/
+[https://www.quiqueporta.com/space-empires-4x-app/](https://www.quiqueporta.com/space-empires-4x-app/)
 
 ## Development Build Setup
 
