@@ -38,7 +38,6 @@
 <script>
 import Vue from 'vue';
 import VuejsDialog from 'vuejs-dialog';
-import VueAnalytics from 'vue-analytics';
 
 import { BootstrapVue } from 'bootstrap-vue';
 
@@ -84,12 +83,6 @@ var spaceEmpiresStorage = {
 
 Vue.use(VuejsDialog);
 
-Vue.use(VueAnalytics, {
-  id: 'UA-115639837-1',
-  autoTracking: {
-    screenview: true
-  }
-});
 
 Vue.use(BootstrapVue);
 
