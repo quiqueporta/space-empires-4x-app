@@ -1,7 +1,0 @@
-FROM node:12
-
-WORKDIR /app
-
-COPY . .
-
-EXPOSE 5000
