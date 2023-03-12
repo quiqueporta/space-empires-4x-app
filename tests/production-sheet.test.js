@@ -1,5 +1,6 @@
 import { ProductionSheet } from "../src/production-sheet";
 import { ColonyShip } from "../src/ships/colony-ship";
+import { Cruiser } from "../src/ships/cruiser";
 import { MiningShip } from "../src/ships/mining-ship";
 import { Scout } from "../src/ships/scout";
 import { ShipYard } from "../src/ships/ship-yard";
@@ -94,9 +95,35 @@ describe("ProductionSheet", () => {
             expect(productionSheet.colonyPoints).toEqual(0);
         });
 
-        test('it throws an error if there are not enough colony points to add a ship', () => {
+        test("it throws an error if there are not enough colony points to add a ship", () => {
             expect(() => {
                 productionSheet.addShip(new ColonyShip());
+            }).toThrow(InsufficientColonyPoints);
+        });
+
+        test("it can lose a ship", () => {
+            productionSheet.loseShip(Scout);
+            expect(productionSheet.scouts).toEqual(2);
+        });
+
+        test("it does nothing if no ship to lose", () => {
+            productionSheet.loseShip(Cruiser);
+            expect(productionSheet.maintenancePoints).toEqual(3);
+        });
+
+    });
+
+    describe("Bid", () => {
+
+        test("it can make a bid", () => {
+            productionSheet.incrementColonyPoints(100);
+            productionSheet.bid(10);
+            expect(productionSheet.colonyPoints).toEqual(90);
+        });
+
+        test("it throws an error if there are not enough colony points to make a bid", () => {
+            expect(() => {
+                productionSheet.bid(10);
             }).toThrow(InsufficientColonyPoints);
         });
 

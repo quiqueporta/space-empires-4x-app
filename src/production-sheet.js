@@ -53,14 +53,6 @@ class ProductionSheet {
         return this._ships.filter(ship => ship instanceof ShipYard).length;
     }
 
-    incrementEconomicPhase() {
-        this._economicPhase++;
-    }
-
-    incrementColonyPoints(amount) {
-        this._colonyPoints += amount;
-    }
-
     addShip(ship) {
         if (ship.cost > this._colonyPoints) {
             throw new InsufficientColonyPoints();
@@ -70,6 +62,27 @@ class ProductionSheet {
 
         this._colonyPoints -= ship.cost;
 
+    }
+
+    bid(amount) {
+        if (amount > this._colonyPoints) {
+            throw new InsufficientColonyPoints();
+        }
+
+        this._colonyPoints -= amount;
+    }
+
+    incrementEconomicPhase() {
+        this._economicPhase++;
+    }
+
+    incrementColonyPoints(amount) {
+        this._colonyPoints += amount;
+    }
+
+    loseShip(shipType) {
+        const shipIndex = this._ships.findIndex(ship => ship instanceof shipType);
+        this._ships.splice(shipIndex, 1);
     }
 
 }
