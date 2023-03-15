@@ -53,7 +53,7 @@ class ProductionSheet {
         return this._ships.filter(ship => ship instanceof ShipYard).length;
     }
 
-    addShip(ship) {
+    buyShip(ship) {
         if (ship.cost > this._colonyPoints) {
             throw new InsufficientColonyPoints();
         }
@@ -72,7 +72,23 @@ class ProductionSheet {
         this._colonyPoints -= amount;
     }
 
-    incrementEconomicPhase() {
+    decrementColonyPoints(amount) {
+        this._colonyPoints -= amount;
+    }
+
+    decreaseTurn() {
+        if (this._economicPhase === 1) {
+            return;
+        }
+
+        this._economicPhase--;
+    }
+
+    increaseTurn() {
+        if (this._economicPhase === 20) {
+            return;
+        }
+
         this._economicPhase++;
     }
 
@@ -85,7 +101,147 @@ class ProductionSheet {
         this._ships.splice(shipIndex, 1);
     }
 
+    sellShip(ship) {
+        const shipType = ship.constructor;
+        this.loseShip(shipType);
+        this._colonyPoints += ship.cost;
+    }
+
 }
 
 export { ProductionSheet };
 
+
+// this class implements command pattern
+
+// class Command {
+//     constructor(receiver) {
+//         this.receiver = receiver;
+//     }
+
+//     execute() {
+//         throw new Error('execute method is not implemented');
+//     }
+
+//     undo() {
+//         throw new Error('undo method is not implemented');
+//     }
+// }
+
+// class AddShipCommand extends Command {
+//     constructor(receiver, ship) {
+//         super(receiver);
+//         this.ship = ship;
+//     }
+
+//     execute() {
+//         this.receiver.addShip(this.ship);
+//     }
+
+//     undo() {
+//         this.receiver.loseShip(this.ship.constructor);
+//     }
+// }
+
+// class BidCommand extends Command {
+//     constructor(receiver, amount) {
+//         super(receiver);
+//         this.amount = amount;
+//     }
+
+//     execute() {
+//         this.receiver.bid(this.amount);
+//     }
+
+//     undo() {
+//         this.receiver.incrementColonyPoints(this.amount);
+//     }
+// }
+
+// class FinalizeEconomicPhaseCommand extends Command {
+//     constructor(receiver) {
+//         super(receiver);
+//     }
+
+//     execute() {
+//         this.receiver.finalizeEconomicPhase();
+//     }
+
+//     undo() {
+//         this.receiver._economicPhase--;
+//     }
+// }
+
+// class IncrementColonyPointsCommand extends Command {
+//     constructor(receiver, amount) {
+//         super(receiver);
+//         this.amount = amount;
+//     }
+
+//     execute() {
+//         this.receiver.incrementColonyPoints(this.amount);
+//     }
+
+//     undo() {
+//         this.receiver.incrementColonyPoints(-this.amount);
+//     }
+// }
+
+// class LoseShipCommand extends Command {
+//     constructor(receiver, shipType) {
+//         super(receiver);
+//         this.shipType = shipType;
+//     }
+
+//     execute() {
+//         this.receiver.loseShip(this.shipType);
+//     }
+
+//     undo() {
+//         this.receiver._ships.push(new this.shipType());
+//     }
+// }
+
+// class ProductionSheetCommandInvoker {
+//     constructor() {
+//         this._commands = [];
+//         this._currentCommandIndex = -1;
+//     }
+
+//     addCommand(command) {
+//         this._commands.push(command);
+//         this._currentCommandIndex++;
+//     }
+
+//     executeCommand() {
+//         const command = this._commands[this._currentCommandIndex];
+//         command.execute();
+//     }
+
+//     undoCommand() {
+//         const command = this._commands[this._currentCommandIndex];
+//         command.undo();
+//         this._currentCommandIndex--;
+//     }
+// }
+
+// const addShipCommand = new AddShipCommand(productionSheet, new ColonyShip());
+// const bidCommand = new BidCommand(productionSheet, 10);
+// const finalizeEconomicPhaseCommand = new FinalizeEconomicPhaseCommand(productionSheet);
+// const incrementColonyPointsCommand = new IncrementColonyPointsCommand(productionSheet, 10);
+// const loseShipCommand = new LoseShipCommand(productionSheet, ColonyShip);
+
+// const productionSheetCommandInvoker = new ProductionSheetCommandInvoker();
+// productionSheetCommandInvoker.addCommand(addShipCommand);
+// productionSheetCommandInvoker.addCommand(bidCommand);
+// productionSheetCommandInvoker.addCommand(finalizeEconomicPhaseCommand);
+// productionSheetCommandInvoker.addCommand(incrementColonyPointsCommand);
+// productionSheetCommandInvoker.addCommand(loseShipCommand);
+
+// productionSheetCommandInvoker.executeCommand();
+// productionSheetCommandInvoker.executeCommand();
+// productionSheetCommandInvoker.executeCommand();
+// productionSheetCommandInvoker.executeCommand();
+// productionSheetCommandInvoker.executeCommand();
+
+// console.log(productionSheet.colonyPoints);

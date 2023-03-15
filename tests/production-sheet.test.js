@@ -20,8 +20,27 @@ describe("ProductionSheet", () => {
         });
 
         test("it can be incremented", () => {
-            productionSheet.incrementEconomicPhase();
+            productionSheet.increaseTurn();
             expect(productionSheet.economicPhase).toEqual(2);
+        });
+
+        test("it cannot be incremented above 20", () => {
+            for (let i = 0; i < 20; i++) {
+                productionSheet.increaseTurn();
+            }
+            productionSheet.increaseTurn();
+            expect(productionSheet.economicPhase).toEqual(20);
+        });
+
+        test("it can be decreased", () => {
+            productionSheet.increaseTurn();
+            productionSheet.decreaseTurn();
+            expect(productionSheet.economicPhase).toEqual(1);
+        });
+
+        test("it cannot be decreased below 1", () => {
+            productionSheet.decreaseTurn();
+            expect(productionSheet.economicPhase).toEqual(1);
         });
 
     });
@@ -35,6 +54,12 @@ describe("ProductionSheet", () => {
         test("it can be incremented", () => {
             productionSheet.incrementColonyPoints(20);
             expect(productionSheet.colonyPoints).toEqual(20);
+        });
+
+        test("it can be decremented", () => {
+            productionSheet.incrementColonyPoints(20);
+            productionSheet.decrementColonyPoints(10);
+            expect(productionSheet.colonyPoints).toEqual(10);
         });
 
     });
@@ -65,40 +90,47 @@ describe("ProductionSheet", () => {
             expect(productionSheet.shipYards).toEqual(4);
         });
 
-        test("it can add a Colony Ship", () => {
+        test("it buy add a Colony Ship", () => {
             productionSheet.incrementColonyPoints(100);
-            productionSheet.addShip(new ColonyShip());
+            productionSheet.buyShip(new ColonyShip());
             expect(productionSheet.colonyShips).toEqual(4);
         });
 
-        test("it can add a Mining Ship", () => {
+        test("it buy add a Mining Ship", () => {
             productionSheet.incrementColonyPoints(100);
-            productionSheet.addShip(new MiningShip());
+            productionSheet.buyShip(new MiningShip());
             expect(productionSheet.miningShips).toEqual(2);
         });
 
-        test("it can add a Scout", () => {
+        test("it buy add a Scout", () => {
             productionSheet.incrementColonyPoints(100);
-            productionSheet.addShip(new Scout());
+            productionSheet.buyShip(new Scout());
             expect(productionSheet.scouts).toEqual(4);
         });
 
-        test("it can add a Ship Yard", () => {
+        test("it buy add a Ship Yard", () => {
             productionSheet.incrementColonyPoints(100);
-            productionSheet.addShip(new ShipYard());
+            productionSheet.buyShip(new ShipYard());
             expect(productionSheet.shipYards).toEqual(5);
         });
 
-        test("it decreases the colony points when a ship is added", () => {
+        test("it decreases the colony points when a ship is bought", () => {
             productionSheet.incrementColonyPoints(8);
-            productionSheet.addShip(new ColonyShip());
+            productionSheet.buyShip(new ColonyShip());
             expect(productionSheet.colonyPoints).toEqual(0);
         });
 
-        test("it throws an error if there are not enough colony points to add a ship", () => {
+        test("it throws an error if there are not enough colony points to buy a ship", () => {
             expect(() => {
-                productionSheet.addShip(new ColonyShip());
+                productionSheet.buyShip(new ColonyShip());
             }).toThrow(InsufficientColonyPoints);
+        });
+
+        test("it can sell a ship", () => {
+            productionSheet.incrementColonyPoints(100);
+            productionSheet.buyShip(new ColonyShip());
+            productionSheet.sellShip(new ColonyShip());
+            expect(productionSheet.colonyShips).toEqual(3);
         });
 
         test("it can lose a ship", () => {
