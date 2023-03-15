@@ -75,11 +75,11 @@ describe("Ship Size", () => {
         expect(shipSize.currentCost).toEqual(30);
     });
 
-    test("it return the cost for the next level", () => {
+    test("it returns the cost for the next level", () => {
         expect(shipSize.nextCost).toEqual(10);
     });
 
-    test("it return the cost as zero for the last level", () => {
+    test("it returns the cost as zero for the last level", () => {
         shipSize.increaseLevel();
         shipSize.increaseLevel();
         shipSize.increaseLevel();

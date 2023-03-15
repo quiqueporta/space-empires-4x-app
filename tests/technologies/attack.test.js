@@ -40,22 +40,29 @@ describe("Attack", () => {
         expect(attack.currentLevel).toEqual(0);
     });
 
-    test("it has a cost of 20 colony points for level 2", () => {
+    test("it has a cost of 20 colony points for level 1", () => {
         attack.increaseLevel();
         expect(attack.currentCost).toEqual(20);
     });
 
-    test("it has a cost of 30 colony points for level 3", () => {
+    test("it has a cost of 30 colony points for level 2", () => {
         attack.increaseLevel();
         attack.increaseLevel();
         expect(attack.currentCost).toEqual(30);
     });
 
-    test("it return the cost for the next level", () => {
+    test("it has a cost of 40 colony points for level 3", () => {
+        attack.increaseLevel();
+        attack.increaseLevel();
+        attack.increaseLevel();
+        expect(attack.currentCost).toEqual(40);
+    });
+
+    test("it returns the cost for the next level", () => {
         expect(attack.nextCost).toEqual(20);
     });
 
-    test("it return the cost as zero for the last level", () => {
+    test("it returns the cost as zero for the last level", () => {
         attack.increaseLevel();
         attack.increaseLevel();
         attack.increaseLevel();
