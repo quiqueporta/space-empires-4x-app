@@ -27,6 +27,7 @@ class ProductionSheet {
         ];
         this._shipSize = new ShipSize();
         this._attack = new Attack();
+        this._bidMade = false;
     }
 
     get attackLevel() {
@@ -65,15 +66,12 @@ class ProductionSheet {
         return this._ships.filter(ship => ship instanceof ShipYard).length;
     }
 
-    buyShip(ship) {
-        if (ship.cost > this._colonyPoints) {
-            throw new InsufficientColonyPoints();
-        }
+    get maintenancePoints () {
+        return this._ships.reduce((total, ship) => total + ship.maintenance, 0);
+    }
 
-        this._ships.push(ship);
-
-        this._colonyPoints -= ship.cost;
-
+    applyMaintenance() {
+        this._colonyPoints -= this.maintenancePoints;
     }
 
     bid(amount) {
@@ -82,6 +80,21 @@ class ProductionSheet {
         }
 
         this._colonyPoints -= amount;
+        this._bidMade = true;
+    }
+
+    buyShip(ship) {
+        if (ship.cost > this._colonyPoints) {
+            throw new InsufficientColonyPoints();
+        }
+        if (!this._bidMade) {
+            throw new BidNotMade();
+        }
+
+        this._ships.push(ship);
+
+        this._colonyPoints -= ship.cost;
+
     }
 
     decreaseAttack() {

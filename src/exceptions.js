@@ -5,3 +5,9 @@ class InsufficientColonyPoints extends Error {
     }
 }
 
+class NoBidMade extends Error {
+    constructor(message) {
+        super(message);
+        this.name = 'NoBidMade';
+    }
+}
