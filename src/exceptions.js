@@ -11,3 +11,10 @@ class NoBidMade extends Error {
         this.name = 'NoBidMade';
     }
 }
+
+class InsufficientShipSizeLevel extends Error {
+    constructor(message) {
+        super(message);
+        this.name = 'InsufficientShipSizeLevel';
+    }
+}

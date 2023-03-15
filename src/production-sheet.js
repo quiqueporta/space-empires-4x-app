@@ -1,8 +1,8 @@
 import { ColonyShip } from './ships/colony-ship';
-import { MiningShip } from './ships/mining-ship';
+import { Miner } from './ships/miner';
 import { Scout } from './ships/scout';
 import { ShipYard } from './ships/ship-yard';
-import { InsufficientColonyPoints } from './exceptions';
+import { InsufficientColonyPoints, InsufficientShipSizeLevel, BidNotMade } from './exceptions';
 import { ShipSize } from './technologies/ship-size';
 import { Attack } from './technologies/attack';
 
@@ -16,7 +16,7 @@ class ProductionSheet {
             new ColonyShip(),
             new ColonyShip(),
             new ColonyShip(),
-            new MiningShip(),
+            new Miner(),
             new Scout(),
             new Scout(),
             new Scout(),
@@ -50,8 +50,8 @@ class ProductionSheet {
         return this._ships.reduce((total, ship) => total + ship.maintenance, 0);
     }
 
-    get miningShips() {
-        return this._ships.filter(ship => ship instanceof MiningShip).length;
+    get miners() {
+        return this._ships.filter(ship => ship instanceof Miner).length;
     }
 
     get scouts() {
@@ -87,8 +87,13 @@ class ProductionSheet {
         if (ship.cost > this._colonyPoints) {
             throw new InsufficientColonyPoints();
         }
+
         if (!this._bidMade) {
             throw new BidNotMade();
+        }
+
+        if (this._shipSize.currentLevel < ship.requiredShipSizeLevel) {
+            throw new InsufficientShipSizeLevel();
         }
 
         this._ships.push(ship);

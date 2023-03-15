@@ -1,10 +1,8 @@
 import { ProductionSheet } from "../src/production-sheet";
 import { ColonyShip } from "../src/ships/colony-ship";
 import { Cruiser } from "../src/ships/cruiser";
-import { MiningShip } from "../src/ships/mining-ship";
 import { Scout } from "../src/ships/scout";
-import { ShipYard } from "../src/ships/ship-yard";
-import { InsufficientColonyPoints, NoBidMade } from "../src/exceptions";
+import { InsufficientColonyPoints, NoBidMade, InsufficientShipSizeLevel } from "../src/exceptions";
 
 describe("ProductionSheet", () => {
     let productionSheet;
@@ -78,8 +76,8 @@ describe("ProductionSheet", () => {
             expect(productionSheet.colonyShips).toEqual(3);
         });
 
-        test("it starts with 1 MiningShip", () => {
-            expect(productionSheet.miningShips).toEqual(1);
+        test("it starts with 1 Miner", () => {
+            expect(productionSheet.miners).toEqual(1);
         });
 
         test("it starts with 3 Scouts", () => {
@@ -90,32 +88,11 @@ describe("ProductionSheet", () => {
             expect(productionSheet.shipYards).toEqual(4);
         });
 
-        test("it buy a Colony Ship", () => {
+        test("it buy a ship", () => {
             productionSheet.incrementColonyPoints(100);
             productionSheet.bid(0);
             productionSheet.buyShip(new ColonyShip());
             expect(productionSheet.colonyShips).toEqual(4);
-        });
-
-        test("it buy a Mining Ship", () => {
-            productionSheet.incrementColonyPoints(100);
-            productionSheet.bid(0);
-            productionSheet.buyShip(new MiningShip());
-            expect(productionSheet.miningShips).toEqual(2);
-        });
-
-        test("it buy a Scout", () => {
-            productionSheet.incrementColonyPoints(100);
-            productionSheet.bid(0);
-            productionSheet.buyShip(new Scout());
-            expect(productionSheet.scouts).toEqual(4);
-        });
-
-        test("it buy a Ship Yard", () => {
-            productionSheet.incrementColonyPoints(100);
-            productionSheet.bid(0);
-            productionSheet.buyShip(new ShipYard());
-            expect(productionSheet.shipYards).toEqual(5);
         });
 
         test("it decreases the colony points when a ship is bought", () => {
@@ -129,6 +106,14 @@ describe("ProductionSheet", () => {
             expect(() => {
                 productionSheet.buyShip(new ColonyShip());
             }).toThrow(InsufficientColonyPoints);
+        });
+
+        test("it throws an exception if the ShipSize technology is not high enough to buy a ship", () => {
+            productionSheet.incrementColonyPoints(100);
+            productionSheet.bid(0);
+            expect(() => {
+                productionSheet.buyShip(new Cruiser());
+            }).toThrow(InsufficientShipSizeLevel);
         });
 
         test("it can sell a ship", () => {
