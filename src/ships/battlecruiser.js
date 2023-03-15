@@ -2,7 +2,7 @@ import { Ship } from './ship.js';
 
 class Battlecruiser extends Ship {
     constructor() {
-        super('Battlecruiser', 'BC', 15, 1, 2);
+        super('Battlecruiser', 'BC', 15, 2);
     }
 }
 
