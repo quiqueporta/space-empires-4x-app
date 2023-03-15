@@ -5,6 +5,12 @@ import { ShipYard } from './ships/ship-yard';
 import { InsufficientColonyPoints, InsufficientShipSizeLevel, BidNotMade } from './exceptions';
 import { ShipSize } from './technologies/ship-size';
 import { Attack } from './technologies/attack';
+import { Defense } from './technologies/defense';
+import { Tactics } from './technologies/tactics';
+import { Move } from './technologies/move';
+import { ShipYards } from './technologies/ship-yards';
+import { Terraforming } from './technologies/terraforming';
+import { Exploration } from './technologies/exploration';
 
 
 class ProductionSheet {
@@ -27,6 +33,12 @@ class ProductionSheet {
         ];
         this._shipSize = new ShipSize();
         this._attack = new Attack();
+        this._defense = new Defense();
+        this._tactics = new Tactics();
+        this._move = new Move();
+        this._shipYards = new ShipYards();
+        this._terraforming = new Terraforming();
+        this._exploration = new Exploration();
         this._bidMade = false;
     }
 
@@ -42,8 +54,16 @@ class ProductionSheet {
         return this._ships.filter(ship => ship instanceof ColonyShip).length;
     }
 
+    get defenseLevel() {
+        return this._defense.currentLevel;
+    }
+
     get economicPhase() {
         return this._economicPhase;
+    }
+
+    get explorationLevel() {
+        return this._exploration.currentLevel;
     }
 
     get isBidMade() {
@@ -58,6 +78,10 @@ class ProductionSheet {
         return this._ships.filter(ship => ship instanceof Miner).length;
     }
 
+    get moveLevel() {
+        return this._move.currentLevel;
+    }
+
     get scouts() {
         return this._ships.filter(ship => ship instanceof Scout).length;
     }
@@ -70,8 +94,16 @@ class ProductionSheet {
         return this._ships.filter(ship => ship instanceof ShipYard).length;
     }
 
-    get maintenancePoints () {
-        return this._ships.reduce((total, ship) => total + ship.maintenance, 0);
+    get shipYardsLevel() {
+        return this._shipYards.currentLevel;
+    }
+
+    get tacticsLevel() {
+        return this._tactics.currentLevel;
+    }
+
+    get terraformingLevel() {
+        return this._terraforming.currentLevel;
     }
 
     applyMaintenance() {
@@ -110,12 +142,32 @@ class ProductionSheet {
         this._decreateTechnology(this._attack);
     }
 
+    decreaseDefense() {
+        this._decreateTechnology(this._defense);
+    }
+
+    decreaseExploration() {
+        this._decreateTechnology(this._exploration);
+    }
+
+    decreaseMove() {
+        this._decreateTechnology(this._move);
+    }
+
     decreaseShipSize() {
         this._decreateTechnology(this._shipSize);
     }
 
-    decrementColonyPoints(amount) {
-        this._colonyPoints -= amount;
+    decreaseShipYards() {
+        this._decreateTechnology(this._shipYards);
+    }
+
+    decreaseTactics() {
+        this._decreateTechnology(this._tactics);
+    }
+
+    decreaseTerraforming() {
+        this._decreateTechnology(this._terraforming);
     }
 
     decreaseTurn() {
@@ -126,12 +178,40 @@ class ProductionSheet {
         this._economicPhase--;
     }
 
+    decrementColonyPoints(amount) {
+        this._colonyPoints -= amount;
+    }
+
     increaseAttack() {
         this._increaseTechnology(this._attack);
     }
 
+    increaseDefense() {
+        this._increaseTechnology(this._defense);
+    }
+
+    increaseExploration() {
+        this._increaseTechnology(this._exploration);
+    }
+
+    increaseMove() {
+        this._increaseTechnology(this._move);
+    }
+
     increaseShipSize() {
         this._increaseTechnology(this._shipSize);
+    }
+
+    increaseShipYards() {
+        this._increaseTechnology(this._shipYards);
+    }
+
+    increaseTactics() {
+        this._increaseTechnology(this._tactics);
+    }
+
+    increaseTerraforming() {
+        this._increaseTechnology(this._terraforming);
     }
 
     increaseTurn() {

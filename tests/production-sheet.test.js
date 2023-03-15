@@ -243,6 +243,278 @@ describe("ProductionSheet", () => {
 
         });
 
+        describe("Defense", () => {
+
+            test("it starts with 0", () => {
+                expect(productionSheet.defenseLevel).toEqual(0);
+            });
+
+            test("it can be increased", () => {
+                productionSheet.incrementColonyPoints(20);
+                productionSheet.increaseDefense();
+                expect(productionSheet.defenseLevel).toEqual(1);
+                expect(productionSheet.colonyPoints).toEqual(0);
+            });
+
+            test("it throws an error if there are not enough colony points to increase", () => {
+                expect(() => {
+                    productionSheet.increaseDefense();
+                }).toThrow(InsufficientColonyPoints);
+            });
+
+            test("it can be decreased", () => {
+                productionSheet.incrementColonyPoints(20);
+                productionSheet.increaseDefense();
+                productionSheet.decreaseDefense();
+                expect(productionSheet.defenseLevel).toEqual(0);
+                expect(productionSheet.colonyPoints).toEqual(20);
+            });
+
+            test("it cannot be decreased below 0", () => {
+                productionSheet.incrementColonyPoints(20);
+                productionSheet.decreaseDefense();
+                expect(productionSheet.defenseLevel).toEqual(0);
+                expect(productionSheet.colonyPoints).toEqual(20);
+            });
+
+            test("it cannot be increased above 3", () => {
+                productionSheet.incrementColonyPoints(90);
+                for (let i = 0; i < 3; i++) {
+                    productionSheet.increaseDefense();
+                }
+                productionSheet.increaseDefense();
+                expect(productionSheet.defenseLevel).toEqual(3);
+                expect(productionSheet.colonyPoints).toEqual(0);
+            });
+
+        });
+
+        describe("Tactics", () => {
+
+            test("it starts with 0", () => {
+                expect(productionSheet.tacticsLevel).toEqual(0);
+            });
+
+            test("it can be increased", () => {
+                productionSheet.incrementColonyPoints(15);
+                productionSheet.increaseTactics();
+                expect(productionSheet.tacticsLevel).toEqual(1);
+                expect(productionSheet.colonyPoints).toEqual(0);
+            });
+
+            test("it throws an error if there are not enough colony points to increase", () => {
+                expect(() => {
+                    productionSheet.increaseTactics();
+                }).toThrow(InsufficientColonyPoints);
+            });
+
+            test("it can be decreased", () => {
+                productionSheet.incrementColonyPoints(20);
+                productionSheet.increaseTactics();
+                productionSheet.decreaseTactics();
+                expect(productionSheet.tacticsLevel).toEqual(0);
+                expect(productionSheet.colonyPoints).toEqual(20);
+            });
+
+            test("it cannot be decreased below 0", () => {
+                productionSheet.incrementColonyPoints(20);
+                productionSheet.decreaseTactics();
+                expect(productionSheet.tacticsLevel).toEqual(0);
+                expect(productionSheet.colonyPoints).toEqual(20);
+            });
+
+            test("it cannot be increased above 3", () => {
+                productionSheet.incrementColonyPoints(65);
+                for (let i = 0; i < 3; i++) {
+                    productionSheet.increaseTactics();
+                }
+                productionSheet.increaseTactics();
+                expect(productionSheet.tacticsLevel).toEqual(3);
+                expect(productionSheet.colonyPoints).toEqual(0);
+            });
+
+        });
+
+        describe("Move", () => {
+
+            test("it starts with 1", () => {
+                expect(productionSheet.moveLevel).toEqual(1);
+            });
+
+            test("it can be increased", () => {
+                productionSheet.incrementColonyPoints(20);
+                productionSheet.increaseMove();
+                expect(productionSheet.moveLevel).toEqual(2);
+                expect(productionSheet.colonyPoints).toEqual(0);
+            });
+
+            test("it throws an error if there are not enough colony points to increase", () => {
+                expect(() => {
+                    productionSheet.increaseMove();
+                }).toThrow(InsufficientColonyPoints);
+            });
+
+            test("it can be decreased", () => {
+                productionSheet.incrementColonyPoints(20);
+                productionSheet.increaseMove();
+                productionSheet.decreaseMove();
+                expect(productionSheet.moveLevel).toEqual(1);
+                expect(productionSheet.colonyPoints).toEqual(20);
+            });
+
+            test("it cannot be decreased below 0", () => {
+                productionSheet.incrementColonyPoints(20);
+                productionSheet.decreaseMove();
+                expect(productionSheet.moveLevel).toEqual(1);
+                expect(productionSheet.colonyPoints).toEqual(20);
+            });
+
+            test("it cannot be increased above 6", () => {
+                productionSheet.incrementColonyPoints(170);
+                for (let i = 0; i < 6; i++) {
+                    productionSheet.increaseMove();
+                }
+                productionSheet.increaseMove();
+                expect(productionSheet.moveLevel).toEqual(6);
+                expect(productionSheet.colonyPoints).toEqual(0);
+            });
+
+        });
+
+        describe("ShipYards", () => {
+
+            test("it starts with 1", () => {
+                expect(productionSheet.shipYardsLevel).toEqual(1);
+            });
+
+            test("it can be increased", () => {
+                productionSheet.incrementColonyPoints(20);
+                productionSheet.increaseShipYards();
+                expect(productionSheet.shipYardsLevel).toEqual(2);
+                expect(productionSheet.colonyPoints).toEqual(0);
+            });
+
+            test("it throws an error if there are not enough colony points to increase", () => {
+                expect(() => {
+                    productionSheet.increaseShipYards();
+                }).toThrow(InsufficientColonyPoints);
+            });
+
+            test("it can be decreased", () => {
+                productionSheet.incrementColonyPoints(20);
+                productionSheet.increaseShipYards();
+                productionSheet.decreaseShipYards();
+                expect(productionSheet.shipYardsLevel).toEqual(1);
+                expect(productionSheet.colonyPoints).toEqual(20);
+            });
+
+            test("it cannot be decreased below 0", () => {
+                productionSheet.incrementColonyPoints(20);
+                productionSheet.decreaseShipYards();
+                expect(productionSheet.shipYardsLevel).toEqual(1);
+                expect(productionSheet.colonyPoints).toEqual(20);
+            });
+
+            test("it cannot be increased above 3", () => {
+                productionSheet.incrementColonyPoints(50);
+                for (let i = 0; i < 3; i++) {
+                    productionSheet.increaseShipYards();
+                }
+                productionSheet.increaseShipYards();
+                expect(productionSheet.shipYardsLevel).toEqual(3);
+                expect(productionSheet.colonyPoints).toEqual(0);
+            });
+
+        });
+
+        describe("Terraforming", () => {
+
+            test("it starts with 0", () => {
+                expect(productionSheet.terraformingLevel).toEqual(0);
+            });
+
+            test("it can be increased", () => {
+                productionSheet.incrementColonyPoints(25);
+                productionSheet.increaseTerraforming();
+                expect(productionSheet.terraformingLevel).toEqual(1);
+                expect(productionSheet.colonyPoints).toEqual(0);
+            });
+
+            test("it throws an error if there are not enough colony points to increase", () => {
+                expect(() => {
+                    productionSheet.increaseTerraforming();
+                }).toThrow(InsufficientColonyPoints);
+            });
+
+            test("it can be decreased", () => {
+                productionSheet.incrementColonyPoints(25);
+                productionSheet.increaseTerraforming();
+                productionSheet.decreaseTerraforming();
+                expect(productionSheet.terraformingLevel).toEqual(0);
+                expect(productionSheet.colonyPoints).toEqual(25);
+            });
+
+            test("it cannot be decreased below 0", () => {
+                productionSheet.incrementColonyPoints(25);
+                productionSheet.decreaseTerraforming();
+                expect(productionSheet.terraformingLevel).toEqual(0);
+                expect(productionSheet.colonyPoints).toEqual(25);
+            });
+
+            test("it cannot be increased above 1", () => {
+                productionSheet.incrementColonyPoints(25);
+                productionSheet.increaseTerraforming();
+                productionSheet.increaseTerraforming();
+                expect(productionSheet.terraformingLevel).toEqual(1);
+                expect(productionSheet.colonyPoints).toEqual(0);
+            });
+
+        });
+
+        describe("Exploration", () => {
+
+            test("it starts with 0", () => {
+                expect(productionSheet.explorationLevel).toEqual(0);
+            });
+
+            test("it can be increased", () => {
+                productionSheet.incrementColonyPoints(15);
+                productionSheet.increaseExploration();
+                expect(productionSheet.explorationLevel).toEqual(1);
+                expect(productionSheet.colonyPoints).toEqual(0);
+            });
+
+            test("it throws an error if there are not enough colony points to increase", () => {
+                expect(() => {
+                    productionSheet.increaseExploration();
+                }).toThrow(InsufficientColonyPoints);
+            });
+
+            test("it can be decreased", () => {
+                productionSheet.incrementColonyPoints(15);
+                productionSheet.increaseExploration();
+                productionSheet.decreaseExploration();
+                expect(productionSheet.explorationLevel).toEqual(0);
+                expect(productionSheet.colonyPoints).toEqual(15);
+            });
+
+            test("it cannot be decreased below 0", () => {
+                productionSheet.incrementColonyPoints(15);
+                productionSheet.decreaseExploration();
+                expect(productionSheet.explorationLevel).toEqual(0);
+                expect(productionSheet.colonyPoints).toEqual(15);
+            });
+
+            test("it cannot be increased above 1", () => {
+                productionSheet.incrementColonyPoints(15);
+                productionSheet.increaseExploration();
+                productionSheet.increaseExploration();
+                expect(productionSheet.explorationLevel).toEqual(1);
+                expect(productionSheet.colonyPoints).toEqual(0);
+            });
+
+        });
+
     });
 
     describe("Bid", () => {
