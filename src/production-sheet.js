@@ -46,6 +46,10 @@ class ProductionSheet {
         return this._economicPhase;
     }
 
+    get isBidMade() {
+        return this._bidMade;
+    }
+
     get maintenancePoints() {
         return this._ships.reduce((total, ship) => total + ship.maintenance, 0);
     }
@@ -71,7 +75,7 @@ class ProductionSheet {
     }
 
     applyMaintenance() {
-        this._colonyPoints -= this.maintenancePoints;
+        this.decrementColonyPoints(this.maintenancePoints);
     }
 
     bid(amount) {
@@ -79,15 +83,11 @@ class ProductionSheet {
             throw new InsufficientColonyPoints();
         }
 
-        this._colonyPoints -= amount;
+        this.decrementColonyPoints(amount);
         this._bidMade = true;
     }
 
     buyShip(ship) {
-        if (ship.cost > this._colonyPoints) {
-            throw new InsufficientColonyPoints();
-        }
-
         if (!this._bidMade) {
             throw new BidNotMade();
         }
@@ -96,9 +96,13 @@ class ProductionSheet {
             throw new InsufficientShipSizeLevel();
         }
 
+        if (ship.cost > this._colonyPoints) {
+            throw new InsufficientColonyPoints();
+        }
+
         this._ships.push(ship);
 
-        this._colonyPoints -= ship.cost;
+        this.decrementColonyPoints(ship.cost);
 
     }
 
@@ -136,6 +140,7 @@ class ProductionSheet {
         }
 
         this._economicPhase++;
+        this._bidMade = false;
     }
 
     incrementColonyPoints(amount) {
@@ -150,14 +155,14 @@ class ProductionSheet {
     sellShip(ship) {
         const shipType = ship.constructor;
         this.loseShip(shipType);
-        this._colonyPoints += ship.cost;
+        this.incrementColonyPoints(ship.cost);
     }
 
     _decreateTechnology(technology) {
         if (technology.isAtFirstLevel) {
             return;
         }
-        this._colonyPoints += technology.currentCost;
+        this.incrementColonyPoints(technology.currentCost);
         technology.decreaseLevel();
     }
 
@@ -171,7 +176,7 @@ class ProductionSheet {
         }
 
         technology.increaseLevel();
-        this._colonyPoints -= technology.currentCost;
+        this.decrementColonyPoints(technology.currentCost);
     }
 
 }

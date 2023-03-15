@@ -41,6 +41,12 @@ describe("ProductionSheet", () => {
             expect(productionSheet.economicPhase).toEqual(1);
         });
 
+        test("it resets the bidMade flag when the economic phase is increased", () => {
+            productionSheet.bid(0);
+            productionSheet.increaseTurn();
+            expect(productionSheet.isBidMade).toEqual(false);
+        });
+
     });
 
     describe("Colony Points", () => {
