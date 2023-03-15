@@ -145,6 +145,102 @@ describe("ProductionSheet", () => {
 
     });
 
+    describe("Technologies", () => {
+
+        describe("Ship Size", () => {
+
+            test("it starts with 1", () => {
+                expect(productionSheet.shipSizeLevel).toEqual(1);
+            });
+
+            test("it can be increased", () => {
+                productionSheet.incrementColonyPoints(10);
+                productionSheet.increaseShipSize();
+                expect(productionSheet.shipSizeLevel).toEqual(2);
+                expect(productionSheet.colonyPoints).toEqual(0);
+            });
+
+            test("it throws an error if there are not enough colony points to increase", () => {
+                expect(() => {
+                    productionSheet.increaseShipSize();
+                }).toThrow(InsufficientColonyPoints);
+            });
+
+            test("it can be decreased", () => {
+                productionSheet.incrementColonyPoints(10);
+                productionSheet.increaseShipSize();
+                productionSheet.decreaseShipSize();
+                expect(productionSheet.shipSizeLevel).toEqual(1);
+                expect(productionSheet.colonyPoints).toEqual(10);
+            });
+
+            test("it cannot be decreased below 1", () => {
+                productionSheet.incrementColonyPoints(10);
+                productionSheet.decreaseShipSize();
+                expect(productionSheet.shipSizeLevel).toEqual(1);
+                expect(productionSheet.colonyPoints).toEqual(10);
+            });
+
+            test("it cannot be increased above 6", () => {
+                productionSheet.incrementColonyPoints(100);
+                for (let i = 0; i < 6; i++) {
+                    productionSheet.increaseShipSize();
+                }
+                productionSheet.increaseShipSize();
+                expect(productionSheet.shipSizeLevel).toEqual(6);
+                expect(productionSheet.colonyPoints).toEqual(0);
+            });
+
+        });
+
+        describe("Attack", () => {
+
+            test("it starts with 0", () => {
+                expect(productionSheet.attackLevel).toEqual(0);
+            });
+
+            test("it can be increased", () => {
+                productionSheet.incrementColonyPoints(20);
+                productionSheet.increaseAttack();
+                expect(productionSheet.attackLevel).toEqual(1);
+                expect(productionSheet.colonyPoints).toEqual(0);
+            });
+
+            test("it throws an error if there are not enough colony points to increase", () => {
+                expect(() => {
+                    productionSheet.increaseAttack();
+                }).toThrow(InsufficientColonyPoints);
+            });
+
+            test("it can be decreased", () => {
+                productionSheet.incrementColonyPoints(20);
+                productionSheet.increaseAttack();
+                productionSheet.decreaseAttack();
+                expect(productionSheet.attackLevel).toEqual(0);
+                expect(productionSheet.colonyPoints).toEqual(20);
+            });
+
+            test("it cannot be decreased below 0", () => {
+                productionSheet.incrementColonyPoints(20);
+                productionSheet.decreaseAttack();
+                expect(productionSheet.attackLevel).toEqual(0);
+                expect(productionSheet.colonyPoints).toEqual(20);
+            });
+
+            test("it cannot be increased above 3", () => {
+                productionSheet.incrementColonyPoints(90);
+                for (let i = 0; i < 3; i++) {
+                    productionSheet.increaseAttack();
+                }
+                productionSheet.increaseAttack();
+                expect(productionSheet.attackLevel).toEqual(3);
+                expect(productionSheet.colonyPoints).toEqual(0);
+            });
+
+        });
+
+    });
+
     describe("Bid", () => {
 
         test("it can make a bid", () => {

@@ -3,6 +3,8 @@ import { MiningShip } from './ships/mining-ship';
 import { Scout } from './ships/scout';
 import { ShipYard } from './ships/ship-yard';
 import { InsufficientColonyPoints } from './exceptions';
+import { ShipSize } from './technologies/ship-size';
+import { Attack } from './technologies/attack';
 
 
 class ProductionSheet {
@@ -23,6 +25,12 @@ class ProductionSheet {
             new ShipYard(),
             new ShipYard()
         ];
+        this._shipSize = new ShipSize();
+        this._attack = new Attack();
+    }
+
+    get attackLevel() {
+        return this._attack.currentLevel;
     }
 
     get colonyPoints() {
@@ -49,6 +57,10 @@ class ProductionSheet {
         return this._ships.filter(ship => ship instanceof Scout).length;
     }
 
+    get shipSizeLevel() {
+        return this._shipSize.currentLevel;
+    }
+
     get shipYards() {
         return this._ships.filter(ship => ship instanceof ShipYard).length;
     }
@@ -72,6 +84,14 @@ class ProductionSheet {
         this._colonyPoints -= amount;
     }
 
+    decreaseAttack() {
+        this._decreateTechnology(this._attack);
+    }
+
+    decreaseShipSize() {
+        this._decreateTechnology(this._shipSize);
+    }
+
     decrementColonyPoints(amount) {
         this._colonyPoints -= amount;
     }
@@ -82,6 +102,14 @@ class ProductionSheet {
         }
 
         this._economicPhase--;
+    }
+
+    increaseAttack() {
+        this._increaseTechnology(this._attack);
+    }
+
+    increaseShipSize() {
+        this._increaseTechnology(this._shipSize);
     }
 
     increaseTurn() {
@@ -105,6 +133,27 @@ class ProductionSheet {
         const shipType = ship.constructor;
         this.loseShip(shipType);
         this._colonyPoints += ship.cost;
+    }
+
+    _decreateTechnology(technology) {
+        if (technology.isAtFirstLevel) {
+            return;
+        }
+        this._colonyPoints += technology.currentCost;
+        technology.decreaseLevel();
+    }
+
+    _increaseTechnology(technology) {
+        if (technology.isAtLastLevel) {
+            return;
+        }
+
+        if (this._colonyPoints < technology.nextCost) {
+            throw new InsufficientColonyPoints();
+        }
+
+        technology.increaseLevel();
+        this._colonyPoints -= technology.currentCost;
     }
 
 }
