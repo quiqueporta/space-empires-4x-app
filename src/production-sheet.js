@@ -227,14 +227,13 @@ class ProductionSheet {
         this._colonyPoints += amount;
     }
 
-    loseShip(shipType) {
-        const shipIndex = this._ships.findIndex(ship => ship instanceof shipType);
-        this._ships.splice(shipIndex, 1);
+    loseShip(ship) {
+        const index = this._ships.findIndex(s => s instanceof ship.constructor);
+        this._ships.splice(index, 1);
     }
 
     sellShip(ship) {
-        const shipType = ship.constructor;
-        this.loseShip(shipType);
+        this.loseShip(ship);
         this.incrementColonyPoints(ship.cost);
     }
 

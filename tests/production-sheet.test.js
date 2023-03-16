@@ -131,12 +131,12 @@ describe("ProductionSheet", () => {
         });
 
         test("it can lose a ship", () => {
-            productionSheet.loseShip(Scout);
+            productionSheet.loseShip(new Scout());
             expect(productionSheet.scouts).toEqual(2);
         });
 
         test("it does nothing if no ship to lose", () => {
-            productionSheet.loseShip(Cruiser);
+            productionSheet.loseShip(new Cruiser());
             expect(productionSheet.maintenancePoints).toEqual(3);
         });
 
